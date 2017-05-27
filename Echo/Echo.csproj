@@ -49,6 +49,7 @@
     <Compile Include="src\Abstract\IEchoSpawningStrategy.cs" />
     <Compile Include="src\Abstract\IEchoFilter.cs" />
     <Compile Include="src\Abstract\IEchoSpreadingStrategy.cs" />
+    <Compile Include="src\Adapters\StackAdapter.cs" />
     <Compile Include="src\Tracer.cs" />
     <Compile Include="src\Abstract\IMap.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
