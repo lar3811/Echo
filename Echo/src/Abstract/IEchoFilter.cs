@@ -4,9 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Echo
+namespace Echo.Abstract
 {
-    public class Class1
+    public interface IEchoFilter
     {
+        bool Is(Echo echo);
     }
 }
