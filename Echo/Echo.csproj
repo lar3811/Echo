@@ -49,7 +49,17 @@
     <Compile Include="src\Abstract\IEchoSpawningStrategy.cs" />
     <Compile Include="src\Abstract\IEchoFilter.cs" />
     <Compile Include="src\Abstract\IEchoSpreadingStrategy.cs" />
-    <Compile Include="src\Adapters\StackAdapter.cs" />
+    <Compile Include="src\Filters\AreaFilter.cs" />
+    <Compile Include="src\Filters\StuckFilter.cs" />
+    <Compile Include="src\Filters\Support\ConjunctiveCompositeFilter.cs" />
+    <Compile Include="src\Filters\Support\PredicateFilter.cs" />
+    <Compile Include="src\Filters\Support\InverseFilter.cs" />
+    <Compile Include="src\Filters\Support\DisjunctiveCompositeFilter.cs" />
+    <Compile Include="src\QueueAdapters\QueueAdapter.cs" />
+    <Compile Include="src\QueueAdapters\StackAdapter.cs" />
+    <Compile Include="src\SpawningStrategies\SpawnSingle.cs" />
+    <Compile Include="src\SpawningStrategies\Spawn8x2D.cs" />
+    <Compile Include="src\SpawningStrategies\Spawn4x2D.cs" />
     <Compile Include="src\Tracer.cs" />
     <Compile Include="src\Abstract\IMap.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -57,6 +67,7 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
