@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Echo.src.Filters.Support
+namespace Echo.Filters.Support
 {
     public class InverseFilter : IEchoFilter
     {

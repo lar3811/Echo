@@ -60,6 +60,8 @@
     <Compile Include="src\SpawningStrategies\SpawnSingle.cs" />
     <Compile Include="src\SpawningStrategies\Spawn8x2D.cs" />
     <Compile Include="src\SpawningStrategies\Spawn4x2D.cs" />
+    <Compile Include="src\SpreadStrategies\Spread4x2D.cs" />
+    <Compile Include="src\SpreadStrategies\Spread2x2D.cs" />
     <Compile Include="src\Tracer.cs" />
     <Compile Include="src\Abstract\IMap.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
