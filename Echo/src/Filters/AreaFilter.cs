@@ -19,9 +19,9 @@ namespace Echo.Filters
             _p2 = p2;
         }
 
-        public AreaFilter(Vector3 center, float width, float height) : this(center, width, height, 0) { }
+        public AreaFilter(Vector3 location) : this(location, 0, 0, 0) { }
 
-        public AreaFilter(Vector3 center, float width, float height, float depth)
+        public AreaFilter(Vector3 center, float width, float height, float depth = 0)
         {
             _p1 = new Vector3(center.X - width / 2, center.Y - height / 2, center.Z - depth / 2);
             _p2 = new Vector3(center.X + width / 2, center.Y + height / 2, center.Z + depth / 2);
