@@ -12,28 +12,14 @@ namespace Echo.SpawningStrategies
     {
         private Vector3 _direction;
 
-        public Vector3 Direction
-        {
-            get
-            {
-                return _direction;
-            }
-            set
-            {
-                if (value == Vector3.Zero)
-                    throw new ArgumentException($"{typeof(SpawnSingle).FullName}: Invalid direction supplied.");
-                _direction = Vector3.Normalize(value);
-            }
-        }
-
         public SpawnSingle(Vector3 direction)
         {
-            Direction = direction;
+            _direction = direction;
         }
 
         public IEnumerable<Vector3> Execute()
         {
-            return new[] { Direction };
+            return new[] { _direction };
         }
     }
 }

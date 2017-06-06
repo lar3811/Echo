@@ -9,7 +9,7 @@ namespace Echo.Filters.Support
 {
     public class InverseFilter : IEchoFilter
     {
-        private IEchoFilter _filter;
+        private readonly IEchoFilter _filter;
 
         public InverseFilter(IEchoFilter filter)
         {

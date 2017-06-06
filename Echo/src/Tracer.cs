@@ -54,8 +54,13 @@ namespace Echo
                 var current = echo.Path.Last();
                 var next = _map.Move(current, echo.Direction);
 
+                if (next == null)
+                {
+                    continue;
+                }
+
                 echo.Age++;
-                echo.Path.Add(next);
+                echo.Path.Add(next.Value);
 
                 if (_acceptable.Is(echo))
                 {

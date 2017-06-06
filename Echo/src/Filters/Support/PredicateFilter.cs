@@ -9,7 +9,7 @@ namespace Echo.Filters.Support
 {
     public class PredicateFilter : IEchoFilter
     {
-        private Predicate<Echo> _predicate;
+        private readonly Predicate<Echo> _predicate;
 
         public PredicateFilter(Predicate<Echo> predicate)
         {
