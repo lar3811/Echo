@@ -55,6 +55,7 @@
     <Compile Include="src\Filters\Support\PredicateFilter.cs" />
     <Compile Include="src\Filters\Support\InverseFilter.cs" />
     <Compile Include="src\Filters\Support\DisjunctiveCompositeFilter.cs" />
+    <Compile Include="src\Maps\GridMap.cs" />
     <Compile Include="src\QueueAdapters\QueueAdapter.cs" />
     <Compile Include="src\QueueAdapters\StackAdapter.cs" />
     <Compile Include="src\SpawningStrategies\SpawnSingle.cs" />
