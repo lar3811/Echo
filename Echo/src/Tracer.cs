@@ -82,27 +82,4 @@ namespace Echo
             }
         }
     }
-
-    public class Echo
-    {
-        public int Age = 0;
-
-        public readonly List<Vector3> Path;
-        public readonly Vector3 Direction;
-        public readonly int Generation;
-
-        internal Echo(Vector3 start, Vector3 direction)
-        {
-            Path = new List<Vector3> { start };
-            Direction = direction;
-            Generation = 0;
-        }
-
-        internal Echo(Echo source, Vector3 direction)
-        {
-            Path = source.Path.ToList();
-            Direction = direction;
-            Generation = source.Generation + 1;
-        }
-    }
 }
