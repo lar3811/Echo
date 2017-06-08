@@ -12,7 +12,7 @@ using System.Numerics;
 
 namespace Echo.Test
 {
-    public class TracerTest
+    public class TracerTests
     {
     }
 }

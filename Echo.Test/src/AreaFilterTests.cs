@@ -12,24 +12,8 @@ using System.Numerics;
 
 namespace Echo.Test
 {
-    public class AreaFilterTest
+    public class AreaFilterTests
     {
-        public static bool[,] Area1_HorizontalLane3
-        {
-            get
-            {
-                return new bool[3, 1] { { true }, { true }, { true } };
-            }
-        }
-
-        public static bool[,] Area2_VerticalLane3
-        {
-            get
-            {
-                return new bool[1, 3] { { true, true, true } };
-            }
-        }
-
         [Fact]
         public void PointAreaTest()
         {
