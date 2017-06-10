@@ -21,5 +21,24 @@ namespace Echo.Test
             Assert.True(filter.Is(new Echo(Vector3.One, Vector3.UnitX)));
             Assert.False(filter.Is(new Echo(Vector3.Zero, Vector3.UnitX)));
         }
+
+        [Fact]
+        public void NonPointAreaTest()
+        {
+            var filter = new AreaFilter(Vector3.Zero, 3, 3);
+            Assert.True(filter.Is(new Echo(Vector3.Zero, Vector3.UnitX)));
+            Assert.True(filter.Is(new Echo(Vector3.UnitX, Vector3.UnitX)));
+            Assert.True(filter.Is(new Echo(-Vector3.UnitX, Vector3.UnitX)));
+            Assert.True(filter.Is(new Echo(Vector3.UnitY, Vector3.UnitX)));
+            Assert.True(filter.Is(new Echo(-Vector3.UnitY, Vector3.UnitX)));
+
+            Assert.False(filter.Is(new Echo(new Vector3(0, 0, -1), Vector3.UnitX)));
+            Assert.False(filter.Is(new Echo(new Vector3(0, 0, 1), Vector3.UnitX)));
+            Assert.False(filter.Is(new Echo(new Vector3(0, 2, 0), Vector3.UnitX)));
+            Assert.False(filter.Is(new Echo(new Vector3(0, -2, 0), Vector3.UnitX)));
+            Assert.False(filter.Is(new Echo(new Vector3(2, 0, 0), Vector3.UnitX)));
+            Assert.False(filter.Is(new Echo(new Vector3(-2, 0, 0), Vector3.UnitX)));
+        }
+
     }
 }

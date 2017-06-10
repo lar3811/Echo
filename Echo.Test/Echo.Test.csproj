@@ -65,7 +65,7 @@
     <Otherwise />
   </Choose>
   <ItemGroup>
-    <Compile Include="src\AreaFilterTest.cs" />
+    <Compile Include="src\AreaFilterTests.cs" />
     <Compile Include="src\MapTests.cs" />
     <Compile Include="src\TracerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
