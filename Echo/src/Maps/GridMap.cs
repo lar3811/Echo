@@ -44,6 +44,11 @@ namespace Echo.Maps
             if (direction == Vector3.Zero)
                 return from;
 
+            if (from.X < 0 || from.X >= _width ||
+                from.Y < 0 || from.Y >= _height ||
+                from.Z < 0 || from.Z >= _depth)
+                return null;
+
             var x = (int)(from.X + Math.Sign(direction.X));
             var y = (int)(from.Y + Math.Sign(direction.Y));
             var z = (int)(from.Z + Math.Sign(direction.Z));
