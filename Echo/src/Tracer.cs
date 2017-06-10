@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Numerics;
 using Echo.Abstract;
 using System.Collections;
+using Echo.QueueAdapters;
 
 namespace Echo
 {
@@ -21,21 +22,34 @@ namespace Echo
         public Tracer(IMap map,
                       IEchoSpawningStrategy spawn,
                       IEchoSpreadingStrategy spread,
+                      IEchoFilter acceptable)
+            : this(map, spawn, spread, acceptable, null, null)
+        { }
+        public Tracer(IMap map,
+                      IEchoSpawningStrategy spawn,
+                      IEchoSpreadingStrategy spread,
                       IEchoFilter acceptable,
                       IEchoFilter fading,
                       IEchoQueue queue)
         {
+            if (map == null)
+                throw new ArgumentNullException(nameof(map));
+            if (spawn == null)
+                throw new ArgumentNullException(nameof(spawn));
+            if (acceptable == null)
+                throw new ArgumentNullException(nameof(acceptable));
+
             _map = map;
             _spawn = spawn;
             _spread = spread;
             _acceptable = acceptable;
             _fading = fading;
-            _echos = queue;
+            _echos = queue ?? new QueueAdapter();
         }
 
         
 
-        public void Start(Vector3 start)
+        public IEnumerable<IReadOnlyList<Vector3>> Start(Vector3 start)
         {
             _echos.Clear();
             
@@ -68,18 +82,24 @@ namespace Echo
                     continue;
                 }
 
-                if (_fading.Is(echo))
+                if (_fading != null && 
+                    _fading.Is(echo))
                 {
                     continue;
                 }
                 
-                foreach (var direction in _spread.Execute(echo))
+                if (_spread != null)
                 {
-                    _echos.Enqueue(new Echo(echo, direction));
+                    foreach (var direction in _spread.Execute(echo))
+                    {
+                        _echos.Enqueue(new Echo(echo, direction));
+                    }
                 }
 
                 _echos.Enqueue(echo);
             }
+
+            return output;
         }
     }
 }
