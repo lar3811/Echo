@@ -65,6 +65,7 @@
     <Otherwise />
   </Choose>
   <ItemGroup>
+    <Compile Include="src\WaveTests.cs" />
     <Compile Include="src\AreaFilterTests.cs" />
     <Compile Include="src\MapTests.cs" />
     <Compile Include="src\TracerTests.cs" />

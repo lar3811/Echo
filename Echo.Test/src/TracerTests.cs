@@ -62,17 +62,17 @@ namespace Echo.Test
         [Fact]
         public void Test4()
         {
-            //Reproduces eternal cycle
+            //Reproduces eternal cycle without fade filter
 
             var tracer = new Tracer(
                 new GridMap(MapTests.Map3_Square3x3),
                 new Spawn4x2D(),
                 new Spread2x2D(),
                 new AreaFilter(new Vector3(2, 2, 0)),
-                null,
+                new GlobalIntersectionsFilter(),
                 new QueueAdapter());
 
-            var routes = tracer.Start(Vector3.Zero);
+            var routes = tracer.Start(Vector3.Zero).ToList();
         }
     }
 }

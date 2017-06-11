@@ -51,7 +51,8 @@
     <Compile Include="src\Abstract\IEchoFilter.cs" />
     <Compile Include="src\Abstract\IEchoSpreadingStrategy.cs" />
     <Compile Include="src\Filters\GlobalIntersectionsFilter.cs" />
-    <Compile Include="src\Filters\LowMemoryIntersectionsFilter.cs" />
+    <Compile Include="src\Filters\IntersectionsFilter_P.cs" />
+    <Compile Include="src\Filters\IntersectionsFilter_M.cs" />
     <Compile Include="src\Wave.cs" />
     <Compile Include="src\Filters\AreaFilter.cs" />
     <Compile Include="src\Filters\StuckFilter.cs" />

@@ -69,6 +69,7 @@ namespace Echo
 
                 if (next == null)
                 {
+                    echo.IsActive = false;
                     continue;
                 }
 
@@ -84,6 +85,7 @@ namespace Echo
                 if (_fading != null && 
                     _fading.Is(echo))
                 {
+                    echo.IsActive = false;
                     continue;
                 }
                 
