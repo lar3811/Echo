@@ -1,0 +1,20 @@
+﻿using Echo.Abstract;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Numerics;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Echo.Filters
+{
+    public class GlobalIntersectionsFilter : IEchoFilter
+    {
+        private readonly HashSet<Vector3> _marked = new HashSet<Vector3>();
+
+        public bool Is(Wave echo)
+        {
+            return !_marked.Add(echo.Location);
+        }
+    }
+}
