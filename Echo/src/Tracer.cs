@@ -55,17 +55,16 @@ namespace Echo
             
             foreach (var direction in _spawn.Execute())
             {
-                _echos.Enqueue(new Echo(start, direction));
+                _echos.Enqueue(new Wave(start, direction));
             }
 
-            var output = new List<List<Vector3>>();
             var iteration = 0;
             while (_echos.Count > 0)
             {
                 iteration++;
 
                 var echo = _echos.Dequeue();
-                var current = echo.Path.Last();
+                var current = echo.PathSegment.Last();
                 var next = _map.Move(current, echo.Direction);
 
                 if (next == null)
@@ -74,11 +73,11 @@ namespace Echo
                 }
 
                 echo.Age++;
-                echo.Path.Add(next.Value);
+                echo.Location = next.Value;
 
                 if (_acceptable.Is(echo))
                 {
-                    output.Add(echo.Path);
+                    yield return echo.FullPath;
                     continue;
                 }
 
@@ -92,14 +91,12 @@ namespace Echo
                 {
                     foreach (var direction in _spread.Execute(echo))
                     {
-                        _echos.Enqueue(new Echo(echo, direction));
+                        _echos.Enqueue(new Wave(echo, direction));
                     }
                 }
 
                 _echos.Enqueue(echo);
             }
-
-            return output;
         }
     }
 }

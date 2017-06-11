@@ -11,7 +11,7 @@ namespace Echo.Abstract
         int Count { get; }
 
         void Clear();
-        void Enqueue(Echo echo);
-        Echo Dequeue();
+        void Enqueue(Wave echo);
+        Wave Dequeue();
     }
 }

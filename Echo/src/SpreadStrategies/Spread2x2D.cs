@@ -6,7 +6,7 @@ namespace Echo.SpreadStrategies
 {
     public class Spread2x2D : IEchoSpreadingStrategy
     {
-        public IEnumerable<Vector3> Execute(Echo echo)
+        public Vector3[] Execute(Wave echo)
         {
             return new[] 
             {

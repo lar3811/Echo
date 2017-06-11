@@ -5,10 +5,10 @@ namespace Echo.QueueAdapters
 {
     public class StackAdapter : IEchoQueue
     {
-        private readonly Stack<Echo> _stack;
+        private readonly Stack<Wave> _stack;
 
-        public StackAdapter() : this(new Stack<Echo>()) { }
-        public StackAdapter(Stack<Echo> stack)
+        public StackAdapter() : this(new Stack<Wave>()) { }
+        public StackAdapter(Stack<Wave> stack)
         {
             _stack = stack;
         }
@@ -20,12 +20,12 @@ namespace Echo.QueueAdapters
             _stack.Clear();
         }
 
-        public Echo Dequeue()
+        public Wave Dequeue()
         {
             return _stack.Pop();
         }
 
-        public void Enqueue(Echo echo)
+        public void Enqueue(Wave echo)
         {
             _stack.Push(echo);
         }

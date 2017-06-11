@@ -10,7 +10,7 @@ namespace Echo.SpawningStrategies
 {
     public class Spawn4x2D : IEchoSpawningStrategy
     {
-        public IEnumerable<Vector3> Execute()
+        public Vector3[] Execute()
         {
             return new[] {
                 Vector3.UnitX,

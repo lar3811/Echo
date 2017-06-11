@@ -27,9 +27,9 @@ namespace Echo.Filters
             _p2 = new Vector3(center.X + width / 2, center.Y + height / 2, center.Z + depth / 2);
         }
         
-        public bool Is(Echo echo)
+        public bool Is(Wave echo)
         {
-            var p = echo.Path.Last();
+            var p = echo.Location;
             return p.X >= _p1.X && p.X <= _p2.X &&
                    p.Y >= _p1.Y && p.Y <= _p2.Y &&
                    p.Z >= _p1.Z && p.Z <= _p2.Z;

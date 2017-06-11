@@ -9,6 +9,6 @@ namespace Echo.Abstract
 {
     public interface IEchoSpawningStrategy
     {
-        IEnumerable<Vector3> Execute();
+        Vector3[] Execute();
     }
 }

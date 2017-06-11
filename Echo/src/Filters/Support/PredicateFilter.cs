@@ -9,14 +9,14 @@ namespace Echo.Filters.Support
 {
     public class PredicateFilter : IEchoFilter
     {
-        private readonly Predicate<Echo> _predicate;
+        private readonly Predicate<Wave> _predicate;
 
-        public PredicateFilter(Predicate<Echo> predicate)
+        public PredicateFilter(Predicate<Wave> predicate)
         {
             _predicate = predicate;
         }
 
-        public bool Is(Echo echo)
+        public bool Is(Wave echo)
         {
             return _predicate(echo);
         }

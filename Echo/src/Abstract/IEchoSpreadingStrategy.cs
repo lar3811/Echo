@@ -9,6 +9,6 @@ namespace Echo.Abstract
 {
     public interface IEchoSpreadingStrategy
     {
-        IEnumerable<Vector3> Execute(Echo echo);
+        Vector3[] Execute(Wave echo);
     }
 }

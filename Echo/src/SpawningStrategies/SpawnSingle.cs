@@ -17,7 +17,7 @@ namespace Echo.SpawningStrategies
             _direction = direction;
         }
 
-        public IEnumerable<Vector3> Execute()
+        public Vector3[] Execute()
         {
             return new[] { _direction };
         }

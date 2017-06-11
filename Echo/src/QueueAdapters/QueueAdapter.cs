@@ -5,10 +5,10 @@ namespace Echo.QueueAdapters
 {
     public class QueueAdapter : IEchoQueue
     {
-        private readonly Queue<Echo> _queue;
+        private readonly Queue<Wave> _queue;
 
-        public QueueAdapter() : this(new Queue<Echo>()) { }
-        public QueueAdapter(Queue<Echo> queue)
+        public QueueAdapter() : this(new Queue<Wave>()) { }
+        public QueueAdapter(Queue<Wave> queue)
         {
             _queue = queue;
         }
@@ -20,12 +20,12 @@ namespace Echo.QueueAdapters
             _queue.Clear();
         }
 
-        public Echo Dequeue()
+        public Wave Dequeue()
         {
             return _queue.Dequeue();
         }
 
-        public void Enqueue(Echo echo)
+        public void Enqueue(Wave echo)
         {
             _queue.Enqueue(echo);
         }

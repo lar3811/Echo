@@ -46,7 +46,8 @@ namespace Echo.Maps
 
             if (from.X < 0 || from.X >= _width ||
                 from.Y < 0 || from.Y >= _height ||
-                from.Z < 0 || from.Z >= _depth)
+                from.Z < 0 || from.Z >= _depth ||
+                !_accessible[(int)from.X, (int)from.Y, (int)from.Z])
                 return null;
 
             var x = (int)(from.X + Math.Sign(direction.X));

@@ -16,7 +16,7 @@ namespace Echo.Filters.Support
             _filters.AddRange(filters);
         }
 
-        public bool Is(Echo echo)
+        public bool Is(Wave echo)
         {
             return _filters.Any(f => f.Is(echo));
         }

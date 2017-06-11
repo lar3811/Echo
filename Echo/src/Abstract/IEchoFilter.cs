@@ -8,6 +8,6 @@ namespace Echo.Abstract
 {
     public interface IEchoFilter
     {
-        bool Is(Echo echo);
+        bool Is(Wave echo);
     }
 }

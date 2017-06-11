@@ -16,7 +16,7 @@ namespace Echo.Filters.Support
             _filter = filter;
         }
 
-        public bool Is(Echo echo)
+        public bool Is(Wave echo)
         {
             return !_filter.Is(echo);
         }
