@@ -17,7 +17,7 @@ namespace Echo.Test
         [Fact]
         public void Test1()
         {
-            Assert.Throws(typeof(ArgumentNullException), () => new Tracer(null, null, null, null, null, null));
+            Assert.Throws(typeof(ArgumentNullException), () => new Tracer().Search(Vector3.Zero, Vector3.UnitX).ToList());
         }
 
         [Fact]

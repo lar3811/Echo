@@ -50,6 +50,7 @@
     <Compile Include="src\Abstract\IEchoSpawningStrategy.cs" />
     <Compile Include="src\Abstract\IEchoFilter.cs" />
     <Compile Include="src\Abstract\IEchoSpreadingStrategy.cs" />
+    <Compile Include="src\TracerExtensions.cs" />
     <Compile Include="src\Filters\GlobalIntersectionsFilter.cs" />
     <Compile Include="src\Filters\IntersectionsFilter_P.cs" />
     <Compile Include="src\Filters\IntersectionsFilter_M.cs" />

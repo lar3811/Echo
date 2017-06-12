@@ -23,12 +23,19 @@ namespace Echo
 
 
 
+        public Tracer()
+            : this(null, null) { }
+
+        public Tracer(IEchoSpawningStrategy defaultWaveSpawnStrategy,
+                             IEchoSpreadingStrategy defaultWaveSpreadStrategy)
+            : this(null, defaultWaveSpawnStrategy, defaultWaveSpreadStrategy, null, null, null) { }
+        
         public Tracer(IMap defaultMap,
-                      IEchoSpawningStrategy defaultWaveSpawnStrategy,
-                      IEchoSpreadingStrategy defaultWaveSpreadStrategy,
-                      IEchoFilter defaultAcceptableWavesFilter,
-                      IEchoFilter defaultFadingWavesFilterfading,
-                      IEchoQueue defaultWavesProcessingQueue)
+                             IEchoSpawningStrategy defaultWaveSpawnStrategy,
+                             IEchoSpreadingStrategy defaultWaveSpreadStrategy,
+                             IEchoFilter defaultAcceptableWavesFilter,
+                             IEchoFilter defaultFadingWavesFilterfading,
+                             IEchoQueue defaultWavesProcessingQueue)
         {
             DefaultMap = defaultMap;
             DefaultWaveSpawnStrategy = defaultWaveSpawnStrategy;
@@ -39,30 +46,6 @@ namespace Echo
         }
 
 
-
-        public IEnumerable<IReadOnlyList<Vector3>> Search(Vector3 from, Vector3 to)
-        {
-            var paths = Search(null, from, to);
-            foreach (var path in paths) yield return path;
-        }
-
-        public IEnumerable<IReadOnlyList<Vector3>> Search(Vector3 from, AreaFilter to)
-        {
-            var paths = Search(null, from, to);
-            foreach (var path in paths) yield return path;
-        }
-
-        public IEnumerable<IReadOnlyList<Vector3>> Search(IMap map, Vector3 from, Vector3 to)
-        {
-            var paths = Search(map, from, new AreaFilter(to));
-            foreach (var path in paths) yield return path;
-        }
-
-        public IEnumerable<IReadOnlyList<Vector3>> Search(IMap map, Vector3 from, AreaFilter to)
-        {
-            var paths = Search(from, map, acceptable: to);
-            foreach (var path in paths) yield return path;
-        }
 
         public IEnumerable<IReadOnlyList<Vector3>> Search(Vector3 start,
                                                           IMap map = null,
