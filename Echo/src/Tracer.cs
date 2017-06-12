@@ -7,65 +7,104 @@ using System.Numerics;
 using Echo.Abstract;
 using System.Collections;
 using Echo.QueueAdapters;
+using System.Diagnostics;
+using Echo.Filters;
 
 namespace Echo
 {
     public class Tracer
     {
-        private readonly IMap _map;
-        private readonly IEchoSpawningStrategy _spawn;
-        private readonly IEchoSpreadingStrategy _spread;
-        private readonly IEchoFilter _acceptable;
-        private readonly IEchoFilter _fading;
-        private readonly IEchoQueue _echos;
+        public IMap DefaultMap;
+        public IEchoSpawningStrategy DefaultWaveSpawnStrategy;
+        public IEchoSpreadingStrategy DefaultWaveSpreadStrategy;
+        public IEchoFilter DefaultAcceptableWavesFilter;
+        public IEchoFilter DefaultFadingWavesFilter;
+        public IEchoQueue DefaultWavesProcessingQueue;
 
-        public Tracer(IMap map,
-                      IEchoSpawningStrategy spawn,
-                      IEchoSpreadingStrategy spread,
-                      IEchoFilter acceptable)
-            : this(map, spawn, spread, acceptable, null, null)
-        { }
-        public Tracer(IMap map,
-                      IEchoSpawningStrategy spawn,
-                      IEchoSpreadingStrategy spread,
-                      IEchoFilter acceptable,
-                      IEchoFilter fading,
-                      IEchoQueue queue)
+
+
+        public Tracer(IMap defaultMap,
+                      IEchoSpawningStrategy defaultWaveSpawnStrategy,
+                      IEchoSpreadingStrategy defaultWaveSpreadStrategy,
+                      IEchoFilter defaultAcceptableWavesFilter,
+                      IEchoFilter defaultFadingWavesFilterfading,
+                      IEchoQueue defaultWavesProcessingQueue)
         {
-            if (map == null)
-                throw new ArgumentNullException(nameof(map));
-            if (spawn == null)
-                throw new ArgumentNullException(nameof(spawn));
-            if (acceptable == null)
-                throw new ArgumentNullException(nameof(acceptable));
-
-            _map = map;
-            _spawn = spawn;
-            _spread = spread;
-            _acceptable = acceptable;
-            _fading = fading;
-            _echos = queue ?? new QueueAdapter();
+            DefaultMap = defaultMap;
+            DefaultWaveSpawnStrategy = defaultWaveSpawnStrategy;
+            DefaultWaveSpreadStrategy = defaultWaveSpreadStrategy;
+            DefaultAcceptableWavesFilter = defaultAcceptableWavesFilter;
+            DefaultFadingWavesFilter = defaultFadingWavesFilterfading;
+            DefaultWavesProcessingQueue = defaultWavesProcessingQueue;
         }
 
-        
 
-        public IEnumerable<IReadOnlyList<Vector3>> Start(Vector3 start)
+
+        public IEnumerable<IReadOnlyList<Vector3>> Search(Vector3 from, Vector3 to)
         {
-            _echos.Clear();
-            
-            foreach (var direction in _spawn.Execute())
+            var paths = Search(null, from, to);
+            foreach (var path in paths) yield return path;
+        }
+
+        public IEnumerable<IReadOnlyList<Vector3>> Search(Vector3 from, AreaFilter to)
+        {
+            var paths = Search(null, from, to);
+            foreach (var path in paths) yield return path;
+        }
+
+        public IEnumerable<IReadOnlyList<Vector3>> Search(IMap map, Vector3 from, Vector3 to)
+        {
+            var paths = Search(map, from, new AreaFilter(to));
+            foreach (var path in paths) yield return path;
+        }
+
+        public IEnumerable<IReadOnlyList<Vector3>> Search(IMap map, Vector3 from, AreaFilter to)
+        {
+            var paths = Search(from, map, acceptable: to);
+            foreach (var path in paths) yield return path;
+        }
+
+        public IEnumerable<IReadOnlyList<Vector3>> Search(Vector3 start,
+                                                          IMap map = null,
+                                                          IEchoSpawningStrategy spawn = null,
+                                                          IEchoSpreadingStrategy spread = null,
+                                                          IEchoFilter acceptable = null,
+                                                          IEchoFilter fading = null,
+                                                          IEchoQueue queue = null)
+        {
+            map = map ?? DefaultMap;
+            spawn = spawn ?? DefaultWaveSpawnStrategy;
+            spread = spread ?? DefaultWaveSpreadStrategy;
+            acceptable = acceptable ?? DefaultAcceptableWavesFilter;
+            fading = fading ?? DefaultFadingWavesFilter;
+            queue = queue ?? DefaultWavesProcessingQueue ?? new QueueAdapter();
+                
+            if (fading == null) Debug.WriteLine("ECHO: Fading filter is not set. During results enumeration OutOfMemoryException may occur. To prevent, set filter or limit the enumeration.");
+            if (queue == null) Debug.WriteLine("ECHO: Queue is not set. Default implementation (QueueAdapter - breadth-first search) will be used.");
+
             {
-                _echos.Enqueue(new Wave(start, direction));
+                var error = new List<string>();
+                if (map == null) error.Add(nameof(map));
+                if (spawn == null) error.Add(nameof(spawn));
+                if (acceptable == null) error.Add(nameof(acceptable));
+                if (error.Count > 0) throw new ArgumentNullException(string.Join(", ", error));
+            }
+
+            queue.Clear();
+            
+            foreach (var direction in DefaultWaveSpawnStrategy.Execute())
+            {
+                queue.Enqueue(new Wave(start, direction));
             }
 
             var iteration = 0;
-            while (_echos.Count > 0)
+            while (queue.Count > 0)
             {
                 iteration++;
 
-                var echo = _echos.Dequeue();
+                var echo = queue.Dequeue();
                 var current = echo.PathSegment.Last();
-                var next = _map.Move(current, echo.Direction);
+                var next = map.Move(current, echo.Direction);
 
                 if (next == null)
                 {
@@ -76,28 +115,28 @@ namespace Echo
                 echo.Age++;
                 echo.Location = next.Value;
 
-                if (_acceptable.Is(echo))
+                if (acceptable.Is(echo))
                 {
                     yield return echo.FullPath;
                     continue;
                 }
 
-                if (_fading != null && 
-                    _fading.Is(echo))
+                if (fading != null &&
+                    fading.Is(echo))
                 {
                     echo.IsActive = false;
                     continue;
                 }
                 
-                if (_spread != null)
+                if (spread != null)
                 {
-                    foreach (var direction in _spread.Execute(echo))
+                    foreach (var direction in spread.Execute(echo))
                     {
-                        _echos.Enqueue(new Wave(echo, direction));
+                        queue.Enqueue(new Wave(echo, direction));
                     }
                 }
 
-                _echos.Enqueue(echo);
+                queue.Enqueue(echo);
             }
         }
     }

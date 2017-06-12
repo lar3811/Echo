@@ -31,7 +31,7 @@ namespace Echo.Test
                 null,
                 new QueueAdapter());
 
-            var routes = tracer.Start(Vector3.Zero);
+            var routes = tracer.Search(Vector3.Zero);
 
             Assert.Single(routes);
 
@@ -54,7 +54,7 @@ namespace Echo.Test
                 null,
                 new QueueAdapter());
 
-            var routes = tracer.Start(Vector3.Zero);
+            var routes = tracer.Search(Vector3.Zero);
 
             Assert.Empty(routes);
         }
@@ -72,7 +72,7 @@ namespace Echo.Test
                 new GlobalIntersectionsFilter(),
                 new QueueAdapter());
 
-            var routes = tracer.Start(Vector3.Zero).ToList();
+            var routes = tracer.Search(Vector3.Zero).ToList();
         }
 
         [Fact]
@@ -86,7 +86,7 @@ namespace Echo.Test
                 null,
                 new QueueAdapter());
 
-            var routes = tracer.Start(Vector3.UnitY);
+            var routes = tracer.Search(Vector3.UnitY);
 
             Assert.Single(routes);
             Assert.True(routes.First().Count == 7);
