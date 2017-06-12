@@ -74,5 +74,22 @@ namespace Echo.Test
 
             var routes = tracer.Start(Vector3.Zero).ToList();
         }
+
+        [Fact]
+        public void Test5()
+        {
+            var tracer = new Tracer(
+                new GridMap(MapTests.Map5_Square3x3_WallWithHole),
+                new Spawn4x2D(),
+                new Spread2x2D(),
+                new AreaFilter(new Vector3(1, 2, 0)),
+                null,
+                new QueueAdapter());
+
+            var routes = tracer.Start(Vector3.UnitY);
+
+            Assert.Single(routes);
+            Assert.True(routes.First().Count == 7);
+        }
     }
 }
