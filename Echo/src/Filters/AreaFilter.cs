@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Echo.Filters
 {
-    public class AreaFilter : IEchoFilter
+    public class AreaFilter : IWaveFilter
     {
         private Vector3 _p1;
         private Vector3 _p2;
@@ -27,9 +27,9 @@ namespace Echo.Filters
             _p2 = new Vector3(center.X + width / 2, center.Y + height / 2, center.Z + depth / 2);
         }
         
-        public bool Is(Wave echo)
+        public bool Is(Wave wave)
         {
-            var p = echo.Location;
+            var p = wave.Location;
             return p.X >= _p1.X && p.X <= _p2.X &&
                    p.Y >= _p1.Y && p.Y <= _p2.Y &&
                    p.Z >= _p1.Z && p.Z <= _p2.Z;

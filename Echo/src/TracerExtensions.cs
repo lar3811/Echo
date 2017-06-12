@@ -18,7 +18,7 @@ namespace Echo
             foreach (var path in paths) yield return path;
         }
 
-        public static IEnumerable<IReadOnlyList<Vector3>> Search(this Tracer tracer, Vector3 from, IEchoFilter to)
+        public static IEnumerable<IReadOnlyList<Vector3>> Search(this Tracer tracer, Vector3 from, IWaveFilter to)
         {
             var paths = tracer.Search(null, from, to);
             foreach (var path in paths) yield return path;
@@ -30,13 +30,13 @@ namespace Echo
             foreach (var path in paths) yield return path;
         }
 
-        public static IEnumerable<IReadOnlyList<Vector3>> Search(this Tracer tracer, IMap map, Vector3 from, IEchoFilter to)
+        public static IEnumerable<IReadOnlyList<Vector3>> Search(this Tracer tracer, IMap map, Vector3 from, IWaveFilter to)
         {
             var paths = tracer.Search(from, map, acceptable: to);
             foreach (var path in paths) yield return path;
         }
 
-        public static IReadOnlyList<Vector3> SearchForShortestPath(this Tracer tracer, IMap map, Vector3 from, Vector3 to, IEchoFilter fading = null)
+        public static IReadOnlyList<Vector3> SearchForShortestPath(this Tracer tracer, IMap map, Vector3 from, Vector3 to, IWaveFilter fading = null)
         {
             var queue = new QueueOrderedByDistance(to);
             var acceptable = new AreaFilter(to);

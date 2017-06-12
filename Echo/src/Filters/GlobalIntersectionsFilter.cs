@@ -8,13 +8,13 @@ using System.Threading.Tasks;
 
 namespace Echo.Filters
 {
-    public class GlobalIntersectionsFilter : IEchoFilter
+    public class GlobalIntersectionsFilter : IWaveFilter
     {
         private readonly HashSet<Vector3> _marked = new HashSet<Vector3>();
 
-        public bool Is(Wave echo)
+        public bool Is(Wave wave)
         {
-            return !_marked.Add(echo.Location);
+            return !_marked.Add(wave.Location);
         }
     }
 }

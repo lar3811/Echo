@@ -1,24 +1,25 @@
-﻿using Echo.Abstract;
+﻿using Echo;
+using Echo.Abstract;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Echo.Filters.Support
+namespace wave.Filters.Support
 {
-    public class DisjunctiveCompositeFilter : IEchoFilter
+    public class DisjunctiveCompositeFilter : IWaveFilter
     {
-        private readonly List<IEchoFilter> _filters = new List<IEchoFilter>();
+        private readonly List<IWaveFilter> _filters = new List<IWaveFilter>();
 
-        public DisjunctiveCompositeFilter(params IEchoFilter[] filters)
+        public DisjunctiveCompositeFilter(params IWaveFilter[] filters)
         {
             _filters.AddRange(filters);
         }
 
-        public bool Is(Wave echo)
+        public bool Is(Wave wave)
         {
-            return _filters.Any(f => f.Is(echo));
+            return _filters.Any(f => f.Is(wave));
         }
     }
 }

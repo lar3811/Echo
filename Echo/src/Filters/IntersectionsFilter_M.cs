@@ -8,13 +8,13 @@ using System.Threading.Tasks;
 
 namespace Echo.Filters
 {
-    public class IntersectionsFilter_M : IEchoFilter
+    public class IntersectionsFilter_M : IWaveFilter
     {
-        public bool Is(Wave echo)
+        public bool Is(Wave wave)
         {
-            foreach(var location in echo.FullPath)
+            foreach(var location in wave.FullPath)
             {
-                if (echo.Location == location) return true;
+                if (wave.Location == location) return true;
             }
             return false;
         }

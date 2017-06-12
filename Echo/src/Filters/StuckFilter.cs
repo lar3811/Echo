@@ -8,14 +8,14 @@ using System.Threading.Tasks;
 
 namespace Echo.Filters
 {
-    public class StuckFilter : IEchoFilter
+    public class StuckFilter : IWaveFilter
     {
-        public bool Is(Wave echo)
+        public bool Is(Wave wave)
         {
-            if (echo.PathSegment.Count < 2) return false;
+            if (wave.PathSegment.Count < 2) return false;
 
-            var p1 = echo.PathSegment[echo.PathSegment.Count - 1];
-            var p2 = echo.PathSegment[echo.PathSegment.Count - 2];
+            var p1 = wave.PathSegment[wave.PathSegment.Count - 1];
+            var p2 = wave.PathSegment[wave.PathSegment.Count - 2];
 
             return p1 == p2;
         }

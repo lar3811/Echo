@@ -1,9 +1,10 @@
-﻿using Echo.Abstract;
+﻿using Echo;
+using Echo.Abstract;
 using System.Collections.Generic;
 
-namespace Echo.QueueAdapters
+namespace wave.QueueAdapters
 {
-    public class StackAdapter : IEchoQueue
+    public class StackAdapter : IWaveQueue
     {
         private readonly Stack<Wave> _stack;
 
@@ -25,9 +26,9 @@ namespace Echo.QueueAdapters
             return _stack.Pop();
         }
 
-        public void Enqueue(Wave echo)
+        public void Enqueue(Wave wave)
         {
-            _stack.Push(echo);
+            _stack.Push(wave);
         }
     }
 }

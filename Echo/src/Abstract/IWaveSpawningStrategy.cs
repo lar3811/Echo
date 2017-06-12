@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 
 namespace Echo.Abstract
 {
-    public interface IEchoSpreadingStrategy
+    public interface IWaveSpawningStrategy
     {
-        Vector3[] Execute(Wave echo);
+        Vector3[] Execute();
     }
 }

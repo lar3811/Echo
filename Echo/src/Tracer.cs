@@ -15,27 +15,27 @@ namespace Echo
     public class Tracer
     {
         public IMap DefaultMap;
-        public IEchoSpawningStrategy DefaultWaveSpawnStrategy;
-        public IEchoSpreadingStrategy DefaultWaveSpreadStrategy;
-        public IEchoFilter DefaultAcceptableWavesFilter;
-        public IEchoFilter DefaultFadingWavesFilter;
-        public IEchoQueue DefaultWavesProcessingQueue;
+        public IWaveSpawningStrategy DefaultWaveSpawnStrategy;
+        public IWaveSpreadingStrategy DefaultWaveSpreadStrategy;
+        public IWaveFilter DefaultAcceptableWavesFilter;
+        public IWaveFilter DefaultFadingWavesFilter;
+        public IWaveQueue DefaultWavesProcessingQueue;
 
 
 
         public Tracer()
             : this(null, null) { }
 
-        public Tracer(IEchoSpawningStrategy defaultWaveSpawnStrategy,
-                             IEchoSpreadingStrategy defaultWaveSpreadStrategy)
+        public Tracer(IWaveSpawningStrategy defaultWaveSpawnStrategy,
+                      IWaveSpreadingStrategy defaultWaveSpreadStrategy)
             : this(null, defaultWaveSpawnStrategy, defaultWaveSpreadStrategy, null, null, null) { }
         
         public Tracer(IMap defaultMap,
-                             IEchoSpawningStrategy defaultWaveSpawnStrategy,
-                             IEchoSpreadingStrategy defaultWaveSpreadStrategy,
-                             IEchoFilter defaultAcceptableWavesFilter,
-                             IEchoFilter defaultFadingWavesFilterfading,
-                             IEchoQueue defaultWavesProcessingQueue)
+                      IWaveSpawningStrategy defaultWaveSpawnStrategy,
+                      IWaveSpreadingStrategy defaultWaveSpreadStrategy,
+                      IWaveFilter defaultAcceptableWavesFilter,
+                      IWaveFilter defaultFadingWavesFilterfading,
+                      IWaveQueue defaultWavesProcessingQueue)
         {
             DefaultMap = defaultMap;
             DefaultWaveSpawnStrategy = defaultWaveSpawnStrategy;
@@ -49,11 +49,11 @@ namespace Echo
 
         public IEnumerable<IReadOnlyList<Vector3>> Search(Vector3 start,
                                                           IMap map = null,
-                                                          IEchoSpawningStrategy spawn = null,
-                                                          IEchoSpreadingStrategy spread = null,
-                                                          IEchoFilter acceptable = null,
-                                                          IEchoFilter fading = null,
-                                                          IEchoQueue queue = null)
+                                                          IWaveSpawningStrategy spawn = null,
+                                                          IWaveSpreadingStrategy spread = null,
+                                                          IWaveFilter acceptable = null,
+                                                          IWaveFilter fading = null,
+                                                          IWaveQueue queue = null)
         {
             map = map ?? DefaultMap;
             spawn = spawn ?? DefaultWaveSpawnStrategy;
@@ -85,41 +85,41 @@ namespace Echo
             {
                 iteration++;
 
-                var echo = queue.Dequeue();
-                var current = echo.PathSegment.Last();
-                var next = map.Move(current, echo.Direction);
+                var wave = queue.Dequeue();
+                var current = wave.PathSegment.Last();
+                var next = map.Move(current, wave.Direction);
 
                 if (next == null)
                 {
-                    echo.IsActive = false;
+                    wave.IsActive = false;
                     continue;
                 }
 
-                echo.Age++;
-                echo.Location = next.Value;
+                wave.Age++;
+                wave.Location = next.Value;
 
-                if (acceptable.Is(echo))
+                if (acceptable.Is(wave))
                 {
-                    yield return echo.FullPath;
+                    yield return wave.FullPath;
                     continue;
                 }
 
                 if (fading != null &&
-                    fading.Is(echo))
+                    fading.Is(wave))
                 {
-                    echo.IsActive = false;
+                    wave.IsActive = false;
                     continue;
                 }
                 
                 if (spread != null)
                 {
-                    foreach (var direction in spread.Execute(echo))
+                    foreach (var direction in spread.Execute(wave))
                     {
-                        queue.Enqueue(new Wave(echo, direction));
+                        queue.Enqueue(new Wave(wave, direction));
                     }
                 }
 
-                queue.Enqueue(echo);
+                queue.Enqueue(wave);
             }
         }
     }

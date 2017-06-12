@@ -6,7 +6,7 @@ using System.Numerics;
 
 namespace Echo.QueueAdapters
 {
-    public class QueueOrderedByDistance : IEchoQueue
+    public class QueueOrderedByDistance : IWaveQueue
     {
         private readonly SortedDictionary<float, Queue<Wave>> _lookup = new SortedDictionary<float, Queue<Wave>>();
 
@@ -36,10 +36,7 @@ namespace Echo.QueueAdapters
 
         public int Count
         {
-            get
-            {
-                return _count;
-            }
+            get { return _count; }
         }
 
         public void Clear()
@@ -61,19 +58,19 @@ namespace Echo.QueueAdapters
             }
         }
 
-        public void Enqueue(Wave echo)
+        public void Enqueue(Wave wave)
         {
             _count++;
-            var distance = Vector3.DistanceSquared(echo.Location, _location);
+            var distance = Vector3.DistanceSquared(wave.Location, _location);
             Queue<Wave> queue;
             if (_lookup.TryGetValue(distance, out queue))
             {
-                queue.Enqueue(echo);
+                queue.Enqueue(wave);
             }
             else
             {
                 queue = new Queue<Wave>();
-                queue.Enqueue(echo);
+                queue.Enqueue(wave);
                 _lookup.Add(distance, queue);
             }
         }

@@ -91,5 +91,31 @@ namespace Echo.Test
             Assert.Single(routes);
             Assert.True(routes.First().Count == 7);
         }
+
+        [Fact]
+        public void Test6()
+        {
+            var tracer = new Tracer(new Spawn4x2D(), new Spread2x2D());
+            var map = new GridMap(MapTests.Map7_Square3x3_SingleObstacle);
+
+            var route = tracer.SearchForShortestPath(map, Vector3.Zero, new Vector3(1, 2, 0));
+            Assert.True(route.Count == 4);
+
+            route = tracer.SearchForShortestPath(map, Vector3.Zero, new Vector3(2, 1, 0));
+            Assert.True(route.Count == 4);
+        }
+
+        [Fact]
+        public void Test7()
+        {
+            var tracer = new Tracer(new Spawn4x2D(), new Spread2x2D());
+            var map = new GridMap(MapTests.Map3_Square3x3);
+
+            var route = tracer.SearchForShortestPath(map, Vector3.Zero, new Vector3(1, 2, 0));
+            Assert.True(route.Count == 4);
+
+            route = tracer.SearchForShortestPath(map, Vector3.Zero, new Vector3(2, 1, 0));
+            Assert.True(route.Count == 4);
+        }
     }
 }

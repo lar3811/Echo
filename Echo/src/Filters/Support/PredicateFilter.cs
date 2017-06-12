@@ -1,13 +1,14 @@
-﻿using Echo.Abstract;
+﻿using Echo;
+using Echo.Abstract;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Echo.Filters.Support
+namespace wave.Filters.Support
 {
-    public class PredicateFilter : IEchoFilter
+    public class PredicateFilter : IWaveFilter
     {
         private readonly Predicate<Wave> _predicate;
 
@@ -16,9 +17,9 @@ namespace Echo.Filters.Support
             _predicate = predicate;
         }
 
-        public bool Is(Wave echo)
+        public bool Is(Wave wave)
         {
-            return _predicate(echo);
+            return _predicate(wave);
         }
     }
 }

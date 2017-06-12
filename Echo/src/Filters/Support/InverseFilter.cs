@@ -1,24 +1,25 @@
-﻿using Echo.Abstract;
+﻿using Echo;
+using Echo.Abstract;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Echo.Filters.Support
+namespace wave.Filters.Support
 {
-    public class InverseFilter : IEchoFilter
+    public class InverseFilter : IWaveFilter
     {
-        private readonly IEchoFilter _filter;
+        private readonly IWaveFilter _filter;
 
-        public InverseFilter(IEchoFilter filter)
+        public InverseFilter(IWaveFilter filter)
         {
             _filter = filter;
         }
 
-        public bool Is(Wave echo)
+        public bool Is(Wave wave)
         {
-            return !_filter.Is(echo);
+            return !_filter.Is(wave);
         }
     }
 }

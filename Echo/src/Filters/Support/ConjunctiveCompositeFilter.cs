@@ -7,18 +7,18 @@ using System.Threading.Tasks;
 
 namespace Echo.Filters.Support
 {
-    public class ConjunctiveCompositeFilter : IEchoFilter
+    public class ConjunctiveCompositeFilter : IWaveFilter
     {
-        private readonly List<IEchoFilter> _filters = new List<IEchoFilter>();
+        private readonly List<IWaveFilter> _filters = new List<IWaveFilter>();
 
-        public ConjunctiveCompositeFilter(params IEchoFilter[] filters)
+        public ConjunctiveCompositeFilter(params IWaveFilter[] filters)
         {
             _filters.AddRange(filters);
         }
 
-        public bool Is(Wave echo)
+        public bool Is(Wave wave)
         {
-            return _filters.All(f => f.Is(echo));
+            return _filters.All(f => f.Is(wave));
         }
     }
 }

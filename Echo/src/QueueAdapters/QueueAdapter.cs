@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Echo.QueueAdapters
 {
-    public class QueueAdapter : IEchoQueue
+    public class QueueAdapter : IWaveQueue
     {
         private readonly Queue<Wave> _queue;
 
@@ -25,9 +25,9 @@ namespace Echo.QueueAdapters
             return _queue.Dequeue();
         }
 
-        public void Enqueue(Wave echo)
+        public void Enqueue(Wave wave)
         {
-            _queue.Enqueue(echo);
+            _queue.Enqueue(wave);
         }
     }
 }

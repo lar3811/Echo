@@ -4,16 +4,16 @@ using System.Numerics;
 
 namespace Echo.SpreadStrategies
 {
-    public class Spread4x2D : IEchoSpreadingStrategy
+    public class Spread4x2D : IWaveSpreadingStrategy
     {
-        public Vector3[] Execute(Wave echo)
+        public Vector3[] Execute(Wave wave)
         {
             return new[]
             {
-                new Vector3(-echo.Direction.Y, echo.Direction.X, 0),
-                new Vector3(echo.Direction.Y, -echo.Direction.X, 0),
-                new Vector3(-echo.Direction.Y, echo.Direction.X, 0) + echo.Direction,
-                new Vector3(echo.Direction.Y, -echo.Direction.X, 0) + echo.Direction
+                new Vector3(-wave.Direction.Y, wave.Direction.X, 0),
+                new Vector3(wave.Direction.Y, -wave.Direction.X, 0),
+                new Vector3(-wave.Direction.Y, wave.Direction.X, 0) + wave.Direction,
+                new Vector3(wave.Direction.Y, -wave.Direction.X, 0) + wave.Direction
             };
         }
     }

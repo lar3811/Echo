@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace Echo.Abstract
 {
-    public interface IEchoFilter
+    public interface IWaveFilter
     {
-        bool Is(Wave echo);
+        bool Is(Wave wave);
     }
 }
