@@ -65,6 +65,8 @@
     <Otherwise />
   </Choose>
   <ItemGroup>
+    <Compile Include="src\VectorTests.cs" />
+    <Compile Include="src\QueueAdaptersTests.cs" />
     <Compile Include="src\WaveTests.cs" />
     <Compile Include="src\AreaFilterTests.cs" />
     <Compile Include="src\MapTests.cs" />

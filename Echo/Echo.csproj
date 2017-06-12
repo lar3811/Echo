@@ -53,6 +53,7 @@
     <Compile Include="src\Filters\GlobalIntersectionsFilter.cs" />
     <Compile Include="src\Filters\IntersectionsFilter_P.cs" />
     <Compile Include="src\Filters\IntersectionsFilter_M.cs" />
+    <Compile Include="src\QueueAdapters\QueueOrderedByDistance.cs" />
     <Compile Include="src\Wave.cs" />
     <Compile Include="src\Filters\AreaFilter.cs" />
     <Compile Include="src\Filters\StuckFilter.cs" />
