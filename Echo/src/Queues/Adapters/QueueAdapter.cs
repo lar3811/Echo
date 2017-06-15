@@ -1,7 +1,7 @@
 ﻿using Echo.Abstract;
 using System.Collections.Generic;
 
-namespace Echo.QueueAdapters
+namespace Echo.Queues.Adapters
 {
     public class QueueAdapter : IWaveQueue
     {

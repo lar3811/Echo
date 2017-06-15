@@ -4,32 +4,27 @@ using System;
 using System.Linq;
 using System.Numerics;
 
-namespace Echo.QueueAdapters
+namespace Echo.Queues
 {
-    public class QueueOrderedByDistance : IWaveQueue
+    public class PriorityQueue : IWaveQueue
     {
-        private readonly SortedDictionary<float, Queue<Wave>> _lookup = new SortedDictionary<float, Queue<Wave>>();
-
-        private Vector3 _location;
-        private int _count;
-
-
-
-        public Vector3 Location
+        public interface IPriorityMeter
         {
-            get { return _location; }
-            set
-            {
-                Clear();
-                _location = value;
-            }
+            float Evaluate(Wave wave);
         }
 
 
 
-        public QueueOrderedByDistance(Vector3 location)
+        private readonly SortedDictionary<float, Queue<Wave>> _lookup;
+        private readonly IPriorityMeter _meter;
+        private int _count;
+
+        
+
+        public PriorityQueue(IPriorityMeter meter)
         {
-            Location = location;
+            _lookup = new SortedDictionary<float, Queue<Wave>>();
+            _meter = meter;
         }
 
 
@@ -60,10 +55,9 @@ namespace Echo.QueueAdapters
 
         public void Enqueue(Wave wave)
         {
-            _count++;
-            var distance = Vector3.DistanceSquared(wave.Location, _location);
+            var priority = _meter.Evaluate(wave);
             Queue<Wave> queue;
-            if (_lookup.TryGetValue(distance, out queue))
+            if (_lookup.TryGetValue(priority, out queue))
             {
                 queue.Enqueue(wave);
             }
@@ -71,8 +65,9 @@ namespace Echo.QueueAdapters
             {
                 queue = new Queue<Wave>();
                 queue.Enqueue(wave);
-                _lookup.Add(distance, queue);
+                _lookup.Add(priority, queue);
             }
+            _count++;
         }
     }
 }

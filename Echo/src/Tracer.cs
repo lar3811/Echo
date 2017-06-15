@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.Numerics;
 using Echo.Abstract;
 using System.Collections;
-using Echo.QueueAdapters;
+using Echo.Queues.Adapters;
 using System.Diagnostics;
 using Echo.Filters;
 

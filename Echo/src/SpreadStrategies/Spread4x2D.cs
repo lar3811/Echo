@@ -8,13 +8,14 @@ namespace Echo.SpreadStrategies
     {
         public Vector3[] Execute(Wave wave)
         {
-            return new[]
+            var directions = new[]
             {
                 new Vector3(-wave.Direction.Y, wave.Direction.X, 0),
                 new Vector3(wave.Direction.Y, -wave.Direction.X, 0),
-                new Vector3(-wave.Direction.Y, wave.Direction.X, 0) + wave.Direction,
-                new Vector3(wave.Direction.Y, -wave.Direction.X, 0) + wave.Direction
+                Vector3.Normalize(new Vector3(-wave.Direction.Y, wave.Direction.X, 0) + wave.Direction),
+                Vector3.Normalize(new Vector3(wave.Direction.Y, -wave.Direction.X, 0) + wave.Direction)
             };
+            return directions;
         }
     }
 }

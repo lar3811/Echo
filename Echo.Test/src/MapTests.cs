@@ -12,6 +12,19 @@ namespace Echo.Test
     public class MapTests
     {
         #region Maps
+        public static bool[,] GenerateCleanMap2D(int columns, int rows)
+        {
+            var map = new bool[columns, rows];
+            for (var i = 0; i < columns; i++)
+            {
+                for (var j = 0; j < rows; j++)
+                {
+                    map[i, j] = true;
+                }
+            }
+            return map;
+        }
+
         public static bool[,] Map0_SingleCell
         {
             get

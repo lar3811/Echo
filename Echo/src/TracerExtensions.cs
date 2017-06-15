@@ -1,6 +1,7 @@
 ﻿using Echo.Abstract;
 using Echo.Filters;
-using Echo.QueueAdapters;
+using Echo.Queues.Adapters;
+using Echo.Queues;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -38,7 +39,7 @@ namespace Echo
 
         public static IReadOnlyList<Vector3> SearchForShortestPath(this Tracer tracer, IMap map, Vector3 from, Vector3 to, IWaveFilter fading = null)
         {
-            var queue = new QueueOrderedByDistance(to);
+            var queue = new PriorityQueue(new PriorityByEstimatedPathLength(to));
             var acceptable = new AreaFilter(to);
             var paths = tracer.Search(from, map, null, null, acceptable, fading, queue);
             return paths.FirstOrDefault();

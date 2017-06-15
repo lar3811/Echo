@@ -3,7 +3,7 @@ using Echo.SpawningStrategies;
 using Echo.SpreadStrategies;
 using Echo.Filters.Support;
 using Echo.Filters;
-using Echo.QueueAdapters;
+using Echo.Queues.Adapters;
 using Echo.Maps;
 using System;
 using System.Linq;
@@ -116,6 +116,20 @@ namespace Echo.Test
 
             route = tracer.SearchForShortestPath(map, Vector3.Zero, new Vector3(2, 1, 0));
             Assert.True(route.Count == 4);
+        }
+
+        [Fact]
+        public void ShortestPathTest()
+        {
+            var map = MapTests.GenerateCleanMap2D(5, 5);
+            var tracer = new Tracer(new Spawn8x2D(), new Spread4x2D());
+
+            for (var i = 1; i < 4; i++)
+                map[2, i] = false;
+
+            var route = tracer.SearchForShortestPath(new GridMap(map), new Vector3(0, 2, 0), new Vector3(4, 2, 0));
+            
+            Assert.StrictEqual(route.Count, 5);
         }
     }
 }

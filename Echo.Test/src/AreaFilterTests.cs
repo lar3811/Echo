@@ -3,7 +3,7 @@ using Echo.SpawningStrategies;
 using Echo.SpreadStrategies;
 using Echo.Filters.Support;
 using Echo.Filters;
-using Echo.QueueAdapters;
+using Echo.Queues.Adapters;
 using Echo.Maps;
 using System;
 using System.Linq;
