@@ -134,57 +134,64 @@ namespace Echo.Test
         public void GridMap0Test()
         {
             var map = new GridMap(Map0_SingleCell);
+            var destination = Vector3.Zero;
 
-            Assert.Null(map.Move(Vector3.Zero, -Vector3.UnitX));
-            Assert.Null(map.Move(Vector3.Zero, Vector3.UnitX));
-            Assert.Null(map.Move(Vector3.Zero, -Vector3.UnitY));
-            Assert.Null(map.Move(Vector3.Zero, Vector3.UnitY));
+            Assert.False(map.Navigate(new Wave(Vector3.Zero, -Vector3.UnitX), out destination));
+            Assert.False(map.Navigate(new Wave(Vector3.Zero, Vector3.UnitX), out destination));
+            Assert.False(map.Navigate(new Wave(Vector3.Zero, -Vector3.UnitY), out destination));
+            Assert.False(map.Navigate(new Wave(Vector3.Zero, Vector3.UnitY), out destination));
 
-            Assert.Null(map.Move(Vector3.UnitX, -Vector3.UnitX));
-            Assert.Null(map.Move(-Vector3.UnitX, Vector3.UnitX));
-            Assert.Null(map.Move(Vector3.UnitY, -Vector3.UnitY));
-            Assert.Null(map.Move(-Vector3.UnitY, Vector3.UnitY));
+            Assert.False(map.Navigate(new Wave(Vector3.UnitX, -Vector3.UnitX), out destination));
+            Assert.False(map.Navigate(new Wave(-Vector3.UnitX, Vector3.UnitX), out destination));
+            Assert.False(map.Navigate(new Wave(Vector3.UnitY, -Vector3.UnitY), out destination));
+            Assert.False(map.Navigate(new Wave(-Vector3.UnitY, Vector3.UnitY), out destination));
 
-            Assert.Null(map.Move(Vector3.UnitX + Vector3.UnitY, -Vector3.UnitX - Vector3.UnitY));
-            Assert.Null(map.Move(Vector3.UnitX - Vector3.UnitY, -Vector3.UnitX + Vector3.UnitY));
-            Assert.Null(map.Move(-Vector3.UnitX + Vector3.UnitY, Vector3.UnitX - Vector3.UnitY));
-            Assert.Null(map.Move(-Vector3.UnitX - Vector3.UnitY, Vector3.UnitX + Vector3.UnitY));
+            Assert.False(map.Navigate(new Wave(Vector3.UnitX + Vector3.UnitY, -Vector3.UnitX - Vector3.UnitY), out destination));
+            Assert.False(map.Navigate(new Wave(Vector3.UnitX - Vector3.UnitY, -Vector3.UnitX + Vector3.UnitY), out destination));
+            Assert.False(map.Navigate(new Wave(-Vector3.UnitX + Vector3.UnitY, Vector3.UnitX - Vector3.UnitY), out destination));
+            Assert.False(map.Navigate(new Wave(-Vector3.UnitX - Vector3.UnitY, Vector3.UnitX + Vector3.UnitY), out destination));
         }
 
         [Fact]
         public void GridMap1Test()
         {
             var map = new GridMap(Map1_HorizontalLane3);
+            var destination = Vector3.Zero;
 
-            Assert.Null(map.Move(Vector3.Zero, -Vector3.UnitY));
-            Assert.Null(map.Move(Vector3.Zero, Vector3.UnitY));
-            Assert.Null(map.Move(Vector3.Zero, -Vector3.UnitX));
+            Assert.False(map.Navigate(new Wave(Vector3.Zero, -Vector3.UnitY), out destination));
+            Assert.False(map.Navigate(new Wave(Vector3.Zero, Vector3.UnitY), out destination));
+            Assert.False(map.Navigate(new Wave(Vector3.Zero, -Vector3.UnitX), out destination));
 
-            Assert.Equal(map.Move(Vector3.Zero, Vector3.UnitX), Vector3.UnitX);
+            Assert.True(map.Navigate(new Wave(Vector3.Zero, Vector3.UnitX), out destination));
+            Assert.Equal(destination, Vector3.UnitX);
         }
 
         [Fact]
         public void GridMap2Test()
         {
             var map = new GridMap(Map2_VerticalLane3);
+            var destination = Vector3.Zero;
 
-            Assert.Null(map.Move(Vector3.Zero, -Vector3.UnitX));
-            Assert.Null(map.Move(Vector3.Zero, Vector3.UnitX));
-            Assert.Null(map.Move(Vector3.Zero, -Vector3.UnitY));
-
-            Assert.Equal(map.Move(Vector3.Zero, Vector3.UnitY), Vector3.UnitY);
+            Assert.False(map.Navigate(new Wave(Vector3.Zero, -Vector3.UnitX), out destination));
+            Assert.False(map.Navigate(new Wave(Vector3.Zero, Vector3.UnitX), out destination));
+            Assert.False(map.Navigate(new Wave(Vector3.Zero, -Vector3.UnitY), out destination));
+            
+            Assert.True(map.Navigate(new Wave(Vector3.Zero, Vector3.UnitY), out destination));
+            Assert.Equal(destination, Vector3.UnitY);
         }
 
         [Fact]
         public void GridMap3Test()
         {
             var map = new GridMap(Map3_Square3x3_HorizontalWall);
+            var destination = Vector3.Zero;
 
-            Assert.Null(map.Move(Vector3.Zero, -Vector3.UnitX));
-            Assert.Null(map.Move(Vector3.Zero, -Vector3.UnitY));
-            Assert.Null(map.Move(Vector3.Zero, Vector3.UnitY));
-
-            Assert.Equal(map.Move(Vector3.Zero, Vector3.UnitX), Vector3.UnitX);
+            Assert.False(map.Navigate(new Wave(Vector3.Zero, -Vector3.UnitX), out destination));
+            Assert.False(map.Navigate(new Wave(Vector3.Zero, -Vector3.UnitY), out destination));
+            Assert.False(map.Navigate(new Wave(Vector3.Zero, Vector3.UnitY), out destination));
+            
+            Assert.True(map.Navigate(new Wave(Vector3.Zero, Vector3.UnitX), out destination));
+            Assert.Equal(destination, Vector3.UnitX);
         }
     }
 }

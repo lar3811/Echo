@@ -75,7 +75,7 @@ namespace Echo
 
             queue.Clear();
             
-            foreach (var direction in DefaultWaveSpawnStrategy.Execute())
+            foreach (var direction in spawn.Execute())
             {
                 queue.Enqueue(new Wave(start, direction));
             }
@@ -86,17 +86,16 @@ namespace Echo
                 iteration++;
 
                 var wave = queue.Dequeue();
-                var current = wave.PathSegment.Last();
-                var next = map.Move(current, wave.Direction);
+                Vector3 location;
 
-                if (next == null)
+                if (!map.Navigate(wave, out location))
                 {
                     wave.IsActive = false;
                     continue;
                 }
 
                 wave.Age++;
-                wave.Location = next.Value;
+                wave.Location = location;
 
                 if (acceptable.Is(wave))
                 {

@@ -39,16 +39,20 @@ namespace Echo.Maps
             }
         }
 
-        public Vector3? Move(Vector3 from, Vector3 direction)
+        public bool Navigate(Wave wave, out Vector3 destination)
         {
-            if (direction == Vector3.Zero)
-                return from;
+            var from = wave.Location;
+            var direction = wave.Direction;
+            destination = from;
+
+            if (wave.Direction == Vector3.Zero)
+                return false;
 
             if (from.X < 0 || from.X >= _width ||
                 from.Y < 0 || from.Y >= _height ||
                 from.Z < 0 || from.Z >= _depth ||
                 !_accessible[(int)from.X, (int)from.Y, (int)from.Z])
-                return null;
+                return false;
 
             var x = (int)(from.X + Math.Sign(direction.X));
             var y = (int)(from.Y + Math.Sign(direction.Y));
@@ -58,9 +62,10 @@ namespace Echo.Maps
                 y < 0 || y >= _height ||
                 z < 0 || z >= _depth ||
                 !_accessible[x, y, z])
-                return null;
+                return false;
 
-            return new Vector3(x, y, z);
+            destination = new Vector3(x, y, z);
+            return true;
         }
     }
 }

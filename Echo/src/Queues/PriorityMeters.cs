@@ -34,6 +34,7 @@ namespace Echo.Queues
         }
 
         // TODO: OPTIMIZE (caching) + unit step policy
+        // TODO: Generic Tracer<TWave> where TWave : Wave or IWave
         public float Evaluate(Wave wave)
         {
             var path = wave.FullPath;
