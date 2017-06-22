@@ -8,16 +8,16 @@ using System.Threading.Tasks;
 
 namespace wave.Filters.Support
 {
-    public class PredicateFilter : IWaveFilter
+    public class PredicateFilter<TWave> : IWaveFilter<TWave> where TWave : IWave
     {
-        private readonly Predicate<Wave> _predicate;
+        private readonly Predicate<TWave> _predicate;
 
-        public PredicateFilter(Predicate<Wave> predicate)
+        public PredicateFilter(Predicate<TWave> predicate)
         {
             _predicate = predicate;
         }
 
-        public bool Is(Wave wave)
+        public bool Is(TWave wave)
         {
             return _predicate(wave);
         }

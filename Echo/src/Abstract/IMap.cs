@@ -2,8 +2,8 @@
 
 namespace Echo.Abstract
 {
-    public interface IMap
+    public interface IMap<TWave> where TWave : IWave
     {
-        bool Navigate(Wave wave, out Vector3 destination);
+        bool Navigate(TWave wave, out Vector3 destination);
     }
 }

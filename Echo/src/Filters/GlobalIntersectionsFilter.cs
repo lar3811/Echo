@@ -8,11 +8,11 @@ using System.Threading.Tasks;
 
 namespace Echo.Filters
 {
-    public class GlobalIntersectionsFilter : IWaveFilter
+    public class GlobalIntersectionsFilter<TWave> : IWaveFilter<TWave> where TWave : IWave
     {
         private readonly HashSet<Vector3> _marked = new HashSet<Vector3>();
 
-        public bool Is(Wave wave)
+        public bool Is(TWave wave)
         {
             return !_marked.Add(wave.Location);
         }

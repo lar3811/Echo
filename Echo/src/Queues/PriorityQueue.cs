@@ -6,16 +6,16 @@ using System.Numerics;
 
 namespace Echo.Queues
 {
-    public class PriorityQueue : IWaveQueue
+    public class PriorityQueue<TWave> : IWaveQueue<TWave> where TWave : IWave
     {
         public interface IPriorityMeter
         {
-            float Evaluate(Wave wave);
+            float Evaluate(TWave wave);
         }
 
 
 
-        private readonly SortedDictionary<float, Queue<Wave>> _lookup;
+        private readonly SortedDictionary<float, Queue<TWave>> _lookup;
         private readonly IPriorityMeter _meter;
         private int _count;
 
@@ -23,7 +23,7 @@ namespace Echo.Queues
 
         public PriorityQueue(IPriorityMeter meter)
         {
-            _lookup = new SortedDictionary<float, Queue<Wave>>();
+            _lookup = new SortedDictionary<float, Queue<TWave>>();
             _meter = meter;
         }
 
@@ -40,7 +40,7 @@ namespace Echo.Queues
             _lookup.Clear();
         }
 
-        public Wave Dequeue()
+        public TWave Dequeue()
         {
             if (_count > 0)
             {
@@ -49,21 +49,21 @@ namespace Echo.Queues
             }
             else
             {
-                return null;
+                return default(TWave);
             }
         }
 
-        public void Enqueue(Wave wave)
+        public void Enqueue(TWave wave)
         {
             var priority = _meter.Evaluate(wave);
-            Queue<Wave> queue;
+            Queue<TWave> queue;
             if (_lookup.TryGetValue(priority, out queue))
             {
                 queue.Enqueue(wave);
             }
             else
             {
-                queue = new Queue<Wave>();
+                queue = new Queue<TWave>();
                 queue.Enqueue(wave);
                 _lookup.Add(priority, queue);
             }

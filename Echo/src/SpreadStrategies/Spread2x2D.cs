@@ -4,9 +4,9 @@ using System.Numerics;
 
 namespace Echo.SpreadStrategies
 {
-    public class Spread2x2D : IWaveSpreadingStrategy
+    public class Spread2x2D<TWave> : IWaveSpreadingStrategy<TWave> where TWave : IWave
     {
-        public Vector3[] Execute(Wave wave)
+        public Vector3[] Execute(TWave wave)
         {
             return new[] 
             {

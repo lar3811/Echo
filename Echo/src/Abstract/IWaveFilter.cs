@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace Echo.Abstract
 {
-    public interface IWaveFilter
+    public interface IWaveFilter<TWave> where TWave : IWave
     {
-        bool Is(Wave wave);
+        bool Is(TWave wave);
     }
 }

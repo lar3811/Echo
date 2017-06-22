@@ -3,12 +3,12 @@ using System.Collections.Generic;
 
 namespace Echo.Queues.Adapters
 {
-    public class QueueAdapter : IWaveQueue
+    public class QueueAdapter<TWave> : IWaveQueue<TWave> where TWave : IWave
     {
-        private readonly Queue<Wave> _queue;
+        private readonly Queue<TWave> _queue;
 
-        public QueueAdapter() : this(new Queue<Wave>()) { }
-        public QueueAdapter(Queue<Wave> queue)
+        public QueueAdapter() : this(new Queue<TWave>()) { }
+        public QueueAdapter(Queue<TWave> queue)
         {
             _queue = queue;
         }
@@ -20,12 +20,12 @@ namespace Echo.Queues.Adapters
             _queue.Clear();
         }
 
-        public Wave Dequeue()
+        public TWave Dequeue()
         {
             return _queue.Dequeue();
         }
 
-        public void Enqueue(Wave wave)
+        public void Enqueue(TWave wave)
         {
             _queue.Enqueue(wave);
         }

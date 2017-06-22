@@ -46,6 +46,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="src\Abstract\ICloneable.cs" />
+    <Compile Include="src\Abstract\IWave.cs" />
+    <Compile Include="src\Abstract\IWaveBuilder.cs" />
     <Compile Include="src\Abstract\IWaveQueue.cs" />
     <Compile Include="src\Abstract\IWaveSpawningStrategy.cs" />
     <Compile Include="src\Abstract\IWaveFilter.cs" />
@@ -56,9 +59,8 @@
     <Compile Include="src\Filters\IntersectionsFilter_P.cs" />
     <Compile Include="src\Filters\IntersectionsFilter_M.cs" />
     <Compile Include="src\Queues\PriorityQueue.cs" />
-    <Compile Include="src\Wave.cs" />
+    <Compile Include="src\Waves\Wave.cs" />
     <Compile Include="src\Filters\AreaFilter.cs" />
-    <Compile Include="src\Filters\StuckFilter.cs" />
     <Compile Include="src\Filters\Support\ConjunctiveCompositeFilter.cs" />
     <Compile Include="src\Filters\Support\PredicateFilter.cs" />
     <Compile Include="src\Filters\Support\InverseFilter.cs" />
@@ -74,6 +76,7 @@
     <Compile Include="src\Tracer.cs" />
     <Compile Include="src\Abstract\IMap.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="src\Waves\WaveBuilder.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

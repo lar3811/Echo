@@ -8,7 +8,7 @@ using System.Numerics;
 
 namespace Echo.Maps
 {
-    public class GridMap : IMap
+    public class GridMap<TWave> : IMap<TWave> where TWave : IWave
     {
         private readonly bool[,,] _accessible;
 
@@ -39,7 +39,7 @@ namespace Echo.Maps
             }
         }
 
-        public bool Navigate(Wave wave, out Vector3 destination)
+        public bool Navigate(TWave wave, out Vector3 destination)
         {
             var from = wave.Location;
             var direction = wave.Direction;

@@ -9,17 +9,19 @@ using System.Collections;
 using Echo.Queues.Adapters;
 using System.Diagnostics;
 using Echo.Filters;
+using Echo.Waves;
 
 namespace Echo
 {
-    public class Tracer
+    public class Tracer<TWave> where TWave : IWave
     {
-        public IMap DefaultMap;
+        public IMap<TWave> DefaultMap;
+        public IWaveBuilder<TWave> DefaultWaveBuilder;
         public IWaveSpawningStrategy DefaultWaveSpawnStrategy;
-        public IWaveSpreadingStrategy DefaultWaveSpreadStrategy;
-        public IWaveFilter DefaultAcceptableWavesFilter;
-        public IWaveFilter DefaultFadingWavesFilter;
-        public IWaveQueue DefaultWavesProcessingQueue;
+        public IWaveSpreadingStrategy<TWave> DefaultWaveSpreadStrategy;
+        public IWaveFilter<TWave> DefaultAcceptableWavesFilter;
+        public IWaveFilter<TWave> DefaultFadingWavesFilter;
+        public IWaveQueue<TWave> DefaultWavesProcessingQueue;
 
 
 
@@ -27,17 +29,19 @@ namespace Echo
             : this(null, null) { }
 
         public Tracer(IWaveSpawningStrategy defaultWaveSpawnStrategy,
-                      IWaveSpreadingStrategy defaultWaveSpreadStrategy)
-            : this(null, defaultWaveSpawnStrategy, defaultWaveSpreadStrategy, null, null, null) { }
+                      IWaveSpreadingStrategy<TWave> defaultWaveSpreadStrategy)
+            : this(null, null, defaultWaveSpawnStrategy, defaultWaveSpreadStrategy, null, null, null) { }
         
-        public Tracer(IMap defaultMap,
+        public Tracer(IMap<TWave> defaultMap,
+                      IWaveBuilder<TWave> defaultWaveBuilder,
                       IWaveSpawningStrategy defaultWaveSpawnStrategy,
-                      IWaveSpreadingStrategy defaultWaveSpreadStrategy,
-                      IWaveFilter defaultAcceptableWavesFilter,
-                      IWaveFilter defaultFadingWavesFilterfading,
-                      IWaveQueue defaultWavesProcessingQueue)
+                      IWaveSpreadingStrategy<TWave> defaultWaveSpreadStrategy,
+                      IWaveFilter<TWave> defaultAcceptableWavesFilter,
+                      IWaveFilter<TWave> defaultFadingWavesFilterfading,
+                      IWaveQueue<TWave> defaultWavesProcessingQueue)
         {
             DefaultMap = defaultMap;
+            DefaultWaveBuilder = defaultWaveBuilder;
             DefaultWaveSpawnStrategy = defaultWaveSpawnStrategy;
             DefaultWaveSpreadStrategy = defaultWaveSpreadStrategy;
             DefaultAcceptableWavesFilter = defaultAcceptableWavesFilter;
@@ -48,22 +52,24 @@ namespace Echo
 
 
         public IEnumerable<IReadOnlyList<Vector3>> Search(Vector3 start,
-                                                          IMap map = null,
+                                                          IMap<TWave> map = null,
+                                                          IWaveBuilder<TWave> builder = null,
                                                           IWaveSpawningStrategy spawn = null,
-                                                          IWaveSpreadingStrategy spread = null,
-                                                          IWaveFilter acceptable = null,
-                                                          IWaveFilter fading = null,
-                                                          IWaveQueue queue = null)
+                                                          IWaveSpreadingStrategy<TWave> spread = null,
+                                                          IWaveFilter<TWave> acceptable = null,
+                                                          IWaveFilter<TWave> fading = null,
+                                                          IWaveQueue<TWave> queue = null)
         {
             map = map ?? DefaultMap;
+            builder = builder ?? DefaultWaveBuilder;
             spawn = spawn ?? DefaultWaveSpawnStrategy;
             spread = spread ?? DefaultWaveSpreadStrategy;
             acceptable = acceptable ?? DefaultAcceptableWavesFilter;
             fading = fading ?? DefaultFadingWavesFilter;
-            queue = queue ?? DefaultWavesProcessingQueue ?? new QueueAdapter();
+            queue = queue ?? DefaultWavesProcessingQueue ?? new QueueAdapter<TWave>();
                 
             if (fading == null) Debug.WriteLine("ECHO: Fading filter is not set. During results enumeration OutOfMemoryException may occur. To prevent, set filter or limit the enumeration.");
-            if (queue == null) Debug.WriteLine("ECHO: Queue is not set. Default implementation (QueueAdapter - breadth-first search) will be used.");
+            if (queue == null) Debug.WriteLine("ECHO: Queue is not set. Default implementation (QueueAdapter<" + nameof(TWave) + "> - breadth-first search) will be used.");
 
             {
                 var error = new List<string>();
@@ -77,7 +83,8 @@ namespace Echo
             
             foreach (var direction in spawn.Execute())
             {
-                queue.Enqueue(new Wave(start, direction));
+                var wave = builder.Create(start, direction);
+                queue.Enqueue(wave);
             }
 
             var iteration = 0;
@@ -90,12 +97,10 @@ namespace Echo
 
                 if (!map.Navigate(wave, out location))
                 {
-                    wave.IsActive = false;
                     continue;
                 }
-
-                wave.Age++;
-                wave.Location = location;
+                
+                wave.MoveTo(location);
 
                 if (acceptable.Is(wave))
                 {
@@ -106,7 +111,6 @@ namespace Echo
                 if (fading != null &&
                     fading.Is(wave))
                 {
-                    wave.IsActive = false;
                     continue;
                 }
                 
@@ -114,7 +118,7 @@ namespace Echo
                 {
                     foreach (var direction in spread.Execute(wave))
                     {
-                        queue.Enqueue(new Wave(wave, direction));
+                        queue.Enqueue(builder.Create(wave, direction));
                     }
                 }
 

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Echo.Abstract;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
@@ -7,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Echo.Queues
 {
-    public class PriorityByProximity : PriorityQueue.IPriorityMeter
+    public class PriorityByProximity<TWave> : PriorityQueue<TWave>.IPriorityMeter where TWave : IWave
     {
         private readonly Vector3 _destination;
 
@@ -16,7 +17,7 @@ namespace Echo.Queues
             _destination = destination;
         }
 
-        public float Evaluate(Wave wave)
+        public float Evaluate(TWave wave)
         {
             return Vector3.DistanceSquared(wave.Location, _destination);
         }
@@ -24,7 +25,7 @@ namespace Echo.Queues
 
 
 
-    public class PriorityByEstimatedPathLength : PriorityQueue.IPriorityMeter
+    public class PriorityByEstimatedPathLength<TWave> : PriorityQueue<TWave>.IPriorityMeter where TWave : IWave
     {
         private readonly Vector3 _destination;
 
@@ -34,8 +35,7 @@ namespace Echo.Queues
         }
 
         // TODO: OPTIMIZE (caching) + unit step policy
-        // TODO: Generic Tracer<TWave> where TWave : Wave or IWave
-        public float Evaluate(Wave wave)
+        public float Evaluate(TWave wave)
         {
             var path = wave.FullPath;
             var traveled = 0f;

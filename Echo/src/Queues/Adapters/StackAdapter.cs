@@ -4,12 +4,12 @@ using System.Collections.Generic;
 
 namespace Echo.Queues.Adapters
 {
-    public class StackAdapter : IWaveQueue
+    public class StackAdapter<TWave> : IWaveQueue<TWave> where TWave : IWave
     {
-        private readonly Stack<Wave> _stack;
+        private readonly Stack<TWave> _stack;
 
-        public StackAdapter() : this(new Stack<Wave>()) { }
-        public StackAdapter(Stack<Wave> stack)
+        public StackAdapter() : this(new Stack<TWave>()) { }
+        public StackAdapter(Stack<TWave> stack)
         {
             _stack = stack;
         }
@@ -21,12 +21,12 @@ namespace Echo.Queues.Adapters
             _stack.Clear();
         }
 
-        public Wave Dequeue()
+        public TWave Dequeue()
         {
             return _stack.Pop();
         }
 
-        public void Enqueue(Wave wave)
+        public void Enqueue(TWave wave)
         {
             _stack.Push(wave);
         }
