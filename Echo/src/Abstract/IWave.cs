@@ -7,12 +7,16 @@ using System.Threading.Tasks;
 
 namespace Echo.Abstract
 {
-    public interface IWave 
+    public interface IWave
     {
         Vector3 Location { get; }
         Vector3 Direction { get; }
         Vector3[] FullPath { get; }
 
-        void MoveTo(Vector3 location);
+        bool IsFading { get; }
+        bool IsAcceptable { get; }
+
+        void Relocate(Vector3 location);
+        void Update();
     }
 }

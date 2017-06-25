@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace Echo.Queues.Adapters
 {
-    public class StackAdapter<TWave> : IWaveQueue<TWave> where TWave : IWave
+    public class StackAdapter<TWave> : IProcessingQueue<TWave> where TWave : IWave
     {
         private readonly Stack<TWave> _stack;
 

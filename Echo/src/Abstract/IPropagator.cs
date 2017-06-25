@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace Echo.Abstract
 {
-    public interface ICloneable<out TData>
+    public interface IPropagator<out T>
     {
-        TData Clone();
+        T[] Propagate();
     }
 }

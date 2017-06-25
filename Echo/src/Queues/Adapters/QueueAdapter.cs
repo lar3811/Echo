@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Echo.Queues.Adapters
 {
-    public class QueueAdapter<TWave> : IWaveQueue<TWave> where TWave : IWave
+    public class QueueAdapter<TWave> : IProcessingQueue<TWave> where TWave : IWave
     {
         private readonly Queue<TWave> _queue;
 

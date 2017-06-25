@@ -8,7 +8,8 @@ using System.Threading.Tasks;
 
 namespace Echo.Queues
 {
-    public class PriorityByProximity<TWave> : PriorityQueue<TWave>.IPriorityMeter where TWave : IWave
+    public class PriorityByProximity<TWave> : PriorityQueue<TWave>.IPriorityMeter 
+        where TWave : IWave
     {
         private readonly Vector3 _destination;
 
@@ -25,7 +26,8 @@ namespace Echo.Queues
 
 
 
-    public class PriorityByEstimatedPathLength<TWave> : PriorityQueue<TWave>.IPriorityMeter where TWave : IWave
+    public class PriorityByEstimatedPathLength<TWave> : PriorityQueue<TWave>.IPriorityMeter 
+        where TWave : IWave
     {
         private readonly Vector3 _destination;
 

@@ -6,16 +6,16 @@ using System.Numerics;
 
 namespace Echo.Queues
 {
-    public class PriorityQueue<TWave> : IWaveQueue<TWave> where TWave : IWave
+    public class PriorityQueue<T> : IProcessingQueue<T>
     {
         public interface IPriorityMeter
         {
-            float Evaluate(TWave wave);
+            float Evaluate(T subject);
         }
 
 
 
-        private readonly SortedDictionary<float, Queue<TWave>> _lookup;
+        private readonly SortedDictionary<float, Queue<T>> _lookup;
         private readonly IPriorityMeter _meter;
         private int _count;
 
@@ -23,7 +23,7 @@ namespace Echo.Queues
 
         public PriorityQueue(IPriorityMeter meter)
         {
-            _lookup = new SortedDictionary<float, Queue<TWave>>();
+            _lookup = new SortedDictionary<float, Queue<T>>();
             _meter = meter;
         }
 
@@ -40,7 +40,7 @@ namespace Echo.Queues
             _lookup.Clear();
         }
 
-        public TWave Dequeue()
+        public T Dequeue()
         {
             if (_count > 0)
             {
@@ -49,22 +49,22 @@ namespace Echo.Queues
             }
             else
             {
-                return default(TWave);
+                return default(T);
             }
         }
 
-        public void Enqueue(TWave wave)
+        public void Enqueue(T element)
         {
-            var priority = _meter.Evaluate(wave);
-            Queue<TWave> queue;
+            var priority = _meter.Evaluate(element);
+            Queue<T> queue;
             if (_lookup.TryGetValue(priority, out queue))
             {
-                queue.Enqueue(wave);
+                queue.Enqueue(element);
             }
             else
             {
-                queue = new Queue<TWave>();
-                queue.Enqueue(wave);
+                queue = new Queue<T>();
+                queue.Enqueue(element);
                 _lookup.Add(priority, queue);
             }
             _count++;

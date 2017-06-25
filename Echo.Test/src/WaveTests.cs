@@ -10,11 +10,25 @@ using System.Linq;
 using Xunit;
 using System.Numerics;
 using System.Collections.Generic;
+using Echo.Waves;
 
 namespace Echo.Test
 {
     public class WaveTests
     {
+
+
+        public struct test : ICloneable
+        {
+            public int X;
+
+            public object Clone()
+            {
+                return this;
+            }
+        }
+
+
         public static Wave Snail
         {
             get
@@ -95,6 +109,15 @@ namespace Echo.Test
             Assert.True(wave.Progenitors[1].FullPath.Length == 5);
             Assert.True(wave.Progenitors[2].FullPath.Length == 4);
             Assert.True(wave.Progenitors[3].FullPath.Length == 3);
+        }
+
+        [Fact]
+        public void Test0()
+        {
+            var test1 = new test();
+            var test2 = (test)test1.Clone();
+            test2.X = 1;
+            Assert.NotEqual(test1.X, test2.X);
         }
     }
 }

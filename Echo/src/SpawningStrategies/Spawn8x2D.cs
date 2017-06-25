@@ -8,7 +8,7 @@ using System.Numerics;
 
 namespace Echo.SpawningStrategies
 {
-    public class Spawn4x2D : IWaveSpawningStrategy
+    public class Spawn4x2D
     {
         public Vector3[] Execute()
         {

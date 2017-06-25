@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 
 namespace Echo.Abstract
 {
-    public interface IWaveQueue<TWave> where TWave : IWave
+    public interface IProcessingQueue<T>
     {
         int Count { get; }
 
         void Clear();
-        void Enqueue(TWave wave);
-        TWave Dequeue();
+        void Enqueue(T wave);
+        T Dequeue();
     }
 }

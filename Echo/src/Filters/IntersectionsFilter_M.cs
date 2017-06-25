@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 
 namespace Echo.Filters
 {
-    public class IntersectionsFilter_M<TWave> : IWaveFilter<TWave> where TWave : IWave
+    public class IntersectionsFilter_M<TWave> : ICondition<TWave> where TWave : IWave
     {
-        public bool Is(TWave wave)
+        public bool Check(TWave wave)
         {
             foreach(var location in wave.FullPath)
             {

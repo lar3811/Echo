@@ -7,9 +7,8 @@ using System.Threading.Tasks;
 
 namespace Echo.Abstract
 {
-    //TODO: TWave[] Execute(IWaveBuilder builder);
-    public interface IWaveSpawningStrategy
+    public interface IPropagationStrategy<T>
     {
-        Vector3[] Execute();
+        T[] Execute(T Source);
     }
 }

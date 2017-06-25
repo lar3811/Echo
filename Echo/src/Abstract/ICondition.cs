@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace Echo.Abstract
 {
-    public interface ICloneable<out TData>
+    public interface ICondition<in T>
     {
-        TData Clone();
+        bool Check(T subject);
     }
 }

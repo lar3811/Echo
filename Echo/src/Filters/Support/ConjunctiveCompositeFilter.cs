@@ -7,18 +7,18 @@ using System.Threading.Tasks;
 
 namespace Echo.Filters.Support
 {
-    public class ConjunctiveCompositeFilter<TWave> : IWaveFilter<TWave> where TWave : IWave
+    public class ConjunctiveCompositeFilter<T> : ICondition<T>
     {
-        private readonly List<IWaveFilter<TWave>> _filters = new List<IWaveFilter<TWave>>();
+        private readonly List<ICondition<T>> _filters = new List<ICondition<T>>();
 
-        public ConjunctiveCompositeFilter(params IWaveFilter<TWave>[] filters)
+        public ConjunctiveCompositeFilter(params ICondition<T>[] filters)
         {
             _filters.AddRange(filters);
         }
 
-        public bool Is(TWave wave)
+        public bool Check(T subject)
         {
-            return _filters.All(f => f.Is(wave));
+            return _filters.All(f => f.Check(subject));
         }
     }
 }

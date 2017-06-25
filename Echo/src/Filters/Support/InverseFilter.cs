@@ -8,18 +8,18 @@ using System.Threading.Tasks;
 
 namespace wave.Filters.Support
 {
-    public class InverseFilter<TWave> : IWaveFilter<TWave> where TWave : IWave
+    public class InverseFilter<T> : ICondition<T>
     {
-        private readonly IWaveFilter<TWave> _filter;
+        private readonly ICondition<T> _filter;
 
-        public InverseFilter(IWaveFilter<TWave> filter)
+        public InverseFilter(ICondition<T> filter)
         {
             _filter = filter;
         }
 
-        public bool Is(TWave wave)
+        public bool Check(T subject)
         {
-            return !_filter.Is(wave);
+            return !_filter.Check(subject);
         }
     }
 }

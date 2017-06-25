@@ -8,18 +8,18 @@ using System.Threading.Tasks;
 
 namespace wave.Filters.Support
 {
-    public class DisjunctiveCompositeFilter<TWave> : IWaveFilter<TWave> where TWave : IWave
+    public class DisjunctiveCompositeFilter<T> : ICondition<T>
     {
-        private readonly List<IWaveFilter<TWave>> _filters = new List<IWaveFilter<TWave>>();
+        private readonly List<ICondition<T>> _filters = new List<ICondition<T>>();
 
-        public DisjunctiveCompositeFilter(params IWaveFilter<TWave>[] filters)
+        public DisjunctiveCompositeFilter(params ICondition<T>[] filters)
         {
             _filters.AddRange(filters);
         }
 
-        public bool Is(TWave wave)
+        public bool Check(T subject)
         {
-            return _filters.Any(f => f.Is(wave));
+            return _filters.Any(f => f.Check(subject));
         }
     }
 }

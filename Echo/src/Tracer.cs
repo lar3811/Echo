@@ -13,85 +13,52 @@ using Echo.Waves;
 
 namespace Echo
 {
-    public class Tracer<TWave> where TWave : IWave
+    public class Tracer<TWave> where TWave : IWave, IPropagator<TWave>
     {
         public IMap<TWave> DefaultMap;
-        public IWaveBuilder<TWave> DefaultWaveBuilder;
-        public IWaveSpawningStrategy DefaultWaveSpawnStrategy;
-        public IWaveSpreadingStrategy<TWave> DefaultWaveSpreadStrategy;
-        public IWaveFilter<TWave> DefaultAcceptableWavesFilter;
-        public IWaveFilter<TWave> DefaultFadingWavesFilter;
-        public IWaveQueue<TWave> DefaultWavesProcessingQueue;
+        public IProcessingQueue<TWave> DefaultProcessingQueue;
 
 
 
-        public Tracer()
-            : this(null, null) { }
-
-        public Tracer(IWaveSpawningStrategy defaultWaveSpawnStrategy,
-                      IWaveSpreadingStrategy<TWave> defaultWaveSpreadStrategy)
-            : this(null, null, defaultWaveSpawnStrategy, defaultWaveSpreadStrategy, null, null, null) { }
+        public Tracer() : this(null, null) { }
         
-        public Tracer(IMap<TWave> defaultMap,
-                      IWaveBuilder<TWave> defaultWaveBuilder,
-                      IWaveSpawningStrategy defaultWaveSpawnStrategy,
-                      IWaveSpreadingStrategy<TWave> defaultWaveSpreadStrategy,
-                      IWaveFilter<TWave> defaultAcceptableWavesFilter,
-                      IWaveFilter<TWave> defaultFadingWavesFilterfading,
-                      IWaveQueue<TWave> defaultWavesProcessingQueue)
+        public Tracer(IMap<TWave> defaultMap, IProcessingQueue<TWave> defaultProcessingQueue)
         {
             DefaultMap = defaultMap;
-            DefaultWaveBuilder = defaultWaveBuilder;
-            DefaultWaveSpawnStrategy = defaultWaveSpawnStrategy;
-            DefaultWaveSpreadStrategy = defaultWaveSpreadStrategy;
-            DefaultAcceptableWavesFilter = defaultAcceptableWavesFilter;
-            DefaultFadingWavesFilter = defaultFadingWavesFilterfading;
-            DefaultWavesProcessingQueue = defaultWavesProcessingQueue;
+            DefaultProcessingQueue = defaultProcessingQueue;
         }
 
 
 
-        public IEnumerable<IReadOnlyList<Vector3>> Search(Vector3 start,
-                                                          IMap<TWave> map = null,
-                                                          IWaveBuilder<TWave> builder = null,
-                                                          IWaveSpawningStrategy spawn = null,
-                                                          IWaveSpreadingStrategy<TWave> spread = null,
-                                                          IWaveFilter<TWave> acceptable = null,
-                                                          IWaveFilter<TWave> fading = null,
-                                                          IWaveQueue<TWave> queue = null)
+        public IEnumerable<IReadOnlyList<Vector3>> Search(IEnumerable<TWave> initial, IMap<TWave> map, IProcessingQueue<TWave> queue)
         {
+            if (initial.Any() == false) yield break;
+
             map = map ?? DefaultMap;
-            builder = builder ?? DefaultWaveBuilder;
-            spawn = spawn ?? DefaultWaveSpawnStrategy;
-            spread = spread ?? DefaultWaveSpreadStrategy;
-            acceptable = acceptable ?? DefaultAcceptableWavesFilter;
-            fading = fading ?? DefaultFadingWavesFilter;
-            queue = queue ?? DefaultWavesProcessingQueue ?? new QueueAdapter<TWave>();
-                
-            if (fading == null) Debug.WriteLine("ECHO: Fading filter is not set. During results enumeration OutOfMemoryException may occur. To prevent, set filter or limit the enumeration.");
-            if (queue == null) Debug.WriteLine("ECHO: Queue is not set. Default implementation (QueueAdapter<" + nameof(TWave) + "> - breadth-first search) will be used.");
+            queue = queue ?? DefaultProcessingQueue;
 
             {
-                var error = new List<string>();
-                if (map == null) error.Add(nameof(map));
-                if (spawn == null) error.Add(nameof(spawn));
-                if (acceptable == null) error.Add(nameof(acceptable));
-                if (error.Count > 0) throw new ArgumentNullException(string.Join(", ", error));
+                var errors = new List<string>(2);
+                if (map == null) errors.Add(nameof(map));
+                if (initial == null) errors.Add(nameof(initial));
+                if (errors.Count > 0) throw new ArgumentNullException(string.Join(", ", errors));
+            }
+
+            if (queue == null)
+            {
+                queue = new QueueAdapter<TWave>();
+                Debug.WriteLine("ECHO: Processing queue is not set. QueueAdapter<" + nameof(TWave) + "> (breadth-first search) will be used.");
             }
 
             queue.Clear();
             
-            foreach (var direction in spawn.Execute())
+            foreach (var wave in initial)
             {
-                var wave = builder.Create(start, direction);
                 queue.Enqueue(wave);
             }
-
-            var iteration = 0;
+            
             while (queue.Count > 0)
             {
-                iteration++;
-
                 var wave = queue.Dequeue();
                 Vector3 location;
 
@@ -100,26 +67,24 @@ namespace Echo
                     continue;
                 }
                 
-                wave.MoveTo(location);
+                wave.Relocate(location);
+                wave.Update();
 
-                if (acceptable.Is(wave))
+                if (wave.IsFading)
+                {
+                    continue;
+                }
+
+                if (wave.IsAcceptable)
                 {
                     yield return wave.FullPath;
                     continue;
                 }
 
-                if (fading != null &&
-                    fading.Is(wave))
+                var waves = wave.Propagate();
+                for (var i = 0; i < waves.Length; i++)
                 {
-                    continue;
-                }
-                
-                if (spread != null)
-                {
-                    foreach (var direction in spread.Execute(wave))
-                    {
-                        queue.Enqueue(builder.Create(wave, direction));
-                    }
+                    queue.Enqueue(waves[i]);
                 }
 
                 queue.Enqueue(wave);
