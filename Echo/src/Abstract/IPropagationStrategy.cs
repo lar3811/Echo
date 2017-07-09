@@ -9,6 +9,6 @@ namespace Echo.Abstract
 {
     public interface IPropagationStrategy<T>
     {
-        T[] Execute(T Source);
+        T[] Execute(T source);
     }
 }

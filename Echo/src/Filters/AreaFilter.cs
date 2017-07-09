@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Echo.Filters
 {
-    public class AreaFilter<TWave> : ICondition<TWave> where TWave : IWave
+    public class AreaFilter : ICondition<IWave>
     {
         private Vector3 _p1;
         private Vector3 _p2;
@@ -27,7 +27,7 @@ namespace Echo.Filters
             _p2 = new Vector3(center.X + width / 2, center.Y + height / 2, center.Z + depth / 2);
         }
         
-        public bool Check(TWave wave)
+        public bool Check(IWave wave)
         {
             var p = wave.Location;
             return p.X >= _p1.X && p.X <= _p2.X &&

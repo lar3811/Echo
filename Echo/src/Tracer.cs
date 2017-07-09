@@ -13,7 +13,7 @@ using Echo.Waves;
 
 namespace Echo
 {
-    public class Tracer<TWave> where TWave : IWave, IPropagator<TWave>
+    public class Tracer<TWave> where TWave : IWave, IWaveBehaviour<TWave>
     {
         public IMap<TWave> DefaultMap;
         public IProcessingQueue<TWave> DefaultProcessingQueue;
@@ -32,7 +32,7 @@ namespace Echo
 
         public IEnumerable<IReadOnlyList<Vector3>> Search(IEnumerable<TWave> initial, IMap<TWave> map, IProcessingQueue<TWave> queue)
         {
-            if (initial.Any() == false) yield break;
+            if (!initial.Any()) yield break;
 
             map = map ?? DefaultMap;
             queue = queue ?? DefaultProcessingQueue;
@@ -68,20 +68,22 @@ namespace Echo
                 }
                 
                 wave.Relocate(location);
-                wave.Update();
+                wave.Update?.Execute(wave);
 
-                if (wave.IsFading)
+                if (wave.FadeCondition != null && 
+                    wave.FadeCondition.Check(wave))
                 {
                     continue;
                 }
 
-                if (wave.IsAcceptable)
+                if (wave.AcceptanceCondition != null && 
+                    wave.AcceptanceCondition.Check(wave))
                 {
                     yield return wave.FullPath;
                     continue;
                 }
 
-                var waves = wave.Propagate();
+                var waves = wave.Propagation.Execute(wave);
                 for (var i = 0; i < waves.Length; i++)
                 {
                     queue.Enqueue(waves[i]);

@@ -13,10 +13,6 @@ namespace Echo.Abstract
         Vector3 Direction { get; }
         Vector3[] FullPath { get; }
 
-        bool IsFading { get; }
-        bool IsAcceptable { get; }
-
         void Relocate(Vector3 location);
-        void Update();
     }
 }

@@ -8,11 +8,11 @@ using System.Threading.Tasks;
 
 namespace Echo.Filters
 {
-    public class IntersectionsFilter_P<TWave> : ICondition<TWave> where TWave : IWave
+    public class IntersectionsFilter_P: ICondition<IWave>
     {
-        private readonly Dictionary<TWave, HashSet<Vector3>> _paths = new Dictionary<TWave, HashSet<Vector3>>();
+        private readonly Dictionary<IWave, HashSet<Vector3>> _paths = new Dictionary<IWave, HashSet<Vector3>>();
 
-        public bool Check(TWave wave)
+        public bool Check(IWave wave)
         {
             HashSet<Vector3> path;
             if (_paths.TryGetValue(wave, out path))

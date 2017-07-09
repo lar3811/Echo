@@ -46,22 +46,19 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="src\Abstract\ICloneable.cs" />
-    <Compile Include="src\Abstract\IPropagator.cs" />
     <Compile Include="src\Abstract\IUpdateStrategy.cs" />
     <Compile Include="src\Abstract\IWave.cs" />
     <Compile Include="src\Abstract\IProcessingQueue.cs" />
     <Compile Include="src\Abstract\ICondition.cs" />
     <Compile Include="src\Abstract\IPropagationStrategy.cs" />
+    <Compile Include="src\Abstract\IWaveBehaviour.cs" />
     <Compile Include="src\Queues\PriorityMeters.cs" />
     <Compile Include="src\TracerExtensions.cs" />
     <Compile Include="src\Filters\GlobalIntersectionsFilter.cs" />
     <Compile Include="src\Filters\IntersectionsFilter_P.cs" />
     <Compile Include="src\Filters\IntersectionsFilter_M.cs" />
     <Compile Include="src\Queues\PriorityQueue.cs" />
-    <Compile Include="src\Waves\ClearWave.cs" />
-    <Compile Include="src\Waves\DataWave.cs" />
-    <Compile Include="src\Waves\Wave.cs" />
+    <Compile Include="src\Waves\Base.cs" />
     <Compile Include="src\Filters\AreaFilter.cs" />
     <Compile Include="src\Filters\Support\ConjunctiveCompositeFilter.cs" />
     <Compile Include="src\Filters\Support\PredicateFilter.cs" />
@@ -78,6 +75,7 @@
     <Compile Include="src\Tracer.cs" />
     <Compile Include="src\Abstract\IMap.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="src\Waves\Wave.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
