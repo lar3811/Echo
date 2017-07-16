@@ -51,23 +51,6 @@ namespace Echo.Waves
 
         
 
-        protected Base(Vector3 location, Vector3 direction,
-            ICondition<TWave> acceptanceCondition,
-            ICondition<TWave> fadeCondition,
-            IPropagationStrategy<TWave> propagationStrategy,
-            IUpdateStrategy<TWave> updateStrategy)
-        {
-            AcceptanceCondition = acceptanceCondition;
-            FadeCondition = fadeCondition;
-            Propagation = propagationStrategy;
-            Update = updateStrategy;
-
-            Direction = direction;
-            OriginIndex = -1;
-            _path.Add(location);
-            _progenitors = new TWave[0];
-        }
-
         protected Base()
         {
 
@@ -82,6 +65,17 @@ namespace Echo.Waves
             public Builder(IWaveBuilder<TWave> nested = null)
             {
                 _nested = nested;
+            }
+
+            public void Build(TWave wave, Vector3 location, Vector3 direction)
+            {
+                wave.Direction = direction;
+                wave.OriginIndex = -1;
+                wave._path.Add(location);
+                wave._progenitors = new TWave[0];
+
+                if (_nested != null)
+                    _nested.Build(wave, location, direction);
             }
 
             public void Build(TWave wave, TWave progenitor, Vector3 direction, Vector3 offset)
@@ -105,25 +99,13 @@ namespace Echo.Waves
 
         
 
-        public ICondition<TWave> AcceptanceCondition
-        {
-            get; protected set;
-        }
+        public ICondition<TWave> AcceptanceCondition { get; set; }
 
-        public ICondition<TWave> FadeCondition
-        {
-            get; protected set;
-        }
+        public ICondition<TWave> FadeCondition { get; set; }
 
-        public IPropagationStrategy<TWave> Propagation
-        {
-            get; protected set;
-        }
+        public IPropagationStrategy<TWave> Propagation { get; set; }
 
-        public IUpdateStrategy<TWave> Update
-        {
-            get; protected set;
-        }
+        public IUpdateStrategy<TWave> Update { get; set; }
 
 
 

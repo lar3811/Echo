@@ -19,8 +19,6 @@ namespace Echo
         public IProcessingQueue<TWave> DefaultProcessingQueue;
 
 
-
-        public Tracer() : this(null, null) { }
         
         public Tracer(IMap<TWave> defaultMap, IProcessingQueue<TWave> defaultProcessingQueue)
         {
@@ -28,12 +26,12 @@ namespace Echo
             DefaultProcessingQueue = defaultProcessingQueue;
         }
 
+        public Tracer() : this(null, null) { }
 
 
-        public IEnumerable<IReadOnlyList<Vector3>> Search(IEnumerable<TWave> initial, IMap<TWave> map, IProcessingQueue<TWave> queue)
+
+        public IEnumerable<IReadOnlyList<Vector3>> Search(IInitializationStrategy<TWave> initial, IMap<TWave> map, IProcessingQueue<TWave> queue)
         {
-            if (!initial.Any()) yield break;
-
             map = map ?? DefaultMap;
             queue = queue ?? DefaultProcessingQueue;
 
@@ -49,12 +47,18 @@ namespace Echo
                 queue = new QueueAdapter<TWave>();
                 Debug.WriteLine("ECHO: Processing queue is not set. QueueAdapter<" + nameof(TWave) + "> (breadth-first search) will be used.");
             }
-
-            queue.Clear();
-            
-            foreach (var wave in initial)
+            else
             {
-                queue.Enqueue(wave);
+                queue.Clear();
+            }
+
+            {
+                var waves = initial.Execute();
+                if (waves == null || waves.Length == 0) yield break;
+                for (int i = 0; i < waves.Length; i++)
+                {
+                    queue.Enqueue(waves[i]);
+                }
             }
             
             while (queue.Count > 0)
