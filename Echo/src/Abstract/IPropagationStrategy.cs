@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 
 namespace Echo.Abstract
 {
-    public interface IPropagationStrategy<T>
+    public interface IPropagationStrategy<TWave>
     {
-        T[] Execute(T source);
+        TWave[] Execute(TWave progenitor);
     }
 }

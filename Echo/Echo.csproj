@@ -52,6 +52,10 @@
     <Compile Include="src\Abstract\ICondition.cs" />
     <Compile Include="src\Abstract\IPropagationStrategy.cs" />
     <Compile Include="src\Abstract\IWaveBehaviour.cs" />
+    <Compile Include="src\Abstract\IWaveBuilder.cs" />
+    <Compile Include="src\PropagationStrategies\PropagationStrategyBase.cs" />
+    <Compile Include="src\PropagationStrategies\Propagate2x2D.cs" />
+    <Compile Include="src\PropagationStrategies\Propagate4x2D.cs" />
     <Compile Include="src\Queues\PriorityMeters.cs" />
     <Compile Include="src\TracerExtensions.cs" />
     <Compile Include="src\Filters\GlobalIntersectionsFilter.cs" />
@@ -67,11 +71,6 @@
     <Compile Include="src\Maps\GridMap.cs" />
     <Compile Include="src\Queues\Adapters\QueueAdapter.cs" />
     <Compile Include="src\Queues\Adapters\StackAdapter.cs" />
-    <Compile Include="src\SpawningStrategies\SpawnSingle.cs" />
-    <Compile Include="src\SpawningStrategies\Spawn8x2D.cs" />
-    <Compile Include="src\SpawningStrategies\Spawn4x2D.cs" />
-    <Compile Include="src\SpreadStrategies\Spread4x2D.cs" />
-    <Compile Include="src\SpreadStrategies\Spread2x2D.cs" />
     <Compile Include="src\Tracer.cs" />
     <Compile Include="src\Abstract\IMap.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
