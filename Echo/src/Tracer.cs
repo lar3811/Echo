@@ -30,7 +30,7 @@ namespace Echo
 
 
 
-        public IEnumerable<IReadOnlyList<Vector3>> Search(IInitializationStrategy<TWave> initial, IMap<TWave> map, IProcessingQueue<TWave> queue)
+        public IEnumerable<TWave> Search(IInitializationStrategy<TWave> initial, IMap<TWave> map, IProcessingQueue<TWave> queue)
         {
             map = map ?? DefaultMap;
             queue = queue ?? DefaultProcessingQueue;
@@ -74,23 +74,25 @@ namespace Echo
                 wave.Relocate(location);
                 wave.Update?.Execute(wave);
 
-                if (wave.FadeCondition != null && 
-                    wave.FadeCondition.Check(wave))
+                if (wave.FadeCondition?.Check(wave) == true)
                 {
                     continue;
                 }
 
-                if (wave.AcceptanceCondition != null && 
-                    wave.AcceptanceCondition.Check(wave))
+                if (wave.AcceptanceCondition?.Check(wave) == true)
                 {
-                    yield return wave.FullPath;
+                    yield return wave;
                     continue;
                 }
 
-                var waves = wave.Propagation.Execute(wave);
-                for (var i = 0; i < waves.Length; i++)
+                var waves = wave.Propagation?.Execute(wave);
+                if (waves != null)
                 {
-                    queue.Enqueue(waves[i]);
+                    for (var i = 0; i < waves.Length; i++)
+                    {
+                        if (waves[i] == null) continue;
+                        queue.Enqueue(waves[i]);
+                    }
                 }
 
                 queue.Enqueue(wave);

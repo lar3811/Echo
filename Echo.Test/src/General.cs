@@ -1,6 +1,9 @@
 ﻿using Echo.Abstract;
 using Echo.Filters;
+using Echo.InitializationStrategies;
 using Echo.Maps;
+using Echo.PropagationStrategies;
+using Echo.Queues;
 using Echo.Queues.Adapters;
 using Echo.Waves;
 using System;
@@ -16,29 +19,24 @@ namespace Echo.Test
     public class General
     {
         [Fact]
-        public void Test1()
+        public void TracerTest()
         {
-            var map = MapTests.GenerateCleanMap2D(4, 4);
-            var tracer = new Tracer<Wave>();
-            var initial = new Wave[]
-            {
-                new Wave(Vector3.Zero, Vector3.UnitX, new AreaFilter(new Vector3(3, 3, 0)), null, new WavePropagationStrategy(), null)
-            };
-            var route = tracer.Search(initial, new GridMap<Wave>(map), new QueueAdapter<Wave>()).First();
-        }
+            var map = MapTests.GenerateCleanMap2D(5, 5);
+            map[2, 1] = false;
+            map[2, 2] = false;
+            map[2, 3] = false;
 
-        public class WavePropagationStrategy : IPropagationStrategy<Wave>
-        {
-            public Wave[] Execute(Wave source)
-            {
-                var directions = new SpreadStrategies.Spread2x2D<Wave>().Execute(source);
-                var output = new Wave[directions.Length];
-                for (int i = 0; i < directions.Length; i++)
-                {
-                    output[i] = new Wave(source, directions[i]);
-                }
-                return output;
-            }
-        }
+            var start = new Vector3(0, 2, 0);
+            var finish = new Vector3(4, 2, 0);
+
+            var tracer = new Tracer<Wave>();
+            var builder = new Wave.Builder();
+            var initial = new Initialize8x2D<Wave>(builder, start);
+            var propagation = new Propagate4x2D<Wave>(builder);
+            var queue = new PriorityQueue<Wave>(new PriorityByEstimatedPathLength<Wave>(finish));
+            builder.PropagationStrategy = propagation;
+            builder.AcceptanceCondition = new AreaFilter(finish);
+            var route = tracer.Search(initial, new GridMap<Wave>(map), queue).First();
+        }        
     }
 }

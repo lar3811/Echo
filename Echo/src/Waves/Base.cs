@@ -4,6 +4,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Numerics;
 using System.Text;
@@ -49,33 +50,43 @@ namespace Echo.Waves
             }
         }
 
-        
-
-        protected Base()
-        {
-
-        }
-
 
 
         public class Builder : IWaveBuilder<TWave>
         {
-            private IWaveBuilder<TWave> _nested;
-
-            public Builder(IWaveBuilder<TWave> nested = null)
-            {
-                _nested = nested;
-            }
+            public ICondition<TWave> AcceptanceCondition;
+            public ICondition<TWave> FadeCondition;
+            public IPropagationStrategy<TWave> PropagationStrategy;
+            public IUpdateStrategy<TWave> UpdateStrategy;
 
             public void Build(TWave wave, Vector3 location, Vector3 direction)
             {
+                wave.AcceptanceCondition = AcceptanceCondition;
+                wave.FadeCondition = FadeCondition;
+                wave.Propagation = PropagationStrategy;
+                wave.Update = UpdateStrategy;
+
                 wave.Direction = direction;
                 wave.OriginIndex = -1;
                 wave._path.Add(location);
                 wave._progenitors = new TWave[0];
 
-                if (_nested != null)
-                    _nested.Build(wave, location, direction);
+                if (wave.AcceptanceCondition == null)
+                {
+                    Debug.WriteLine($"ECHO: Initial acceptance condition is not set for [{wave}]. Enumeration may not return any value.");
+                }
+                if (wave.FadeCondition == null)
+                {
+                    Debug.WriteLine($"ECHO: Initial fade condition is not set for [{wave}]. Infinite loops within processing queue may occur.");
+                }
+                if (wave.Propagation == null)
+                {
+                    Debug.WriteLine($"ECHO: Initial propagation strategy is not set for [{wave}]. It will not spawn any additional waves.");
+                }
+                if (wave.Update == null)
+                {
+                    Debug.WriteLine($"ECHO: Initial update condition is not set for [{wave}].");
+                }
             }
 
             public void Build(TWave wave, TWave progenitor, Vector3 direction, Vector3 offset)
@@ -91,9 +102,6 @@ namespace Echo.Waves
                 wave._progenitors = new TWave[progenitor._progenitors.Length + 1];
                 wave._progenitors[0] = progenitor;
                 Array.Copy(progenitor._progenitors, 0, wave._progenitors, 1, progenitor._progenitors.Length);
-
-                if (_nested != null)
-                    _nested.Build(wave, progenitor, direction, offset);
             }
         }
 
@@ -112,6 +120,13 @@ namespace Echo.Waves
         public void Relocate(Vector3 to)
         {
             _path.Add(to);
+        }
+
+
+
+        public override string ToString()
+        {
+            return $"{GetType().Name} {Direction} {Location}";
         }
     }
 }
