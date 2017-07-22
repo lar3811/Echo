@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Echo.Filters
 {
-    public class IntersectionsFilter_M: ICondition<IWave>
+    public class IntersectionsCondition_M : ICondition<IWave>
     {
         public bool Check(IWave wave)
         {

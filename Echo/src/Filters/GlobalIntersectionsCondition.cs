@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Echo.Filters
 {
-    public class GlobalIntersectionsFilter : ICondition<IWave>
+    public class GlobalIntersectionsCondition : ICondition<IWave>
     {
         private readonly HashSet<Vector3> _marked = new HashSet<Vector3>();
 

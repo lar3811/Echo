@@ -35,8 +35,17 @@ namespace Echo.Test
             var propagation = new Propagate4x2D<Wave>(builder);
             var queue = new PriorityQueue<Wave>(new PriorityByEstimatedPathLength<Wave>(finish));
             builder.PropagationStrategy = propagation;
-            builder.AcceptanceCondition = new AreaFilter(finish);
-            var route = tracer.Search(initial, new GridMap<Wave>(map), queue).First();
+            builder.AcceptanceCondition = new AreaCondition(finish);
+            var wave = tracer.Search(initial, new GridMap<Wave>(map), queue).FirstOrDefault();
+            
+            Assert.NotNull(wave);
+
+            var path = wave.FullPath;
+
+            Assert.Equal(path.Length, 5);
+            Assert.Equal(path[0], start);
+            Assert.Equal(path[4], finish);
+            Assert.True(path.All(p => map[(int)p.X, (int)p.Y] == true));
         }        
     }
 }

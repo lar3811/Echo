@@ -8,11 +8,11 @@ using System.Threading.Tasks;
 
 namespace wave.Filters.Support
 {
-    public class DisjunctiveCompositeFilter<T> : ICondition<T>
+    public class DisjunctiveCompositeCondition<T> : ICondition<T>
     {
         private readonly List<ICondition<T>> _filters = new List<ICondition<T>>();
 
-        public DisjunctiveCompositeFilter(params ICondition<T>[] filters)
+        public DisjunctiveCompositeCondition(params ICondition<T>[] filters)
         {
             _filters.AddRange(filters);
         }

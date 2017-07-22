@@ -73,19 +73,19 @@ namespace Echo.Waves
 
                 if (wave.AcceptanceCondition == null)
                 {
-                    Debug.WriteLine($"ECHO: Initial acceptance condition is not set for [{wave}]. Enumeration may not return any value.");
+                    Debug.WriteLine($"ECHO: {this}: Initial acceptance condition is not set for [{wave}]. A wave without such condition will never be yielded during enumeration.");
                 }
                 if (wave.FadeCondition == null)
                 {
-                    Debug.WriteLine($"ECHO: Initial fade condition is not set for [{wave}]. Infinite loops within processing queue may occur.");
+                    Debug.WriteLine($"ECHO: {this}: Initial fade condition is not set for [{wave}]. Infinite loops within processing queue may occur.");
                 }
                 if (wave.Propagation == null)
                 {
-                    Debug.WriteLine($"ECHO: Initial propagation strategy is not set for [{wave}]. It will not spawn any additional waves.");
+                    Debug.WriteLine($"ECHO: {this}: Initial propagation strategy is not set for [{wave}]. Without this strategy it will not spawn any additional waves.");
                 }
                 if (wave.Update == null)
                 {
-                    Debug.WriteLine($"ECHO: Initial update condition is not set for [{wave}].");
+                    Debug.WriteLine($"ECHO: {this}: Initial update strategy is not set for [{wave}]. Provide this strategy if you need to update custom wave data.");
                 }
             }
 

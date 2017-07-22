@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Echo.Filters
 {
-    public class IntersectionsFilter_P: ICondition<IWave>
+    public class IntersectionsCondition_P : ICondition<IWave>
     {
         private readonly Dictionary<IWave, HashSet<Vector3>> _paths = new Dictionary<IWave, HashSet<Vector3>>();
 

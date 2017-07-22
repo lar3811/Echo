@@ -8,20 +8,20 @@ using System.Threading.Tasks;
 
 namespace Echo.Filters
 {
-    public class AreaFilter : ICondition<IWave>
+    public class AreaCondition : ICondition<IWave>
     {
         private Vector3 _p1;
         private Vector3 _p2;
 
-        public AreaFilter(Vector3 p1, Vector3 p2)
+        public AreaCondition(Vector3 p1, Vector3 p2)
         {
             _p1 = p1;
             _p2 = p2;
         }
 
-        public AreaFilter(Vector3 location) : this(location, 0, 0, 0) { }
+        public AreaCondition(Vector3 location) : this(location, 0, 0, 0) { }
 
-        public AreaFilter(Vector3 center, float width, float height, float depth = 0)
+        public AreaCondition(Vector3 center, float width, float height, float depth = 0)
         {
             _p1 = new Vector3(center.X - width / 2, center.Y - height / 2, center.Z - depth / 2);
             _p2 = new Vector3(center.X + width / 2, center.Y + height / 2, center.Z + depth / 2);

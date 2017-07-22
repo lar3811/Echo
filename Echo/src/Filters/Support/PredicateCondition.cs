@@ -8,18 +8,18 @@ using System.Threading.Tasks;
 
 namespace wave.Filters.Support
 {
-    public class InverseFilter<T> : ICondition<T>
+    public class PredicateCondition<T> : ICondition<T>
     {
-        private readonly ICondition<T> _filter;
+        private readonly Predicate<T> _predicate;
 
-        public InverseFilter(ICondition<T> filter)
+        public PredicateCondition(Predicate<T> predicate)
         {
-            _filter = filter;
+            _predicate = predicate;
         }
 
         public bool Check(T subject)
         {
-            return !_filter.Check(subject);
+            return _predicate(subject);
         }
     }
 }
