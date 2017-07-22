@@ -29,20 +29,10 @@ namespace Echo.Test
             var start = new Vector3(0, 2, 0);
             var finish = new Vector3(4, 2, 0);
 
-            var tracer = new Tracer<Wave>();
-            var builder = new Wave.Builder();
-            var initial = new Initialize8x2D<Wave>(builder, start);
-            var propagation = new Propagate4x2D<Wave>(builder);
-            var queue = new PriorityQueue<Wave>(new PriorityByEstimatedPathLength<Wave>(finish));
-            builder.PropagationStrategy = propagation;
-            builder.AcceptanceCondition = new AreaCondition(finish);
-            var wave = tracer.Search(initial, new GridMap<Wave>(map), queue).FirstOrDefault();
-            
-            Assert.NotNull(wave);
+            var tracer = new Tracer<Wave> { DefaultMap = new GridMap<Wave>(map) };
+            var path = tracer.FindShortestPath(start, finish);
 
-            var path = wave.FullPath;
-
-            Assert.Equal(path.Length, 5);
+            Assert.Equal(path.Count, 5);
             Assert.Equal(path[0], start);
             Assert.Equal(path[4], finish);
             Assert.True(path.All(p => map[(int)p.X, (int)p.Y] == true));

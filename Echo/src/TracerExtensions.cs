@@ -8,41 +8,59 @@ using System.Linq;
 using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
+using Echo;
+using Echo.Waves;
+using Echo.InitializationStrategies;
+using Echo.PropagationStrategies;
+using Echo.Maps;
 
 namespace Echo
 {
     public static class TracerExtensions
     {
-        //public static IEnumerable<IReadOnlyList<Vector3>> Search(this Tracer tracer, Vector3 from, Vector3 to)
-        //{
-        //    var paths = tracer.Search(null, from, to);
-        //    foreach (var path in paths) yield return path;
-        //}
+        public static IReadOnlyList<Vector3> FindShortestPath<TWave>(
+            this Tracer<TWave> tracer, IInitializationStrategy<TWave> initial, Vector3 to, IMap<TWave> map = null)
+            where TWave : IWave, IWaveBehaviour<TWave>
+        {
+            if (map == null && tracer.DefaultMap == null)
+                throw new ArgumentNullException(nameof(map), "ECHO: Either [map] parameter or [Tracer.DefaultMap] field must not be null.");
 
-        //public static IEnumerable<IReadOnlyList<Vector3>> Search(this Tracer tracer, Vector3 from, IWaveFilter to)
-        //{
-        //    var paths = tracer.Search(null, from, to);
-        //    foreach (var path in paths) yield return path;
-        //}
+            var queue = new PriorityQueue<TWave>(new PriorityByEstimatedPathLength<TWave>(to));
+            var wave = tracer.Search(initial, map, queue).FirstOrDefault();
+            return wave?.FullPath;
+        }
 
-        //public static IEnumerable<IReadOnlyList<Vector3>> Search(this Tracer tracer, IMap map, Vector3 from, Vector3 to)
-        //{
-        //    var paths = tracer.Search(map, from, new AreaFilter(to));
-        //    foreach (var path in paths) yield return path;
-        //}
+        public static IReadOnlyList<Vector3> FindShortestPath<TWave>(
+            this Tracer<TWave> tracer, Vector3 from, Vector3 to, IMap<TWave> map, IWaveBuilder<TWave> custom)
+            where TWave : Base<TWave>, new()
+        {
+            var builder = new Base<TWave>.Builder { NestedBuilder = custom };
+            var initial = new Initialize8x2D<TWave>(builder, from);
+            var propagation = new Propagate4x2D<TWave>(builder);
+            builder.PropagationStrategy = propagation;
+            builder.AcceptanceCondition = new AreaCondition(to);
+            return tracer.FindShortestPath(initial, to, map);
+        }
 
-        //public static IEnumerable<IReadOnlyList<Vector3>> Search(this Tracer tracer, IMap map, Vector3 from, IWaveFilter to)
-        //{
-        //    var paths = tracer.Search(from, map, acceptable: to);
-        //    foreach (var path in paths) yield return path;
-        //}
+        public static IReadOnlyList<Vector3> FindShortestPath<TWave>(
+            this Tracer<TWave> tracer, Vector3 from, Vector3 to, IMap<TWave> map)
+            where TWave : Base<TWave>, new()
+        {
+            return tracer.FindShortestPath(from, to, map, null);
+        }
 
-        //public static IReadOnlyList<Vector3> SearchForShortestPath(this Tracer tracer, IMap map, Vector3 from, Vector3 to, IWaveFilter fading = null)
-        //{
-        //    var queue = new PriorityQueue(new PriorityByEstimatedPathLength(to));
-        //    var acceptable = new AreaFilter(to);
-        //    var paths = tracer.Search(from, map, null, null, acceptable, fading, queue);
-        //    return paths.FirstOrDefault();
-        //}
+        public static IReadOnlyList<Vector3> FindShortestPath<TWave>(
+            this Tracer<TWave> tracer, Vector3 from, Vector3 to, IWaveBuilder<TWave> custom)
+            where TWave : Base<TWave>, new()
+        {
+            return tracer.FindShortestPath(from, to, null, custom);
+        }
+
+        public static IReadOnlyList<Vector3> FindShortestPath<TWave>(
+            this Tracer<TWave> tracer, Vector3 from, Vector3 to)
+            where TWave : Base<TWave>, new()
+        {
+            return tracer.FindShortestPath(from, to, null, null);
+        }
     }
 }

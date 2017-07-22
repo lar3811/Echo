@@ -59,6 +59,8 @@ namespace Echo.Waves
             public IPropagationStrategy<TWave> PropagationStrategy;
             public IUpdateStrategy<TWave> UpdateStrategy;
 
+            public IWaveBuilder<TWave> NestedBuilder;
+
             public void Build(TWave wave, Vector3 location, Vector3 direction)
             {
                 wave.AcceptanceCondition = AcceptanceCondition;
@@ -70,6 +72,9 @@ namespace Echo.Waves
                 wave.OriginIndex = -1;
                 wave._path.Add(location);
                 wave._progenitors = new TWave[0];
+
+                if (NestedBuilder != null)
+                    NestedBuilder.Build(wave, location, direction);
 
                 if (wave.AcceptanceCondition == null)
                 {
@@ -102,6 +107,9 @@ namespace Echo.Waves
                 wave._progenitors = new TWave[progenitor._progenitors.Length + 1];
                 wave._progenitors[0] = progenitor;
                 Array.Copy(progenitor._progenitors, 0, wave._progenitors, 1, progenitor._progenitors.Length);
+
+                if (NestedBuilder != null)
+                    NestedBuilder.Build(wave, progenitor, direction, offset);
             }
         }
 
