@@ -29,7 +29,7 @@ namespace Echo.Test
             var start = new Vector3(0, 2, 0);
             var finish = new Vector3(4, 2, 0);
 
-            var tracer = new Tracer<Wave> { DefaultMap = new GridMap<Wave>(map) };
+            var tracer = new Tracer<Wave> { DefaultMap = new GraphMap(map) };
             var path = tracer.FindShortestPath(start, finish);
 
             Assert.Equal(path.Count, 5);

@@ -58,6 +58,8 @@
     <Compile Include="src\InitializationStrategies\InitializeSingle.cs" />
     <Compile Include="src\InitializationStrategies\Initialize8x2D.cs" />
     <Compile Include="src\InitializationStrategies\Initialize4x2D.cs" />
+    <Compile Include="src\Maps\GraphMap.cs" />
+    <Compile Include="src\Maps\Helper.cs" />
     <Compile Include="src\PropagationStrategies\PropagationStrategyBase.cs" />
     <Compile Include="src\PropagationStrategies\Propagate2x2D.cs" />
     <Compile Include="src\PropagationStrategies\Propagate4x2D.cs" />
