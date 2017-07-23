@@ -46,6 +46,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="src\Abstract\IDirectionsProvider.cs" />
     <Compile Include="src\Abstract\IInitializationStrategy.cs" />
     <Compile Include="src\Abstract\IUpdateStrategy.cs" />
     <Compile Include="src\Abstract\IWave.cs" />
@@ -55,14 +56,16 @@
     <Compile Include="src\Abstract\IWaveBehaviour.cs" />
     <Compile Include="src\Abstract\IWaveBuilder.cs" />
     <Compile Include="src\InitializationStrategies\InitializationStrategyBase.cs" />
-    <Compile Include="src\InitializationStrategies\InitializeSingle.cs" />
     <Compile Include="src\InitializationStrategies\Initialize8x2D.cs" />
+    <Compile Include="src\InitializationStrategies\InitializeSingle.cs" />
     <Compile Include="src\InitializationStrategies\Initialize4x2D.cs" />
+    <Compile Include="src\InitializationStrategies\InitializeX.cs" />
     <Compile Include="src\Maps\GraphMap.cs" />
     <Compile Include="src\Maps\Helper.cs" />
+    <Compile Include="src\PropagationStrategies\Propagate4x2D.cs" />
+    <Compile Include="src\PropagationStrategies\PropagateX.cs" />
     <Compile Include="src\PropagationStrategies\PropagationStrategyBase.cs" />
     <Compile Include="src\PropagationStrategies\Propagate2x2D.cs" />
-    <Compile Include="src\PropagationStrategies\Propagate4x2D.cs" />
     <Compile Include="src\Queues\PriorityMeters.cs" />
     <Compile Include="src\TracerExtensions.cs" />
     <Compile Include="src\Filters\GlobalIntersectionsCondition.cs" />

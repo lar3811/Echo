@@ -8,7 +8,7 @@ using System.Numerics;
 
 namespace Echo.Maps
 {
-    public class GraphMap : IMap<IWave>
+    public class GraphMap : IMap<IWave>, IDirectionsProvider
     {
         public class Node
         {
@@ -108,6 +108,15 @@ namespace Echo.Maps
 
             destination = to.Position;
             return true;
+        }
+
+        public Vector3[] GetDirections(Vector3 location)
+        {
+            Node node;
+            if (_nodes.TryGetValue(location, out node))
+                return node.Adjacent.Keys.ToArray();
+            else
+                return null;
         }
     }
 }

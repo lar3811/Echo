@@ -8,13 +8,17 @@ using System.Numerics;
 
 namespace Echo.Maps
 {
-    public class GridMap : IMap<IWave>
+    public class GridMap : IMap<IWave>, IDirectionsProvider
     {
+        private readonly Vector3[] _directions;
+
         private readonly bool[,,] _accessible;
 
         private readonly int _width;
         private readonly int _height;
         private readonly int _depth;
+
+
 
         public GridMap(bool[,,] accessible)
         {
@@ -22,9 +26,39 @@ namespace Echo.Maps
             _height = accessible.GetLength(1);
             _depth = accessible.GetLength(2);
             _accessible = accessible;
+
+            if (_depth > 1)
+            {
+                _directions = new Vector3[26];
+                for (int x = -1, i = 0; x <= 1; x++)
+                {
+                    for (int y = -1; y <= 1; y++)
+                    {
+                        for (int z = -1; z <= 1; z++)
+                        {
+                            if (x == 0 && y == 0 && z == 0) continue;
+                            _directions[i++] = Vector3.Normalize(new Vector3(x, y, z));
+                        }
+                    }
+                }
+            }
+            else
+            {
+                _directions = new Vector3[8];
+                for (int x = -1, i = 0; x <= 1; x++)
+                {
+                    for (int y = -1; y <= 1; y++)
+                    {
+                        if (x == 0 && y == 0) continue;
+                        _directions[i++] = Vector3.Normalize(new Vector3(x, y, 0));
+                    }
+                }
+            }
         }
         public GridMap(bool[,] accessible)
             :this(accessible.To3D()) { }
+
+
 
         public bool Navigate(IWave wave, out Vector3 destination)
         {
@@ -53,6 +87,14 @@ namespace Echo.Maps
 
             destination = new Vector3(x, y, z);
             return true;
+        }
+
+        public Vector3[] GetDirections(Vector3 location)
+        {
+            if (_accessible[(int)location.X, (int)location.Y, (int)location.Z])
+                return _directions;
+            else
+                return null;
         }
     }
 }
