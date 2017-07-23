@@ -8,7 +8,7 @@ using System.Numerics;
 
 namespace Echo.Maps
 {
-    public class GridMap<TWave> : IMap<TWave> where TWave : IWave
+    public class GridMap : IMap<IWave>
     {
         private readonly bool[,,] _accessible;
 
@@ -24,22 +24,9 @@ namespace Echo.Maps
             _accessible = accessible;
         }
         public GridMap(bool[,] accessible)
-        {
-            _width = accessible.GetLength(0);
-            _height = accessible.GetLength(1);
-            _depth = 1;
-            _accessible = new bool[_width, _height, _depth];
+            :this(accessible.To3D()) { }
 
-            for (var i = 0; i < _width; i++)
-            {
-                for (int j = 0; j < _height; j++)
-                {
-                    _accessible[i, j, 0] = accessible[i, j];
-                }
-            }
-        }
-
-        public bool Navigate(TWave wave, out Vector3 destination)
+        public bool Navigate(IWave wave, out Vector3 destination)
         {
             var from = wave.Location;
             var direction = wave.Direction;
