@@ -14,6 +14,7 @@ namespace Echo.InitializationStrategies
         public TWave[] Execute()
         {
             var parameters = GetParameters();
+            if (parameters == null) return null;
             var waves = new TWave[parameters.Length];
             for (int i = 0; i < waves.Length; i++)
             {

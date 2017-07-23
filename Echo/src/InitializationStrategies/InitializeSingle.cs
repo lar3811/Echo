@@ -15,7 +15,7 @@ namespace Echo.InitializationStrategies
         private readonly Vector3 _location;
         private readonly Vector3 _direction;
 
-        public InitializeSingle(Vector3 location, Vector3 direction, IWaveBuilder<TWave> builder = null)
+        public InitializeSingle(Vector3 location, Vector3 direction, IWaveBuilder<TWave> builder)
         {
             _builder = builder;
             _location = location;

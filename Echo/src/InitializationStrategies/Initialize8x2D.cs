@@ -14,7 +14,7 @@ namespace Echo.InitializationStrategies
         private readonly IWaveBuilder<TWave> _builder;
         private readonly Vector3[] _locations;
 
-        public Initialize8x2D(IWaveBuilder<TWave> builder = null, params Vector3[] locations)
+        public Initialize8x2D(IWaveBuilder<TWave> builder, params Vector3[] locations)
         {
             _builder = builder;
             _locations = locations;

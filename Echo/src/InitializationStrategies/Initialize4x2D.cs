@@ -22,8 +22,7 @@ namespace Echo.InitializationStrategies
 
         protected override Parameters[] GetParameters()
         {
-            if (_locations == null) return new Parameters[0];
-
+            if (_locations == null) return null;
             var output = new Parameters[4 * _locations.Length];
             for (int i = 0; i < _locations.Length; i++)
             {
@@ -32,7 +31,6 @@ namespace Echo.InitializationStrategies
                 output[4 * i + 2] = new Parameters(_builder, _locations[i], -Vector3.UnitX);
                 output[4 * i + 3] = new Parameters(_builder, _locations[i], -Vector3.UnitY);
             }
-
             return output;
         }
     }

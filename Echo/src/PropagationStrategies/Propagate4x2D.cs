@@ -13,7 +13,7 @@ namespace Echo.PropagationStrategies
     {
         private readonly IWaveBuilder<TWave> _builder;
 
-        public Propagate4x2D(IWaveBuilder<TWave> builder = null)
+        public Propagate4x2D(IWaveBuilder<TWave> builder)
         {
             _builder = builder;
         }

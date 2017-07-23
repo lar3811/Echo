@@ -30,17 +30,34 @@ namespace Echo
             return wave?.FullPath;
         }
 
+
+
         public static IReadOnlyList<Vector3> FindShortestPath<TWave>(
             this Tracer<TWave> tracer, Vector3 from, Vector3 to, IMap<TWave> map, IWaveBuilder<TWave> custom)
             where TWave : Base<TWave>, new()
         {
+            var guide = map as IDirectionsProvider;
             var builder = new Base<TWave>.Builder { NestedBuilder = custom };
-            var initial = new Initialize8x2D<TWave>(builder, from);
-            var propagation = new Propagate4x2D<TWave>(builder);
+
+            IInitializationStrategy<TWave> initial;
+            IPropagationStrategy<TWave> propagation;
+            if (guide == null)
+            {
+                initial = new Initialize8x2D<TWave>(builder, from);
+                propagation = new Propagate4x2D<TWave>(builder);
+            }
+            else
+            {
+                initial = new InitializeX<TWave>(guide, builder, from);
+                propagation = new PropagateX<TWave>(guide, builder);
+            }
+
             builder.PropagationStrategy = propagation;
             builder.AcceptanceCondition = new AreaCondition(to);
             return tracer.FindShortestPath(initial, to, map);
         }
+
+
 
         public static IReadOnlyList<Vector3> FindShortestPath<TWave>(
             this Tracer<TWave> tracer, Vector3 from, Vector3 to, IMap<TWave> map)
