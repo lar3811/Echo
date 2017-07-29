@@ -6,7 +6,7 @@ using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Echo.Filters
+namespace Echo.Conditions
 {
     public class IntersectionsCondition_M : ICondition<IWave>
     {

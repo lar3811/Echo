@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace wave.Filters.Support
+namespace wave.Conditions.Support
 {
     public class InverseCondition<T> : ICondition<T>
     {

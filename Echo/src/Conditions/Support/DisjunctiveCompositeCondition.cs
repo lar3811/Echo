@@ -1,24 +1,25 @@
-﻿using Echo.Abstract;
+﻿using Echo;
+using Echo.Abstract;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Echo.Filters.Support
+namespace wave.Conditions.Support
 {
-    public class ConjunctiveCompositeCondition<T> : ICondition<T>
+    public class DisjunctiveCompositeCondition<T> : ICondition<T>
     {
         private readonly List<ICondition<T>> _filters = new List<ICondition<T>>();
 
-        public ConjunctiveCompositeCondition(params ICondition<T>[] filters)
+        public DisjunctiveCompositeCondition(params ICondition<T>[] filters)
         {
             _filters.AddRange(filters);
         }
 
         public bool Check(T subject)
         {
-            return _filters.All(f => f.Check(subject));
+            return _filters.Any(f => f.Check(subject));
         }
     }
 }

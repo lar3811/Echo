@@ -1,5 +1,5 @@
 ﻿using Echo.Abstract;
-using Echo.Filters;
+using Echo.Conditions;
 using Echo.InitializationStrategies;
 using Echo.Maps;
 using Echo.PropagationStrategies;

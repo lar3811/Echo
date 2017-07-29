@@ -1,5 +1,5 @@
 ﻿using Echo.Abstract;
-using Echo.Filters;
+using Echo.Conditions;
 using Echo.Queues.Adapters;
 using Echo.Queues;
 using System;

@@ -8,7 +8,7 @@ using Echo.Abstract;
 using System.Collections;
 using Echo.Queues.Adapters;
 using System.Diagnostics;
-using Echo.Filters;
+using Echo.Conditions;
 using Echo.Waves;
 
 namespace Echo
