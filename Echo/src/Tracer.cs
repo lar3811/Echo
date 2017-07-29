@@ -15,10 +15,16 @@ namespace Echo
 {
     public class Tracer<TWave> where TWave : IWave, IWaveBehaviour<TWave>
     {
+        private int _iterations;
+        private int _waves;
+        
+
+        public int IterationsPassed => _iterations;
+        public int ActiveWavesCount => _waves;
+
         public IMap<TWave> DefaultMap;
         public IProcessingQueue<TWave> DefaultProcessingQueue;
-
-
+        
         
         public Tracer(IMap<TWave> defaultMap, IProcessingQueue<TWave> defaultProcessingQueue)
         {
@@ -28,8 +34,7 @@ namespace Echo
 
         public Tracer() : this(null, null) { }
 
-
-
+        
         public IEnumerable<TWave> Search(IInitializationStrategy<TWave> initial, IMap<TWave> map, IProcessingQueue<TWave> queue)
         {
             map = map ?? DefaultMap;
@@ -96,6 +101,9 @@ namespace Echo
                 }
 
                 queue.Enqueue(wave);
+
+                _iterations++;
+                _waves = queue.Count;
             }
         }
     }

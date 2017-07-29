@@ -13,6 +13,7 @@ namespace Echo.PropagationStrategies
     {
         public TWave[] Execute(TWave progenitor)
         {
+            if (progenitor == null) return null;
             var parameters = GetParametersFor(progenitor);
             if (parameters == null) return null;
             var waves = new TWave[parameters.Length];
