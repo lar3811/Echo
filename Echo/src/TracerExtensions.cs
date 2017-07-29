@@ -43,7 +43,7 @@ namespace Echo
             IPropagationStrategy<TWave> propagation;
             if (guide == null)
             {
-                initial = new Initialize8x2D<TWave>(builder, from);
+                initial = new Initialize26x3D<TWave>(builder, from);
                 propagation = new Propagate4x2D<TWave>(builder);
             }
             else
