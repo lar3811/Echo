@@ -64,6 +64,8 @@
     <Compile Include="src\InitializationStrategies\InitializeX.cs" />
     <Compile Include="src\Maps\GraphMap.cs" />
     <Compile Include="src\Maps\Helper.cs" />
+    <Compile Include="src\PropagationStrategies\Propagate16x3D.cs" />
+    <Compile Include="src\PropagationStrategies\Propagate4x3D.cs" />
     <Compile Include="src\PropagationStrategies\Propagate4x2D.cs" />
     <Compile Include="src\PropagationStrategies\PropagateX.cs" />
     <Compile Include="src\PropagationStrategies\PropagationStrategyBase.cs" />

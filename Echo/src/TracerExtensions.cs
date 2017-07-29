@@ -36,7 +36,11 @@ namespace Echo
             this Tracer<TWave> tracer, Vector3 from, Vector3 to, IMap<TWave> map, IWaveBuilder<TWave> custom)
             where TWave : Base<TWave>, new()
         {
-            var guide = map as IDirectionsProvider;
+
+            if (map == null && tracer.DefaultMap == null)
+                throw new ArgumentNullException(nameof(map), "ECHO: Either [map] parameter or [Tracer.DefaultMap] field must not be null.");
+
+            var guide = (map ?? tracer.DefaultMap) as IDirectionsProvider;
             var builder = new Base<TWave>.Builder { NestedBuilder = custom };
 
             IInitializationStrategy<TWave> initial;
@@ -44,7 +48,7 @@ namespace Echo
             if (guide == null)
             {
                 initial = new Initialize26x3D<TWave>(builder, from);
-                propagation = new Propagate4x2D<TWave>(builder);
+                propagation = new Propagate16x3D<TWave>(builder);
             }
             else
             {
