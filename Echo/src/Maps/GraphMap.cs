@@ -8,30 +8,59 @@ using System.Numerics;
 
 namespace Echo.Maps
 {
+    /// <summary>
+    /// Contains basic logic for building and navigating graph strctures made of linked <see cref="Node"/> objects.
+    /// </summary>
     public class GraphMap : IMap<IWave>, IDirectionsProvider
     {
+        /// <summary>
+        /// Represents node in <see cref="GraphMap"/> structure.
+        /// </summary>
         public class Node
         {
             private readonly Dictionary<Vector3, Node> _adjacent = new Dictionary<Vector3, Node>();
-            public IReadOnlyDictionary<Vector3, Node> Adjacent => _adjacent;
 
+            /// <summary>
+            /// Direction-node dictionary  immediately linked.
+            /// </summary>
+            public IReadOnlyDictionary<Vector3, Node> Adjacent => _adjacent;
+            /// <summary>
+            /// Coordinates of this node.
+            /// </summary>
             public readonly Vector3 Position;
 
+            /// <summary>
+            /// Adds a one-way link from this node to the given one.
+            /// </summary>
+            /// <param name="direction">Direction in which given node is located.</param>
+            /// <param name="node">A node to link to.</param>
             public void LinkAdjacent(Vector3 direction, Node node)
             {
                 _adjacent.Add(Vector3.Normalize(direction), node);
             }
 
+            /// <summary>
+            /// Removes link between this node and the one located in given direction.
+            /// </summary>
+            /// <param name="direction">Direction to unlink.</param>
             public void UnlinkAdjacent(Vector3 direction)
             {
                 _adjacent.Remove(direction);
             }
 
+            /// <summary>
+            /// Creates an instance of this class in given location.
+            /// </summary>
+            /// <param name="position">Coordinates of the node.</param>
             public Node(Vector3 position)
             {
                 Position = position;
             }
 
+            /// <summary>
+            /// Provides textual representation of this object.
+            /// </summary>
+            /// <returns>Textual representation of this object.</returns>
             public override string ToString()
             {
                 return Position.ToString();
