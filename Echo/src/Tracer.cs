@@ -63,12 +63,24 @@ namespace Echo
 
 
         /// <summary>
-        /// Initiates searching routine.
+        /// Initiates searching routine. See remarks section for details.
         /// </summary>
         /// <remarks>
         /// <para>
         /// Propagates waves obtained from <paramref name="initial"/> strategy across given <paramref name="map"/>
         /// until a wave satisfies its <see cref="IWaveBehaviour{TWave}.AcceptanceCondition"/>. The wave is then yield-returned from the method.
+        /// </para>
+        /// <para>
+        /// After <paramref name="initial"/> strategy is executed and produced waves are added to the queue,
+        /// tracer starts iterating through it. Each iteration consists of 5 phases: 
+        /// Navigation; Update; Fading check; Acceptance check; Propagation.
+        /// </para>
+        /// <para>
+        /// If not limited by LINQ expressions, enumeration continues until processing queue is empty.
+        /// Waves are removed from processing queue if they satisfy either <see cref="IWaveBehaviour{TWave}.FadeCondition"/> 
+        /// or <see cref="IWaveBehaviour{TWave}.AcceptanceCondition"/> or encounter an obstacle 
+        /// during <see cref="IMap{TWave}.Navigate(TWave, out Vector3)"/>. It is important to cull waves
+        /// in this manner to prevent infinite cycles and reduce memory use.
         /// </para>
         /// <para>If <paramref name="map"/> is null <see cref="DefaultMap"/> will be used.</para>
         /// <para>If <paramref name="queue"/> is null <see cref="DefaultProcessingQueue"/> will be used.</para>

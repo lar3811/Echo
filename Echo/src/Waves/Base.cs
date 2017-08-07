@@ -103,10 +103,10 @@ namespace Echo.Waves
             public IWaveBuilder<TWave> NestedBuilder;
 
             /// <summary>
-            /// Initializes given wave as new one.
+            /// Initializes given wave as new.
             /// </summary>
             /// <param name="wave">Wave to initialize.</param>
-            /// <param name="location">Location to place given wave at.</param>
+            /// <param name="location">Initial location of the wave.</param>
             /// <param name="direction">Direction of the wave.</param>
             public void Build(TWave wave, Vector3 location, Vector3 direction)
             {
@@ -147,7 +147,7 @@ namespace Echo.Waves
             /// <param name="wave">Wave to initialize.</param>
             /// <param name="progenitor">Wave to inherit properties from.</param>
             /// <param name="direction">Direction of the wave.</param>
-            /// <param name="offset">Location offset relative to the progenitor wave.</param>
+            /// <param name="offset">Location offset relative to the progenitor.</param>
             public void Build(TWave wave, TWave progenitor, Vector3 direction, Vector3 offset)
             {
                 wave.AcceptanceCondition = progenitor.AcceptanceCondition;
@@ -169,19 +169,19 @@ namespace Echo.Waves
 
         
         /// <summary>
-        /// Tested by tracer when this wave is being processed. Only acceptable waves will be returned by the search routine.
+        /// Tested by tracer after <see cref="FadeCondition"/> check. If condition is satisfied, this wave will be returned from the search routine.
         /// </summary>
         public ICondition<TWave> AcceptanceCondition { get; set; }
         /// <summary>
-        /// Tested by tracer when this wave is being processed. Fading waves will be removed from processing queue.
+        /// Tested by tracer after <see cref="Update"/> strategy execution. If condition is satisfied, this wave will be discarded and not processed any futher.
         /// </summary>
         public ICondition<TWave> FadeCondition { get; set; }
         /// <summary>
-        /// Executed by tracer when this wave is being processed.
+        /// Executed if neither <see cref="AcceptanceCondition"/> nor <see cref="FadeCondition"/> were satisfied. Produced waves are added to the processing queue along with this wave.
         /// </summary>
         public IPropagationStrategy<TWave> Propagation { get; set; }
         /// <summary>
-        /// Executed by tracer 
+        /// Executed after successful <see cref="IMap{TWave}.Navigate(TWave, out Vector3)"/> call. You can use this extension point to provide custom logic for updating state of this wave.
         /// </summary>
         public IUpdateStrategy<TWave> Update { get; set; }
 
@@ -189,7 +189,7 @@ namespace Echo.Waves
         /// <summary>
         /// Adds new waypoint to the <see cref="Waves.Base{TWave}.PathSegment"/>.
         /// </summary>
-        /// <param name="to">Coordinates to place wave at.</param>
+        /// <param name="to">Coordinates to move this wave at.</param>
         public void Relocate(Vector3 to)
         {
             _path.Add(to);
@@ -197,7 +197,7 @@ namespace Echo.Waves
 
 
         /// <summary>
-        /// Provides textual representation of the wave in form TYPE DIRECTION LOCATION.
+        /// Provides textual representation of the wave in form "TYPE DIRECTION LOCATION".
         /// </summary>
         /// <returns>Textual representation of the wave.</returns>
         public override string ToString()
