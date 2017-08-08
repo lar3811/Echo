@@ -177,11 +177,11 @@ namespace Echo.Waves
         /// </summary>
         public ICondition<TWave> FadeCondition { get; set; }
         /// <summary>
-        /// Executed if neither <see cref="AcceptanceCondition"/> nor <see cref="FadeCondition"/> were satisfied. Produced waves are added to the processing queue along with this wave.
+        /// Executed by tracer if neither <see cref="AcceptanceCondition"/> nor <see cref="FadeCondition"/> were satisfied. Produced waves are added to the processing queue along with this wave.
         /// </summary>
         public IPropagationStrategy<TWave> Propagation { get; set; }
         /// <summary>
-        /// Executed after successful <see cref="IMap{TWave}.Navigate(TWave, out Vector3)"/> call. You can use this extension point to provide custom logic for updating state of this wave.
+        /// Executed by tracer after successful <see cref="IMap{TWave}.Navigate(TWave, out Vector3)"/> call. You can use this extension point to provide custom logic for updating state of this wave.
         /// </summary>
         public IUpdateStrategy<TWave> Update { get; set; }
 
