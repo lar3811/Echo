@@ -25,7 +25,7 @@ namespace Echo.Abstract
         /// </summary>
         Vector3[] FullPath { get; }
         /// <summary>
-        /// Positions wave at given location.
+        /// Positions wave at the given location.
         /// </summary>
         /// <param name="location">Coordinates to move wave at.</param>
         void Relocate(Vector3 location);

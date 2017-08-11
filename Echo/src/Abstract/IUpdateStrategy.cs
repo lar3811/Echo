@@ -6,8 +6,16 @@ using System.Threading.Tasks;
 
 namespace Echo.Abstract
 {
-    public interface IUpdateStrategy<in T>
+    /// <summary>
+    /// Interface for updating wave's state.
+    /// </summary>
+    /// <typeparam name="TWave">Type of waves.</typeparam>
+    public interface IUpdateStrategy<in TWave>
     {
-        void Execute(T subject);
+        /// <summary>
+        /// Updates state of a given <paramref name="wave"/>.
+        /// </summary>
+        /// <param name="wave">Wave to update.</param>
+        void Execute(TWave wave);
     }
 }
