@@ -11,9 +11,9 @@ namespace Echo.Abstract
         /// <summary>
         /// If <paramref name="wave"/> can proceed, its new location should be provided through <paramref name="destination"/> parameter.
         /// </summary>
-        /// <param name="wave">Wave to navigate.</param>
-        /// <param name="destination">New location of the wave.</param>
-        /// <returns>True if <paramref name="wave"/> can proceed further, false otherwise.</returns>
+        /// <param name="wave">A wave to navigate.</param>
+        /// <param name="destination">New location of the <paramref name="wave"/>.</param>
+        /// <returns>True if navigation is possible, false otherwise.</returns>
         bool Navigate(TWave wave, out Vector3 destination);
     }
 }

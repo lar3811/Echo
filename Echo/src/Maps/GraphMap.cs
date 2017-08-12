@@ -14,14 +14,14 @@ namespace Echo.Maps
     public class GraphMap : IMap<IWave>, IDirectionsProvider
     {
         /// <summary>
-        /// Represents node in <see cref="GraphMap"/> structure.
+        /// Represents node in the <see cref="GraphMap"/> structure.
         /// </summary>
         public class Node
         {
             private readonly Dictionary<Vector3, Node> _adjacent = new Dictionary<Vector3, Node>();
 
             /// <summary>
-            /// Direction-node dictionary  immediately linked.
+            /// Direction-Node dictionary of nodes that are immediately linked to this one.
             /// </summary>
             public IReadOnlyDictionary<Vector3, Node> Adjacent => _adjacent;
             /// <summary>
@@ -32,7 +32,7 @@ namespace Echo.Maps
             /// <summary>
             /// Adds a one-way link from this node to the given one.
             /// </summary>
-            /// <param name="direction">Direction in which given node is located.</param>
+            /// <param name="direction">Direction in which linked node is located.</param>
             /// <param name="node">A node to link to.</param>
             public void LinkAdjacent(Vector3 direction, Node node)
             {
@@ -49,9 +49,9 @@ namespace Echo.Maps
             }
 
             /// <summary>
-            /// Creates an instance of this class in given location.
+            /// Creates an instance of the class.
             /// </summary>
-            /// <param name="position">Coordinates of the node.</param>
+            /// <param name="position">Coordinates of this node.</param>
             public Node(Vector3 position)
             {
                 Position = position;
@@ -71,6 +71,10 @@ namespace Echo.Maps
 
 
 
+        /// <summary>
+        /// Creates an instance of this class from 3D boolean table.
+        /// </summary>
+        /// <param name="accessible">Boolean table: true - clear; false - obstacle.</param>
         public GraphMap(bool[,,] accessible)
         {
             for (int x = 0; x < accessible.GetLength(0); x++)
@@ -101,9 +105,18 @@ namespace Echo.Maps
                 }
             }
         }
+
+        /// <summary>
+        /// Creates an instance of this class from 2D boolean table.
+        /// </summary>
+        /// <param name="accessible">Boolean table: true - clear; false - obstacle.</param>
         public GraphMap(bool[,] accessible)
             : this(accessible.To3D()) { }
 
+        /// <summary>
+        /// Creates an instance of this class from given node trees.
+        /// </summary>
+        /// <param name="roots">Roots of the node trees.</param>
         public GraphMap(params Node[] roots)
         {
             var stack = new Stack<Node>();
@@ -122,9 +135,14 @@ namespace Echo.Maps
                 }
             }
         }
-
-
         
+        /// <summary>
+        /// Looks for a node adjacent to the <paramref name="wave"/> in its direction.
+        /// If such node is found its coordinates are returned through the <paramref name="destination"/> parameter.
+        /// </summary>
+        /// <param name="wave">A wave to navigate.</param>
+        /// <param name="destination">New location of the <paramref name="wave"/>.</param>
+        /// <returns>True if navigation is possible, false otherwise.</returns>
         public bool Navigate(IWave wave, out Vector3 destination)
         {
             destination = wave.Location;
@@ -139,6 +157,11 @@ namespace Echo.Maps
             return true;
         }
 
+        /// <summary>
+        /// Provides directions in which a wave can travel from given <paramref name="location"/>.
+        /// </summary>
+        /// <param name="location">Location to travel from.</param>
+        /// <returns>Array of directions.</returns>
         public Vector3[] GetDirections(Vector3 location)
         {
             Node node;

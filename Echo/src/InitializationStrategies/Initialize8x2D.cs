@@ -18,6 +18,11 @@ namespace Echo.InitializationStrategies
         private readonly IWaveBuilder<TWave> _builder;
         private readonly Vector3[] _locations;
 
+        /// <summary>
+        /// Creates an instance of the class.
+        /// </summary>
+        /// <param name="builder">Wave initialization logic.</param>
+        /// <param name="locations">Locations where waves should be created.</param>
         public Initialize8x2D(IWaveBuilder<TWave> builder, params Vector3[] locations)
         {
             _builder = builder;

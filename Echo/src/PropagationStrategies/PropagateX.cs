@@ -8,12 +8,21 @@ using System.Threading.Tasks;
 
 namespace Echo.PropagationStrategies
 {
+    /// <summary>
+    /// Creates a wave for every direction available at progenitor's location.
+    /// </summary>
+    /// <typeparam name="TWave">Type of waves to create.</typeparam>
     public sealed class PropagateX<TWave> : PropagationStrategyBase<TWave>
         where TWave : IWave, new()
     {
         private readonly IDirectionsProvider _provider;
         private readonly IWaveBuilder<TWave> _builder;
 
+        /// <summary>
+        /// Creates an instance of the class.
+        /// </summary>
+        /// <param name="provider">Directions provider (e.g. <see cref="Maps.GraphMap"/>).</param>
+        /// <param name="builder">Wave initialization logic.</param>
         public PropagateX(IDirectionsProvider provider, IWaveBuilder<TWave> builder)
         {
             _provider = provider;

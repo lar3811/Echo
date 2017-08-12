@@ -8,11 +8,19 @@ using System.Threading.Tasks;
 
 namespace Echo.PropagationStrategies
 {
+    /// <summary>
+    /// Generates 16 new waves from an existing one.
+    /// </summary>
+    /// <typeparam name="TWave">Type of waves.</typeparam>
     public sealed class Propagate16x3D<TWave> : PropagationStrategyBase<TWave>
         where TWave : IWave, new()
     {
         private readonly IWaveBuilder<TWave> _builder;
 
+        /// <summary>
+        /// Creates an instance of the class.
+        /// </summary>
+        /// <param name="builder">Wave initialization logic.</param>
         public Propagate16x3D(IWaveBuilder<TWave> builder)
         {
             _builder = builder;

@@ -8,6 +8,9 @@ using System.Numerics;
 
 namespace Echo.Maps
 {
+    /// <summary>
+    /// Provides basic logic for building and navigating cell fields.
+    /// </summary>
     public class GridMap : IMap<IWave>, IDirectionsProvider
     {
         private readonly Vector3[] _directions;
@@ -17,16 +20,18 @@ namespace Echo.Maps
         private readonly int _width;
         private readonly int _height;
         private readonly int _depth;
-
-
-
+        
+        /// <summary>
+        /// Creates an instance of this class from 3D boolean table.
+        /// </summary>
+        /// <param name="accessible">Boolean table: true - clear; false - obstacle.</param>
         public GridMap(bool[,,] accessible)
         {
             _width = accessible.GetLength(0);
             _height = accessible.GetLength(1);
             _depth = accessible.GetLength(2);
             _accessible = accessible;
-
+            
             if (_depth > 1)
             {
                 _directions = new Vector3[26];
@@ -55,11 +60,21 @@ namespace Echo.Maps
                 }
             }
         }
+
+        /// <summary>
+        /// Creates an instance of this class from 2D boolean table.
+        /// </summary>
+        /// <param name="accessible">Boolean table: true - clear; false - obstacle.</param>
         public GridMap(bool[,] accessible)
             :this(accessible.To3D()) { }
-
-
-
+        
+        /// <summary>
+        /// Looks for a cell adjacent to the <paramref name="wave"/> in its direction.
+        /// If such cell is found it is returned through the <paramref name="destination"/> parameter.
+        /// </summary>
+        /// <param name="wave">A wave to navigate.</param>
+        /// <param name="destination">New location of the <paramref name="wave"/>.</param>
+        /// <returns>True if navigation is possible, false otherwise.</returns>
         public bool Navigate(IWave wave, out Vector3 destination)
         {
             var from = wave.Location;
@@ -89,6 +104,11 @@ namespace Echo.Maps
             return true;
         }
 
+        /// <summary>
+        /// Provides directions in which a wave can travel from given <paramref name="location"/>.
+        /// </summary>
+        /// <param name="location">Location to travel from.</param>
+        /// <returns>Array of directions.</returns>
         public Vector3[] GetDirections(Vector3 location)
         {
             if (_accessible[(int)location.X, (int)location.Y, (int)location.Z])
