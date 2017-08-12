@@ -46,8 +46,7 @@ namespace Echo
             var wave = tracer.Search(initial, map, queue).FirstOrDefault();
             return wave?.FullPath;
         }
-
-
+        
         /// <summary>
         /// Searches for the shortest path between two points.
         /// </summary>

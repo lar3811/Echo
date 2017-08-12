@@ -8,16 +8,29 @@ using System.Threading.Tasks;
 
 namespace Echo.Queues
 {
+    /// <summary>
+    /// Evaluates priority of a wave based on its proximity to the designated location.
+    /// </summary>
+    /// <typeparam name="TWave">Type of waves to evaluate.</typeparam>
     public class PriorityByProximity<TWave> : PriorityQueue<TWave>.IPriorityMeter 
         where TWave : IWave
     {
         private readonly Vector3 _destination;
 
+        /// <summary>
+        /// Creates an instance of the class.
+        /// </summary>
+        /// <param name="destination">Destination coordinates.</param>
         public PriorityByProximity(Vector3 destination)
         {
             _destination = destination;
         }
-
+        
+        /// <summary>
+        /// Evaluates geiven <paramref name="wave"/>.
+        /// </summary>
+        /// <param name="wave">A wave to evaluate.</param>
+        /// <returns>Priority level.</returns>
         public float Evaluate(TWave wave)
         {
             return Vector3.DistanceSquared(wave.Location, _destination);
@@ -26,17 +39,29 @@ namespace Echo.Queues
 
 
 
+    /// <summary>
+    /// Evaluates priority of a wave based on minimal possible length of its complete path.
+    /// </summary>
+    /// <typeparam name="TWave">Type of waves to evaluate.</typeparam>
     public class PriorityByEstimatedPathLength<TWave> : PriorityQueue<TWave>.IPriorityMeter 
         where TWave : IWave
     {
         private readonly Vector3 _destination;
 
+        /// <summary>
+        /// Creates an instance of the class.
+        /// </summary>
+        /// <param name="destination">Destination coordinates.</param>
         public PriorityByEstimatedPathLength(Vector3 destination)
         {
             _destination = destination;
         }
-
-        // TODO: OPTIMIZE (caching) + unit step policy
+        
+        /// <summary>
+        /// Evaluates geiven <paramref name="wave"/>.
+        /// </summary>
+        /// <param name="wave">A wave to evaluate.</param>
+        /// <returns>Priority level.</returns>
         public float Evaluate(TWave wave)
         {
             var path = wave.FullPath;

@@ -27,7 +27,6 @@ namespace Echo
         private int _iterations;
         private int _waves;
         
-
         /// <summary>
         /// Indicates how many iterations passed since the last search session started;
         /// </summary>
@@ -44,8 +43,7 @@ namespace Echo
         /// This queue will be used if none other is provided to the <see cref="Search(IInitializationStrategy{TWave}, IMap{TWave}, IProcessingQueue{TWave})"/> method.
         /// </summary>
         public IProcessingQueue<TWave> DefaultProcessingQueue;
-
-
+        
         /// <summary>
         /// Creates an instance of the class with default search parameters."/>
         /// </summary>
@@ -60,8 +58,7 @@ namespace Echo
         /// Creates an instance of the class.
         /// </summary>
         public Tracer() : this(null, null) { }
-
-
+        
         /// <summary>
         /// Initiates searching routine. See remarks section for details.
         /// </summary>

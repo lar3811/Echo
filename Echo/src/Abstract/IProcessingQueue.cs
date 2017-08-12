@@ -13,18 +13,21 @@ namespace Echo.Abstract
     public interface IProcessingQueue<T>
     {
         /// <summary>
-        /// Number of enqueued objects.
+        /// Number of objects in the queue.
         /// </summary>
         int Count { get; }
+
         /// <summary>
         /// Clears all objects from the queue.
         /// </summary>
         void Clear();
+
         /// <summary>
         /// Enqueues an object.
         /// </summary>
         /// <param name="element">Object to enqueue.</param>
         void Enqueue(T element);
+
         /// <summary>
         /// Dequeues an object.
         /// </summary>

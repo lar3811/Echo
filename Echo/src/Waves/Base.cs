@@ -74,8 +74,7 @@ namespace Echo.Waves
                 return output;
             }
         }
-
-
+        
         /// <summary>
         /// Provides logic necessary to construct <see cref="Waves.Base{TWave}"/> and its subclasses.
         /// </summary>
@@ -166,7 +165,6 @@ namespace Echo.Waves
                     NestedBuilder.Build(wave, progenitor, direction, offset);
             }
         }
-
         
         /// <summary>
         /// Tested by tracer after <see cref="FadeCondition"/> check. If condition is satisfied, this wave will be returned from the search routine.
@@ -184,8 +182,7 @@ namespace Echo.Waves
         /// Executed by tracer after successful <see cref="IMap{TWave}.Navigate(TWave, out Vector3)"/> call. You can use this extension point to provide custom logic for updating state of this wave.
         /// </summary>
         public IUpdateStrategy<TWave> Update { get; set; }
-
-
+        
         /// <summary>
         /// Adds new waypoint to the <see cref="Waves.Base{TWave}.PathSegment"/>.
         /// </summary>
@@ -194,8 +191,7 @@ namespace Echo.Waves
         {
             _path.Add(to);
         }
-
-
+        
         /// <summary>
         /// Provides textual representation of the wave in form "TYPE DIRECTION LOCATION".
         /// </summary>

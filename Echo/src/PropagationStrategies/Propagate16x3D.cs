@@ -11,7 +11,7 @@ namespace Echo.PropagationStrategies
     /// <summary>
     /// Generates 16 new waves from an existing one.
     /// </summary>
-    /// <typeparam name="TWave">Type of waves.</typeparam>
+    /// <typeparam name="TWave">Type of waves to create.</typeparam>
     public sealed class Propagate16x3D<TWave> : PropagationStrategyBase<TWave>
         where TWave : IWave, new()
     {
