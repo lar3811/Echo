@@ -8,6 +8,10 @@ using System.Threading.Tasks;
 
 namespace Echo.InitializationStrategies
 {
+    /// <summary>
+    /// Creates 8 waves at every provided location.
+    /// </summary>
+    /// <typeparam name="TWave">Type of waves to create.</typeparam>
     public sealed class Initialize8x2D<TWave> : InitializationStrategyBase<TWave>
         where TWave : IWave, new()
     {

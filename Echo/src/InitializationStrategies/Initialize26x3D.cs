@@ -8,12 +8,21 @@ using System.Threading.Tasks;
 
 namespace Echo.InitializationStrategies
 {
+    /// <summary>
+    /// Creates 26 waves at every provided location.
+    /// </summary>
+    /// <typeparam name="TWave">Type of waves to create.</typeparam>
     public sealed class Initialize26x3D<TWave> : InitializationStrategyBase<TWave>
         where TWave : IWave, new()
     {
         private readonly IWaveBuilder<TWave> _builder;
         private readonly Vector3[] _locations;
 
+        /// <summary>
+        /// Creates an instance of the class.
+        /// </summary>
+        /// <param name="builder">Wave initialization logic.</param>
+        /// <param name="locations">Locations where waves should be created.</param>
         public Initialize26x3D(IWaveBuilder<TWave> builder, params Vector3[] locations)
         {
             _builder = builder;

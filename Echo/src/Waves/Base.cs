@@ -103,7 +103,7 @@ namespace Echo.Waves
             public IWaveBuilder<TWave> NestedBuilder;
 
             /// <summary>
-            /// Initializes given wave as new.
+            /// Initializes given wave as a new one.
             /// </summary>
             /// <param name="wave">Wave to initialize.</param>
             /// <param name="location">Initial location of the wave.</param>

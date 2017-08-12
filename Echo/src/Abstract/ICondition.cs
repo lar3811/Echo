@@ -9,7 +9,7 @@ namespace Echo.Abstract
     /// <summary>
     /// An abstract condition.
     /// </summary>
-    /// <typeparam name="T">Type of the condition's subjects.</typeparam>
+    /// <typeparam name="T">Type of condition's subjects.</typeparam>
     public interface ICondition<in T>
     {
         /// <summary>
