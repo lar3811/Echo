@@ -90,6 +90,7 @@ namespace Echo
 
             builder.PropagationStrategy = propagation;
             builder.AcceptanceCondition = new AreaCondition(to);
+            builder.FadeCondition = new GlobalIntersectionsCondition();
             return tracer.FindShortestPath(initial, to, map);
         }
     }
