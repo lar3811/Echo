@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Echo", "Echo\Echo.csproj", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Echo.Test", "Echo.Test\Echo.Test.csproj", "{2E3DF5C2-8A38-4A03-86D7-8D463C917E47}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Echo.Sample.GUI", "Echo.Sample.GUI\Echo.Sample.GUI.csproj", "{13FD5BEA-9876-4E59-A036-2B5DADB47B84}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{2E3DF5C2-8A38-4A03-86D7-8D463C917E47}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2E3DF5C2-8A38-4A03-86D7-8D463C917E47}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2E3DF5C2-8A38-4A03-86D7-8D463C917E47}.Release|Any CPU.Build.0 = Release|Any CPU
+		{13FD5BEA-9876-4E59-A036-2B5DADB47B84}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{13FD5BEA-9876-4E59-A036-2B5DADB47B84}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{13FD5BEA-9876-4E59-A036-2B5DADB47B84}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{13FD5BEA-9876-4E59-A036-2B5DADB47B84}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
