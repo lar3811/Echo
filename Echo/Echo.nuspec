@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>Navigation.Echo</id>
+    <version>$version$</version>
+    <title>$title$</title>
+    <authors>lar3811</authors>
+    <owners>lar3811</owners>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Generic framework for navigation algorithms written in C#. More details and sources are available at https://github.com/lar3811/Echo.</description>
+    <releaseNotes>First release.</releaseNotes>
+    <copyright>Copyright 2017</copyright>
+    <tags>c# csharp .net dotnet pathfinding navigation</tags>
+  </metadata>
+</package>
