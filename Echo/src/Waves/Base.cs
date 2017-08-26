@@ -121,23 +121,6 @@ namespace Echo.Waves
 
                 if (NestedBuilder != null)
                     NestedBuilder.Build(wave, location, direction);
-
-                if (wave.AcceptanceCondition == null)
-                {
-                    Debug.WriteLine($"ECHO: {this}: Initial acceptance condition is not set for [{wave}]. A wave without such condition will never be yielded during enumeration.");
-                }
-                if (wave.FadeCondition == null)
-                {
-                    Debug.WriteLine($"ECHO: {this}: Initial fade condition is not set for [{wave}]. Infinite loops within processing queue may occur.");
-                }
-                if (wave.Propagation == null)
-                {
-                    Debug.WriteLine($"ECHO: {this}: Initial propagation strategy is not set for [{wave}]. Without this strategy it will not spawn any additional waves.");
-                }
-                if (wave.Update == null)
-                {
-                    Debug.WriteLine($"ECHO: {this}: Initial update strategy is not set for [{wave}]. Provide this strategy if you need to update custom wave data.");
-                }
             }
 
             /// <summary>

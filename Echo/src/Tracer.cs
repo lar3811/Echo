@@ -125,8 +125,12 @@ namespace Echo
             while (queue.Count > 0)
             {
                 var wave = queue.Dequeue();
-                Vector3 location;
 
+                _iterations++;
+                _waves = queue.Count;
+                Debug.WriteLine($"ECHO: iteration {_iterations}, waves {_waves}, processing {wave};");
+
+                Vector3 location;
                 if (!map.Navigate(wave, out location))
                 {
                     continue;
@@ -157,9 +161,6 @@ namespace Echo
                 }
 
                 queue.Enqueue(wave);
-
-                _iterations++;
-                _waves = queue.Count;
             }
         }
     }
