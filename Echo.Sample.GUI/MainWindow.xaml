@@ -7,6 +7,6 @@
         mc:Ignorable="d"
         Title="Echo" Width="640" Height="480">
     <ScrollViewer>
-        <Grid x:Name="MapGrid"/>
+        <Grid x:Name="MapGrid" ShowGridLines="True"/>
     </ScrollViewer>
 </Window>
