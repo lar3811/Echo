@@ -9,10 +9,10 @@ using System.Threading.Tasks;
 namespace Echo.Queues
 {
     /// <summary>
-    /// Evaluates priority of a wave based on its proximity to the designated location.
+    /// Evaluates priority of a wave based on its proximity to designated location.
     /// </summary>
     /// <typeparam name="TWave">Type of waves to evaluate.</typeparam>
-    public class PriorityByProximity<TWave> : PriorityQueue<TWave>.IPriorityMeter 
+    public class PriorityByProximity<TWave> : PriorityQueue<TWave>.IPriorityMeter
         where TWave : IWave
     {
         private readonly Vector3 _destination;
@@ -27,20 +27,20 @@ namespace Echo.Queues
         }
         
         /// <summary>
-        /// Evaluates geiven <paramref name="wave"/>.
+        /// Evaluates given <paramref name="wave"/>.
         /// </summary>
         /// <param name="wave">A wave to evaluate.</param>
         /// <returns>Priority level.</returns>
         public float Evaluate(TWave wave)
         {
-            return Vector3.DistanceSquared(wave.Location, _destination);
+            return -Vector3.DistanceSquared(wave.Location, _destination);
         }
     }
 
 
 
     /// <summary>
-    /// Evaluates priority of a wave based on minimal possible length of its complete path.
+    /// Evaluates priority of a wave based on the minimal possible length of its complete path.
     /// </summary>
     /// <typeparam name="TWave">Type of waves to evaluate.</typeparam>
     public class PriorityByEstimatedPathLength<TWave> : PriorityQueue<TWave>.IPriorityMeter 
@@ -58,7 +58,7 @@ namespace Echo.Queues
         }
         
         /// <summary>
-        /// Evaluates geiven <paramref name="wave"/>.
+        /// Evaluates given <paramref name="wave"/>.
         /// </summary>
         /// <param name="wave">A wave to evaluate.</param>
         /// <returns>Priority level.</returns>
@@ -69,7 +69,39 @@ namespace Echo.Queues
             for (var i = 1; i < path.Length; i++)
                 traveled += Vector3.Distance(path[i], path[i - 1]);
             var distance = Vector3.Distance(wave.Location, _destination);
-            return distance + traveled;
+            return -(distance + traveled);
+        }
+    }
+
+
+
+    /// <summary>
+    /// Evaluates priority of a wave based on its deviation from the vector pointing towards specified destination.
+    /// </summary>
+    /// <typeparam name="TWave">Type of waves to evaluate.</typeparam>
+    public class PriorityByAlignment<TWave> : PriorityQueue<TWave>.IPriorityMeter
+        where TWave : IWave
+    {
+        private readonly Vector3 _destination;
+
+        /// <summary>
+        /// Creates an instance of the class.
+        /// </summary>
+        /// <param name="destination">Destination coordinates.</param>
+        public PriorityByAlignment(Vector3 destination)
+        {
+            _destination = destination;
+        }
+
+        /// <summary>
+        /// Evaluates given <paramref name="wave"/>.
+        /// </summary>
+        /// <param name="wave">A wave to evaluate.</param>
+        /// <returns>Priority level.</returns>
+        public float Evaluate(TWave wave)
+        {
+            var vector = Vector3.Normalize(_destination - wave.Location);
+            return Vector3.Dot(vector, wave.Direction);
         }
     }
 }

@@ -9,7 +9,7 @@ namespace Echo.Queues
     /// <summary>
     /// Generic queue of elements sorted by estimated priority.
     /// </summary>
-    /// <typeparam name="T"></typeparam>
+    /// <typeparam name="T">Type of elements to store.</typeparam>
     public class PriorityQueue<T> : IProcessingQueue<T>
     {
         /// <summary>
@@ -27,20 +27,19 @@ namespace Echo.Queues
 
 
 
-        private readonly SortedDictionary<float, Queue<T>> _lookup;
-        private readonly IPriorityMeter _meter;
-        private int _count;
+        private readonly SortedList<float[], T> _lookup;
+        private readonly IPriorityMeter[] _meters;
 
         
 
         /// <summary>
         /// Creates an instance of the class.
         /// </summary>
-        /// <param name="meter">Logic for priority evaluation.</param>
-        public PriorityQueue(IPriorityMeter meter)
+        /// <param name="meters">Logic for priority evaluation.</param>
+        public PriorityQueue(params IPriorityMeter[] meters)
         {
-            _lookup = new SortedDictionary<float, Queue<T>>();
-            _meter = meter;
+            _lookup = new SortedList<float[], T>(new PriorityComparer());
+            _meters = meters.ToArray();
         }
         
         /// <summary>
@@ -48,7 +47,7 @@ namespace Echo.Queues
         /// </summary>
         public int Count
         {
-            get { return _count; }
+            get { return _lookup.Count; }
         }
         
         /// <summary>
@@ -56,7 +55,6 @@ namespace Echo.Queues
         /// </summary>
         public void Clear()
         {
-            _count = 0;
             _lookup.Clear();
         }
 
@@ -66,15 +64,13 @@ namespace Echo.Queues
         /// <returns>Dequeued element.</returns>
         public T Dequeue()
         {
-            if (_count > 0)
+            var element = default(T);
+            if (_lookup.Count > 0)
             {
-                _count--;
-                return _lookup.First(kvp => kvp.Value.Count > 0).Value.Dequeue();
+                element = _lookup.First().Value;
+                _lookup.RemoveAt(0);
             }
-            else
-            {
-                return default(T);
-            }
+            return element;
         }
 
         /// <summary>
@@ -82,19 +78,31 @@ namespace Echo.Queues
         /// </summary>
         public void Enqueue(T element)
         {
-            var priority = _meter.Evaluate(element);
-            Queue<T> queue;
-            if (_lookup.TryGetValue(priority, out queue))
+            var priority = new float[_meters.Length];
+            for (int i = 0; i < _meters.Length; i++)
             {
-                queue.Enqueue(element);
+                priority[i] = _meters[i].Evaluate(element);
             }
-            else
+            _lookup.Add(priority, element);
+        }
+
+
+
+        private class PriorityComparer : IComparer<float[]>
+        {
+            public int Compare(float[] priority1, float[] priority2)
             {
-                queue = new Queue<T>();
-                queue.Enqueue(element);
-                _lookup.Add(priority, queue);
+                for (int i = 0; i < Math.Min(priority1.Length, priority2.Length); i++)
+                {
+                    if (priority1[i] < priority2[i]) return 1;
+                    else if (priority1[i] > priority2[i]) return -1;
+                }
+
+                if (priority1.Length < priority2.Length) return 1;
+                else if (priority1.Length > priority2.Length) return -1;
+
+                return 1;
             }
-            _count++;
         }
     }
 }

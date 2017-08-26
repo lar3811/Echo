@@ -25,12 +25,12 @@ namespace Echo.Conditions
             HashSet<Vector3> path;
             if (_paths.TryGetValue(wave, out path))
             {
-                return !path.Add(wave.Location);
+                var exists = !path.Add(wave.Location);
+                return exists;
             }
             else
             {
-                var set = new HashSet<Vector3>();
-                set.Add(wave.Location);
+                var set = new HashSet<Vector3>(wave.FullPath);
                 _paths.Add(wave, set);
                 return false;
             }
