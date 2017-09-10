@@ -11,7 +11,7 @@ The framework depends on **System.Numerics.Vectors** and requires **.NET framewo
 # How to use?
 In short, you need to create a `Tracer<TWave>` object  and invoke its `Search` method, or one of the extension methods.
 
-To create a `Tracer<TWave>` object, you must first specify which type of waves will it operate with. There you can use either `Wave` class which is shipped with the framework, or provide a custom type that implements both `IWave` and `IWaveBehaviour<TWave>` interfaces. It is advised to use `Base<TWave>` abstract class as a base for custom types since it implements necessary interfaces for you.
+To create a `Tracer<TWave>` object, you must first specify which type of waves will it operate with. There you can use either `Wave` class which is located in `Echo.Waves` namespace, or provide a custom type that implements both `IWave` and `IWaveBehaviour<TWave>` interfaces. It is advised to use `Base<TWave>` abstract class as a base for custom types since it implements necessary interfaces for you.
 
 Before explaining how `Search` method works, an overview of the general concept must be given: tracer propagates (moves and multiplies) wave objects across given map until one of them satisfies set condition. The wave is then yield-returned so that consumer can filter output of the method using LINQ extensions without the need to find ALL suitable waves (possibly infinite in number).
 
@@ -19,7 +19,7 @@ That being said, `Tracer<TWave>.Search` method requires three parameters to oper
 
 - A strategy that can provide an initial set of waves to propagate.
 
-There is a number of generic strategies in `Echo.InitializationStrategies` namespace that can be used exactly for that. All of them, however, require an implementation of `IWaveBuilder<TWave>` interface to initializae newly created waves. If the wave type you use derives from `Base<TWave>` you must use `Base<TWave>.Builder` for base class initialization and an additional builder for custom type initialization.
+There is a number of generic strategies in `Echo.InitializationStrategies` namespace that can be used exactly for that. All of them, however, require an implementation of `IWaveBuilder<TWave>` interface to initializae newly created waves. If the wave type you use derives from `Base<TWave>` you must provide `Base<TWave>.Builder` for base class initialization and an additional builder for custom type initialization (if it is necessary).
 
 - A map to navigate waves.
 
