@@ -19,7 +19,7 @@ namespace Echo.PropagationStrategies
         /// Generates waves from given <paramref name="progenitor"/>.
         /// </summary>
         /// <param name="progenitor">A wave to multiply.</param>
-        /// <returns>Array of waves.</returns>
+        /// <returns>Produced waves.</returns>
         public TWave[] Execute(TWave progenitor)
         {
             if (progenitor == null) return null;
@@ -40,7 +40,6 @@ namespace Echo.PropagationStrategies
         /// Each parameter object is used to create individual wave object during <see cref="Execute"/> method call.
         /// </summary>
         /// <param name="wave">Progenitor wave.</param>
-        /// <returns></returns>
         protected abstract Parameters[] GetParametersFor(TWave wave);
 
         /// <summary>
@@ -66,7 +65,7 @@ namespace Echo.PropagationStrategies
             /// <summary>
             /// Creates an instance of the structure.
             /// </summary>
-            /// <param name="builder">Wave initialization logic.</param>
+            /// <param name="builder">Wave initialization logic (e.g. <see cref="Waves.Base{TWave}.Builder"/>).</param>
             /// <param name="direction">Wave direction.</param>
             /// <param name="offset">Location offset relative to the progenitor.</param>
             public Parameters(IWaveBuilder<TWave> builder, Vector3 direction, Vector3 offset)
@@ -79,7 +78,7 @@ namespace Echo.PropagationStrategies
             /// <summary>
             /// Creates an instance of the structure.
             /// </summary>
-            /// <param name="builder">Wave initialization logic.</param>
+            /// <param name="builder">Wave initialization logic (e.g. <see cref="Waves.Base{TWave}.Builder"/>).</param>
             /// <param name="direction">Wave direction.</param>
             public Parameters(IWaveBuilder<TWave> builder, Vector3 direction)
                 : this(builder, direction, Vector3.Zero) { }

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace Echo.Abstract
 {
     /// <summary>
-    /// Defines properties necessary for the wave management.
+    /// Defines properties necessary for <see cref="Tracer{TWave}"/> class to manage waves.
     /// </summary>
     /// <typeparam name="TWave">Type of waves.</typeparam>
     public interface IWaveBehaviour<TWave>
@@ -21,11 +21,11 @@ namespace Echo.Abstract
         /// </summary>
         ICondition<TWave> FadeCondition { get; }
         /// <summary>
-        /// Defines how the wave is propagated across the map.
+        /// Defines how the wave is propagated (multiplied).
         /// </summary>
         IPropagationStrategy<TWave> Propagation { get; }
         /// <summary>
-        /// Defines how to update the wave's state.
+        /// Defines how to update state of the wave.
         /// </summary>
         IUpdateStrategy<TWave> Update { get; }
     }

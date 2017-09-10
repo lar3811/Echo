@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace Echo.Conditions
 {
     /// <summary>
-    /// Checks if a wave has intersections in its path (cpu time efficient).
+    /// Checks if a wave has intersections in its path.
     /// </summary>
     public class IntersectionsCondition_P : ICondition<IWave>
     {
@@ -25,8 +25,7 @@ namespace Echo.Conditions
             HashSet<Vector3> path;
             if (_paths.TryGetValue(wave, out path))
             {
-                var exists = !path.Add(wave.Location);
-                return exists;
+                return !path.Add(wave.Location);
             }
             else
             {

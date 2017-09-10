@@ -162,7 +162,7 @@ namespace Echo.Waves
         /// </summary>
         public IPropagationStrategy<TWave> Propagation { get; set; }
         /// <summary>
-        /// Executed by tracer after successful <see cref="IMap{TWave}.Navigate(TWave, out Vector3)"/> call. You can use this extension point to provide custom logic for updating state of this wave.
+        /// Executed by tracer after successful <see cref="IMap{TWave}.Navigate(TWave, out Vector3)"/> call. You can use this property to provide custom logic for updating state of this wave.
         /// </summary>
         public IUpdateStrategy<TWave> Update { get; set; }
         

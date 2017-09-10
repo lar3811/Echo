@@ -23,8 +23,8 @@ namespace Echo.InitializationStrategies
         /// Creates an instance of the class.
         /// </summary>
         /// <param name="location">Wave initial location.</param>
-        /// <param name="direction">Wave direction</param>
-        /// <param name="builder">Wave initialization logic.</param>
+        /// <param name="direction">Wave direction.</param>
+        /// <param name="builder">Wave initialization logic (e.g. <see cref="Waves.Base{TWave}.Builder"/>).</param>
         public InitializeSingle(Vector3 location, Vector3 direction, IWaveBuilder<TWave> builder)
         {
             _builder = builder;

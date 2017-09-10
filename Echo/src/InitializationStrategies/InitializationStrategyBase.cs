@@ -37,7 +37,6 @@ namespace Echo.InitializationStrategies
         /// <summary>
         /// Each parameter object is used to create individual wave object during <see cref="Execute"/> method call.
         /// </summary>
-        /// <returns>Array of parameters.</returns>
         protected abstract Parameters[] GetParameters();
 
         /// <summary>
@@ -61,7 +60,7 @@ namespace Echo.InitializationStrategies
             /// <summary>
             /// Creates a new instance of the structure.
             /// </summary>
-            /// <param name="builder">Wave initialization logic.</param>
+            /// <param name="builder">Wave initialization logic (e.g. <see cref="Waves.Base{TWave}.Builder"/>).</param>
             /// <param name="location">Wave initial location</param>
             /// <param name="direction">Wave direction.</param>
             public Parameters(IWaveBuilder<TWave> builder, Vector3 location, Vector3 direction)

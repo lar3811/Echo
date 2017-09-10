@@ -17,7 +17,7 @@ namespace Echo
 {
     /// <summary>
     /// Contains logic for processing and queueing waves. 
-    /// To start searching for a path invoke <see cref="Search"/> method.
+    /// To start searching for a path, invoke <see cref="Search"/> method or one of the extension methods.
     /// </summary>
     /// <typeparam name="TWave">Type of waves to process (e.g. <see cref="Wave"/>).
     /// Custom wave types must implement both <see cref="IWave"/> and <see cref="IWaveBehaviour{TWave}"/>
@@ -60,29 +60,8 @@ namespace Echo
         public Tracer() : this(null, null) { }
         
         /// <summary>
-        /// Initiates searching routine. See remarks section for details.
+        /// Initiates searching routine.
         /// </summary>
-        /// <remarks>
-        /// <para>
-        /// Propagates waves obtained from <paramref name="initial"/> strategy across given <paramref name="map"/>
-        /// until a wave satisfies its <see cref="IWaveBehaviour{TWave}.AcceptanceCondition"/>. The wave is then yield-returned from the method.
-        /// </para>
-        /// <para>
-        /// After <paramref name="initial"/> strategy is executed and produced waves are added to the queue,
-        /// tracer starts iterating through it. Each iteration consists of 5 phases: 
-        /// Navigation; Update; Fading check; Acceptance check; Propagation.
-        /// </para>
-        /// <para>
-        /// If not limited by LINQ expressions, enumeration continues until processing queue is empty.
-        /// Waves are removed from processing queue if they satisfy either <see cref="IWaveBehaviour{TWave}.FadeCondition"/> 
-        /// or <see cref="IWaveBehaviour{TWave}.AcceptanceCondition"/> or encounter an obstacle 
-        /// during <see cref="IMap{TWave}.Navigate(TWave, out Vector3)"/>. It is important to cull waves
-        /// in this manner to prevent infinite cycles and reduce memory use.
-        /// </para>
-        /// <para>If <paramref name="map"/> is null <see cref="DefaultMap"/> will be used.</para>
-        /// <para>If <paramref name="queue"/> is null <see cref="DefaultProcessingQueue"/> will be used.</para>
-        /// <para>Finally, if both <paramref name="queue"/> and <see cref="DefaultProcessingQueue"/> are nulls <see cref="QueueAdapter{TWave}"/> will be used.</para>
-        /// </remarks>
         /// <param name="initial">Initial set of waves to propagate (e.g. <see cref="Initialize4x2D{TWave}"/>).</param>
         /// <param name="map">Map to navigate (e.g. <see cref="GridMap"/>).</param>
         /// <param name="queue">Queue to store and order waves between iterations (e.g. <see cref="QueueAdapter{TWave}"/>).</param>

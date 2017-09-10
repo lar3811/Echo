@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace Echo.PropagationStrategies
 {
     /// <summary>
-    /// Generates 2 new waves from an existing one.
+    /// Generates 2 new waves (orthogonal) from an existing one.
     /// </summary>
     /// <typeparam name="TWave">Type of waves to create.</typeparam>
     public sealed class Propagate2x2D<TWave> : PropagationStrategyBase<TWave>
@@ -20,7 +20,7 @@ namespace Echo.PropagationStrategies
         /// <summary>
         /// Creates an instance of the class.
         /// </summary>
-        /// <param name="builder">Wave initialization logic.</param>
+        /// <param name="builder">Wave initialization logic (e.g. <see cref="Waves.Base{TWave}.Builder"/>).</param>
         public Propagate2x2D(IWaveBuilder<TWave> builder)
         {
             _builder = builder;

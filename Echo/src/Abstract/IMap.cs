@@ -9,7 +9,9 @@ namespace Echo.Abstract
     public interface IMap<in TWave> where TWave : IWave
     {
         /// <summary>
-        /// If <paramref name="wave"/> can proceed, its new location should be provided through <paramref name="destination"/> parameter.
+        /// If <paramref name="wave"/> can proceed method returns <c>true</c> and
+        /// new estimated location is provided via <paramref name="destination"/> parameter.
+        /// Otherwise method returns <c>false</c>.
         /// </summary>
         /// <param name="wave">A wave to navigate.</param>
         /// <param name="destination">New location of the <paramref name="wave"/>.</param>

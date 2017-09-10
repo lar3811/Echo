@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace Echo.Maps
 {
+    /// <summary>
+    /// Provides convinient methods for converting 2D boolean tables into 3D boolean tables and vice versa.
+    /// </summary>
     public static class Helper
     {
         /// <summary>

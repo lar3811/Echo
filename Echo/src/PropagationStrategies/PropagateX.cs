@@ -21,8 +21,8 @@ namespace Echo.PropagationStrategies
         /// <summary>
         /// Creates an instance of the class.
         /// </summary>
-        /// <param name="provider">Directions provider (e.g. <see cref="Maps.GraphMap"/>).</param>
-        /// <param name="builder">Wave initialization logic.</param>
+        /// <param name="provider">Directions provider (e.g. <see cref="Maps.GridMap"/>).</param>
+        /// <param name="builder">Wave initialization logic (e.g. <see cref="Waves.Base{TWave}.Builder"/>).</param>
         public PropagateX(IDirectionsProvider provider, IWaveBuilder<TWave> builder)
         {
             _provider = provider;

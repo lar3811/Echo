@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace Echo.Abstract
 {
     /// <summary>
-    /// Interface for providing <see cref="Tracer{TWave}"/> with hints about navigation.
+    /// Interface for providing <see cref="Tracer{TWave}"/> class hints about wave navigation.
     /// </summary>
     public interface IDirectionsProvider
     {

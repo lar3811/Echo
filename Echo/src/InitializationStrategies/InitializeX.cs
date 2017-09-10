@@ -23,8 +23,8 @@ namespace Echo.InitializationStrategies
         /// <summary>
         /// Creates an instance of the class.
         /// </summary>
-        /// <param name="provider">Directions provider (e.g. <see cref="Maps.GraphMap"/>).</param>
-        /// <param name="builder">Wave initialization logic.</param>
+        /// <param name="provider">Directions provider (e.g. <see cref="Maps.GridMap"/>).</param>
+        /// <param name="builder">Wave initialization logic (e.g. <see cref="Waves.Base{TWave}.Builder"/>).</param>
         /// <param name="locations">Locations where waves should be created.</param>
         public InitializeX(IDirectionsProvider provider, IWaveBuilder<TWave> builder, params Vector3[] locations)
         {

@@ -9,7 +9,7 @@ using System.Numerics;
 namespace Echo.Maps
 {
     /// <summary>
-    /// Contains basic logic for building and navigating graph strctures made of linked <see cref="Node"/> objects.
+    /// Contains basic logic for building and navigating graph strctures made of linked <see cref="GraphMap.Node"/> objects.
     /// </summary>
     public class GraphMap : IMap<IWave>, IDirectionsProvider
     {
@@ -32,7 +32,7 @@ namespace Echo.Maps
             /// <summary>
             /// Adds a one-way link from this node to the given one.
             /// </summary>
-            /// <param name="direction">Direction in which linked node is located.</param>
+            /// <param name="direction">Direction in which linked node is located in relation to this node.</param>
             /// <param name="node">A node to link to.</param>
             public void LinkAdjacent(Vector3 direction, Node node)
             {
@@ -138,7 +138,7 @@ namespace Echo.Maps
         
         /// <summary>
         /// Looks for a node adjacent to the <paramref name="wave"/> in its direction.
-        /// If such node is found its coordinates are returned through the <paramref name="destination"/> parameter.
+        /// If such node is found its coordinates are returned via <paramref name="destination"/> parameter.
         /// </summary>
         /// <param name="wave">A wave to navigate.</param>
         /// <param name="destination">New location of the <paramref name="wave"/>.</param>

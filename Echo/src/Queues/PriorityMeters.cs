@@ -53,6 +53,7 @@ namespace Echo.Queues
         /// Creates an instance of the class.
         /// </summary>
         /// <param name="destination">Destination coordinates.</param>
+        /// <param name="map">Map to navigate.</param>
         public PriorityByEstimatedPathLength(Vector3 destination, IMap<TWave> map)
         {
             _destination = destination;

@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace Echo.InitializationStrategies
 {
     /// <summary>
-    /// Creates 6 waves at every provided location.
+    /// Creates 6 waves (all aligned with either X, Y or Z axis) at every provided location.
     /// </summary>
     /// <typeparam name="TWave">Type of waves to create.</typeparam>
     public sealed class Initialize6x3D<TWave> : InitializationStrategyBase<TWave>
@@ -21,7 +21,7 @@ namespace Echo.InitializationStrategies
         /// <summary>
         /// Creates an instance of the class.
         /// </summary>
-        /// <param name="builder">Wave initialization logic.</param>
+        /// <param name="builder">Wave initialization logic (e.g. <see cref="Waves.Base{TWave}.Builder"/>).</param>
         /// <param name="locations">Locations where waves should be created.</param>
         public Initialize6x3D(IWaveBuilder<TWave> builder, params Vector3[] locations)
         {

@@ -35,7 +35,7 @@ namespace Echo.Queues
         /// <summary>
         /// Creates an instance of the class.
         /// </summary>
-        /// <param name="meters">Logic for priority evaluation.</param>
+        /// <param name="meters">Logic for priority evaluation. Meters will be invoked in the order they were supplied.</param>
         public PriorityQueue(params IPriorityMeter[] meters)
         {
             _lookup = new SortedList<float[], T>(new PriorityComparer());
@@ -74,8 +74,9 @@ namespace Echo.Queues
         }
 
         /// <summary>
-        /// Enqueues the <paramref name="element"/>.
+        /// Enqueues an element.
         /// </summary>
+        /// <param name="element">An element to enqueue.</param>
         public void Enqueue(T element)
         {
             var priority = new float[_meters.Length];

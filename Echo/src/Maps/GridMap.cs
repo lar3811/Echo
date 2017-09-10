@@ -70,7 +70,7 @@ namespace Echo.Maps
         
         /// <summary>
         /// Looks for a cell adjacent to the <paramref name="wave"/> in its direction.
-        /// If such cell is found it is returned through the <paramref name="destination"/> parameter.
+        /// If such cell is found its coordinates are returned via <paramref name="destination"/> parameter.
         /// </summary>
         /// <param name="wave">A wave to navigate.</param>
         /// <param name="destination">New location of the <paramref name="wave"/>.</param>
