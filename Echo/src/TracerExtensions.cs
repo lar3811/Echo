@@ -43,7 +43,7 @@ namespace Echo
                 throw new ArgumentNullException(nameof(map), "ECHO: Either [map] parameter or [Tracer.DefaultMap] field must not be null.");
             
             var queue = new PriorityQueue<TWave>(
-                new PriorityByEstimatedPathLength<TWave>(to),
+                new PriorityByEstimatedPathLength<TWave>(to, map),
                 new PriorityByAlignment<TWave>(to));
             var wave = tracer.Search(initial, map, queue).FirstOrDefault();
             return wave?.FullPath;

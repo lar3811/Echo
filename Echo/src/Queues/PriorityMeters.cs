@@ -47,14 +47,16 @@ namespace Echo.Queues
         where TWave : IWave
     {
         private readonly Vector3 _destination;
+        private readonly IMap<TWave> _map;
 
         /// <summary>
         /// Creates an instance of the class.
         /// </summary>
         /// <param name="destination">Destination coordinates.</param>
-        public PriorityByEstimatedPathLength(Vector3 destination)
+        public PriorityByEstimatedPathLength(Vector3 destination, IMap<TWave> map)
         {
             _destination = destination;
+            _map = map;
         }
         
         /// <summary>
@@ -64,11 +66,15 @@ namespace Echo.Queues
         /// <returns>Priority level.</returns>
         public float Evaluate(TWave wave)
         {
+            Vector3 next;
+            if (!_map.Navigate(wave, out next))
+                return float.MinValue;
+
             var path = wave.FullPath;
             var traveled = 0f;
             for (var i = 1; i < path.Length; i++)
                 traveled += Vector3.Distance(path[i], path[i - 1]);
-            var distance = Vector3.Distance(wave.Location, _destination);
+            var distance = Vector3.Distance(wave.Location, next) + Vector3.Distance(next, _destination);
             return -(distance + traveled);
         }
     }
