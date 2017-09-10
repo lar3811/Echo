@@ -10,7 +10,7 @@ namespace Echo.Abstract
     {
         /// <summary>
         /// If <paramref name="wave"/> can proceed method returns <c>true</c> and
-        /// new estimated location is provided via <paramref name="destination"/> parameter.
+        /// new estimated location of the wave is provided via <paramref name="destination"/> parameter.
         /// Otherwise method returns <c>false</c>.
         /// </summary>
         /// <param name="wave">A wave to navigate.</param>

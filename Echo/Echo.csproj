@@ -75,8 +75,7 @@
     <Compile Include="src\Queues\PriorityMeters.cs" />
     <Compile Include="src\TracerExtensions.cs" />
     <Compile Include="src\Conditions\GlobalIntersectionsCondition.cs" />
-    <Compile Include="src\Conditions\IntersectionsCondition_P.cs" />
-    <Compile Include="src\Conditions\IntersectionsCondition_M.cs" />
+    <Compile Include="src\Conditions\IntersectionsCondition.cs" />
     <Compile Include="src\Queues\PriorityQueue.cs" />
     <Compile Include="src\Waves\Base.cs" />
     <Compile Include="src\Conditions\AreaCondition.cs" />

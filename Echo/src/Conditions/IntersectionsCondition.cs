@@ -11,7 +11,7 @@ namespace Echo.Conditions
     /// <summary>
     /// Checks if a wave has intersections in its path.
     /// </summary>
-    public class IntersectionsCondition_P : ICondition<IWave>
+    public class IntersectionsCondition : ICondition<IWave>
     {
         private readonly Dictionary<IWave, HashSet<Vector3>> _paths = new Dictionary<IWave, HashSet<Vector3>>();
 
