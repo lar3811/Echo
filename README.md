@@ -17,14 +17,26 @@ Before explaining how `Search` method works, an overview of the general concept 
 
 That being said, `Tracer<TWave>.Search` method requires three parameters to operate:
 
-- A strategy that can provide an initial set of waves to propagate.
+- A strategy that provides an initial set of waves to propagate.
 
 There is a number of generic strategies in `Echo.InitializationStrategies` namespace that can be used exactly for that. All of them, however, require an implementation of `IWaveBuilder<TWave>` interface to initializae newly created waves. If the wave type you use derives from `Base<TWave>` you must provide `Base<TWave>.Builder` for base class initialization and an additional builder for custom type initialization (if it is necessary).
 
 - A map to navigate waves.
 
-Framework provides two basic implementations of `IMap<TWave>` interface that are located in `Echo.Maps` namespace: `GridMap` and `GraphMap`. First one is easy to use, while second is more flexible. Both maps support generation from 2D or 3D boolean tables.
+Framework provides two basic implementations of `IMap<TWave>` interface that are located in `Echo.Maps` namespace: `GridMap` and `GraphMap`. First one is easy to use, while second is more flexible. Both map types support generation from 2D or 3D boolean tables.
 
 - A queue to store and sort waves between processing cycles.
 
 Three implementations of the `IProcessingQueue<T>` interface are available in `Echo.Queues` namespace. Two of them are adapters for system classes: `StackAdapter<TWave>` and `QueueAdapter<TWave>`. Using a stack as the queue  will result in depth-first search and using an actual queue will result in bredth-first search. These may be viable options when it is not possible to evaluate how close is a wave to reaching its goal. In other cases `PriorityQueue<T>` supplied with appropritate `IPriorityMeter` implementations would be preferable.
+
+# How does it work?
+When `Tracer<Twave>.Search` method is invoked with mentioned parameters, the tracer retrieves initial waves from provided `IInitializationStrategy<TWave>`. Framework implementations of this interface create a number of waves in designated locations and use provided `IWaveBuilder<TWave>` to configure their properties (`IWaveBehaviour<TWave>` properties in particular). New waves are then added to the specified `IProcessingQueue<T>`.
+
+After the queue is populated with initial set of waves, tracer begins first processing cycle, which is comprised of following steps:
+1. Dequeue a wave. If there is no wave to dequeue search is completed.
+2. Determine location of the wave using `IMap.Navigate` method. If it returns `false` the wave is discarded and cycle begins anew.
+3. Assert new wave location with `IWave.Relocate` method.
+4. If `IWaveBehaviour<TWave>.Update` strategy of the wave is set it is executed.
+5. If `IWaveBehaviour<TWave>.FadeCondition` of the wave is set and its `Check` method returns `true` the wave is discarded and cycle begins anew.
+6. If `IWaveBehaviour<TWave>.AcceptanceCondition` of the wave is set and its `Check` method returns `true` the wave is yielded by the method and cycle begins anew.
+7. If `IWaveBehaviour<TWave>.Propagation` strategy of the wave is set it is executed. New waves produced as a result are all added to the queue, then the wave itself is added to the queue as well.
