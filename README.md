@@ -32,11 +32,11 @@ Three implementations of the `IProcessingQueue<T>` interface are available in `E
 # How does it work?
 When `Tracer<Twave>.Search` method is invoked with mentioned parameters, the tracer retrieves initial waves from provided `IInitializationStrategy<TWave>`. Framework implementations of this interface create a number of waves in designated locations and use provided `IWaveBuilder<TWave>` to configure their properties (`IWaveBehaviour<TWave>` properties in particular). New waves are then added to the specified `IProcessingQueue<T>`.
 
-After the queue is populated with initial set of waves, tracer begins first processing cycle, which is comprised of following steps:
-1. Dequeue a wave. If there is no wave to dequeue search is completed.
-2. Determine location of the wave using `IMap.Navigate` method. If it returns `false` the wave is discarded and cycle begins anew.
-3. Assert new wave location with `IWave.Relocate` method.
-4. If `IWaveBehaviour<TWave>.Update` strategy of the wave is set it is executed.
-5. If `IWaveBehaviour<TWave>.FadeCondition` of the wave is set and its `Check` method returns `true` the wave is discarded and cycle begins anew.
-6. If `IWaveBehaviour<TWave>.AcceptanceCondition` of the wave is set and its `Check` method returns `true` the wave is yielded by the method and cycle begins anew.
-7. If `IWaveBehaviour<TWave>.Propagation` strategy of the wave is set it is executed. New waves produced as a result are all added to the queue, then the wave itself is added to the queue as well.
+After the queue is populated with initial set of waves, tracer begins processing cycle, which is comprised of following steps:
+1. A wave is dequeued. Search terminates if there is no wave to dequeue.
+2. Location of the wave is determined using provided `IMap` implementation. If its `Navigate` method returns `false`, the wave is discarded and cycle begins anew.
+3. New wave location is asserted with `IWave.Relocate` method.
+4. If `IWaveBehaviour<TWave>.Update` strategy of the wave is set, it is executed.
+5. If `IWaveBehaviour<TWave>.FadeCondition` of the wave is set and its `Check` method returns `true`, the wave is discarded and cycle begins anew.
+6. If `IWaveBehaviour<TWave>.AcceptanceCondition` of the wave is set and its `Check` method returns `true`, the wave is yielded by the method and cycle begins anew.
+7. If `IWaveBehaviour<TWave>.Propagation` strategy of the wave is set, it is executed. New waves produced as a result are all added to the queue, then the wave itself is added to the queue as well.
